@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>校园二手交易平台管理系统</title>
+<!--    <link rel="stylesheet" th:href="@{css/allUser.css}">-->
+    <link rel="stylesheet" href="css/allUser.css">
+<!--    <script th:src="@{js/allUser.js}"></script>-->
+</head>
+<body>
+<div class="nav-box">
+    <h2>校园二手交易平台管理系统</h2>
+    <ul>
+        <li><img src="image/用户.png" alt=""><a href="allUser.html">用户信息管理</a></li>
+        <li><img src="image/用户.png" alt=""><a href="Commodity.html">商品信息管理</a></li>
+        <li><img src="image/用户.png" alt=""><a href="order_manage.html">订单信息管理</a></li>
+        <li><img src="image/用户.png" alt=""><a href="manager_login.html">切换管理员</a></li>
+        <li><img src="image/退出系统ico.png" alt=""><a href="second_hand.html">退出系统</a></li>
+    </ul>
+</div>
+<div class="container-box">
+    <div class="super_box">
+        <span>管理员:</span>
+        <span th:text="${session.loginUser}"></span>
+        <span>></span>
+        <span>邮箱:</span>
+        <span th:text="${session.email}"></span>
+        <span>手机号码:</span>
+        <span th:text="${session.tel}"></span>
+    </div>
+<!--    <div class="reminder-box"><h3>&nbsp;&nbsp;操作面板&nbsp;&nbsp;</h3></div>-->
+    <div class="title-box"><h1>用户信息管理界面</h1></div>
+    <div class="funtions-box">
+        <input type="text" placeholder="请输入查找的用户编号" >
+        <button>搜索</button>
+        <button>-</button>
+        <button>修改</button>
+        <button>+</button>
+        <button><a th:href="adminAndUser">查看全部用户</a></button>
+        <span th:text="${msg}"></span>
+    </div>
+    <table class="table-th">
+        <tr>
+            <th>ID</th>
+            <th>名字</th>
+            <th>密码</th>
+<!--            <th>是否管理员</th>-->
+<!--            <th>注册时间</th>-->
+            <th>邮箱</th>
+            <th>电话</th>
+        </tr>
+    </table>
+    <table class="table">
+        <tr th:each="alluser:${alluser}">
+            <td th:text="${alluser.id}"></td>
+            <td th:text="${alluser.username}"></td>
+            <td th:text="${alluser.password}"></td>
+<!--            <td th:text="${alluser.status}"></td>-->
+<!--            <td th:text="${#dates.format(alluser.create_time,'yyyy-MM-dd')}"></td>-->
+            <td th:text="${alluser.email}"></td>
+            <td th:text="${alluser.tel}"></td>
+        </tr>
+    </table>
+    <form class="delect_form"  method="post" th:action="@{/delectUser}">
+        <input type="text" name="username">
+    </form>
+    <form class="add_form" method="post" th:action="@{/register}">
+        <h1>注册账号</h1>
+        <input type="text" placeholder="用户名" name="username" required>
+        <input type="password" placeholder="密码" name="password" required>
+        <input type="password" placeholder="确认密码" name="repassword" required>
+        <input type="email" placeholder="邮箱" name="email"   required>
+        <input type="text" placeholder="手机号码" name="tel"  pattern="\d{11}" required>
+        <button type="submit">添加用户</button>
+        <button type="button">取消</button>
+    </form>
+    <form method="post" th:action="@{/updateUser}" class="add_form alter_form" >
+        <h1>修改账号</h1>
+        <input type="text" name="username" readonly >
+        <input type="text" placeholder="是否设置管理员?1是0否" name="status" th:value="0" pattern="[0-1]" required  >
+        <input type="password" placeholder="密码" name="password"  required>
+        <input type="repassword" placeholder="确认密码" name="repassword" required>
+        <input type="email" placeholder="邮箱" name="email" required >
+        <input type="text" placeholder="手机号码" name="tel" required  pattern="\d{11}">
+        <button type="submit">修改</button>
+        <button>取消</button>
+    </form>
+</div>
+</body>
+
+<script>
+    window.onload=function (){
+        const table = document.getElementsByClassName("table")[0];
+        const funtionsInput = document.querySelectorAll(".funtions-box input")[0];
+        const funtionsButtonSearch = document.querySelectorAll(".funtions-box button")[0];
+        const funtionsButtonDelect = document.querySelectorAll(".funtions-box button")[1];
+        const funtionsButtonUpdata = document.querySelectorAll(".funtions-box button")[2];
+        const funtionsButtonAdd = document.querySelectorAll(".funtions-box button")[3];
+
+        const formDelect = document.getElementsByClassName("delect_form")[0];
+        const formAdd = document.getElementsByClassName("add_form")[0];
+        const formAlter = document.getElementsByClassName("alter_form")[0];
+
+        const formAddAllButton = document.querySelectorAll(".add_form button");
+        const formAlterAllButton = document.querySelectorAll(".alter_form button");
+        const nameTd = [];
+
+        addButtonSearch()
+        delectUser()
+        addUser()
+        alterUser()
+
+        function addButtonSearch()//点击查找按钮时
+        {
+            funtionsButtonSearch.addEventListener('click',()=>{
+                if(funtionsInput.value!=='')
+                {
+                    getNameAllTd()
+                    let i;
+                    for(i = 0; i<nameTd.length; i++)
+                    {
+                        if(funtionsInput.value===nameTd[i].innerText){
+                            table.innerHTML='';
+                            table.appendChild(nameTd[i].parentNode);
+                            document.querySelector(".funtions-box span").innerText="查找成功!再次查找请先显示所有用户"
+                            break
+                        }
+                    }
+                    if(i===nameTd.length)
+                    {
+                        alert("没有找到该用户")
+                    }
+                }
+                else
+                {
+                    alert("用户名为空!")
+                }
+
+            })
+        }
+
+        function getNameAllTd()//获取表格每一行的名字
+        {
+            for(let i=0;i<table.rows.length;i++)
+            {
+                nameTd[i]=table.rows[i].cells[1]
+            }
+        }
+
+        function delectUser()//点击删除按钮
+        {
+            funtionsButtonDelect.addEventListener('click',()=>{
+                //输入框不为空继续
+                //不为空后如果找到输入框与表格一致的姓名则可删除用户
+                if(funtionsInput.value!=='') {
+                    getNameAllTd()
+                    for(let i=0;i<nameTd.length;i++){
+                        if(funtionsInput.value===nameTd[i].innerText){
+                            let remiderDelect=window.confirm("你确定要删除"+funtionsInput.value+"用户吗?")
+                            if(remiderDelect===true)
+                            {
+                                formDelect.firstElementChild.value=funtionsInput.value
+                                formDelect.submit()//表单提交至后端，用后端处理删除用户
+                            }
+                            break;
+                        }
+                    }
+                    if(i===nameTd.length){ //如果i==所有名字的长度，证明没有找到用户
+                        alert("没有找到该用户")
+                    }
+                }
+                else{
+                    alert("用户名为空!")
+                }
+            })
+        }
+
+        function addUser(){ //点击+按钮
+            funtionsButtonAdd.addEventListener('click',()=>{
+                formAdd.style.visibility="visible" //添加用户表单显示
+            })
+            formAddAllButton[1].addEventListener('click',()=>{
+                formAdd.style.visibility="hidden" //添加用户表单点击取消隐藏表单
+            })
+        }
+
+        function alterUser(){
+            funtionsButtonUpdata.addEventListener('click',()=>{
+                if(funtionsInput.value!=='') {
+                    let i;
+                    getNameAllTd()
+                    for(i = 0; i<nameTd.length; i++){
+                        if(funtionsInput.value===nameTd[i].innerText){
+                            document.querySelectorAll(".alter_form input")[0].value=funtionsInput.value
+                            formAlter.style.visibility="visible"
+                            break;
+                        }
+                    }
+                    if(i===nameTd.length){
+                        alert("没有找到该用户")
+                    }
+                }
+                else{
+                    alert("用户名为空!")
+                }
+            })
+            formAlterAllButton[1].addEventListener('click',()=>{
+                formAlter.style.visibility="hidden"
+            })
+        }
+    }
+</script>
+
+</html>

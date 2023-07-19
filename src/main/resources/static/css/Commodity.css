@@ -1,0 +1,257 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-image: url("../image/船.jpg");
+    background-size: cover;
+}
+.nav-box{
+    position: absolute;
+    width: 15%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+.container-box{
+    position: absolute;
+    width: 85%;
+    height: 100%;
+    top: 0;
+    left: 15%;
+    box-shadow: 30px 20px 10px rgba(0, 0, 0, 0.1);
+    background-color: rgb(223, 247, 247,0.2);
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+.reminder-box{
+    position: relative;
+    width: 100%;
+    height: 5%;
+    top: 0;
+    left: 0;
+}
+.title-box{
+    position: relative;
+    width: 100%;
+    height: 8%;
+    top: 2%;
+    left: 0;
+    border: 1px solid #b2e1e1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.funtions-box{
+    position: relative;
+    width: 100%;
+    height: 5%;
+    top: 3%;
+    left: 0;
+}
+.super_box{
+    position: relative;
+    width: 100%;
+    height: 8%;
+    top: 2%;
+    left: 0;
+    border: 1px solid #b2e1e1;
+    display: flex;
+    align-items: center;
+}
+.super_box span{
+    color: #fff;
+    margin-left: 1%;
+    font-weight: bold;
+    font-size: 20px;
+}
+.super_box button{
+    border: none;
+    font-size: 15px;
+    background-color: transparent;/*取消按钮颜色*/
+}
+.nav-box h2{
+    margin-top: 25px;
+    text-align: center;
+    color: #fff;
+    letter-spacing: 10px;
+}
+.nav-box ul{
+    position: relative;
+    width: 100%;
+    height: 50%;
+    top: 2%;
+    left: 0;
+    list-style: none;
+}
+.nav-box ul li{
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+.nav-box img{
+    margin-right: 15px;
+    margin-left: -30px;
+    width: 30px;
+    height: 30px;
+}
+.nav-box li:hover{
+    background-color: #07b4f9;
+}
+.nav-box a{
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+}
+.nav-box a:hover{
+    cursor: pointer;
+    color: black;
+}
+.reminder-box h3{
+    margin-top: 2%;
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: 5px;
+    text-decoration: underline;
+}
+.title-box h1{
+    color: #fff;
+    letter-spacing: 5px;
+}
+.funtions-box input,button{
+    position: relative;
+    left: 2%;
+    margin-right: 10px;
+    border: 1px solid #777;
+}
+.funtions-box button{
+    border: none;
+    background-color: #07b4f9;
+    width: 120px;
+    height: 30px;
+    color: #fff;
+    font-size: 15px;
+    letter-spacing: 2px;
+}
+.funtions-box button:nth-child(3),button:nth-child(5){
+    width: 80px;
+    font-size: 20px;
+}
+.funtions-box input{
+    width: 250px;
+    height: 30px;
+}
+.funtions-box button:hover{
+    cursor: pointer;
+    background-color: rgb(25, 216, 136);
+}
+.funtions-box span{
+    margin-left: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    color: red;
+}
+.funtions-box a{
+    color: #fff;
+    font-size: 15px;
+    letter-spacing: 2px;
+    text-decoration: none;
+}
+.table-th{
+    position: relative;
+    width: 95%;
+    top: 4%;
+    left: 2%;
+    background-color: #fff;
+    border-spacing: 0;
+    table-layout: fixed;
+    word-break: break-all;
+}
+.table-th tr{
+    height: 35px;
+}
+.table-th th{
+    background-color: rgb(25, 216, 136);
+    border: 1px solid #1c99ca;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+.table {
+    position: relative;
+    width: 95%;
+    top: 4%;
+    left: 2%;
+    background-color: #fff;
+    border-spacing: 0;
+    table-layout: fixed;/*每个td占用空间一样*/
+    white-space: nowrap;
+}
+.table tr{
+    height: 35px;
+}
+.table td{
+    border: 1px solid #1c99ca;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.table tr:hover {
+    background-color: rgb(61, 158, 237);
+    cursor:default;
+}
+form{
+    visibility: hidden;
+}
+.add_form{
+    position:absolute;
+    top: 20%;
+    left: 35%;
+    width: 30%;
+    height: 70%;
+    border-radius: 20px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 30px 20px 10px rgba(0,0,0,0.1);
+}
+.add_form input{
+    background-color: transparent;
+    width: 70%;
+    color: black;
+    padding: 10px 0;
+    text-indent: 10px;
+    margin: 8px 0;
+    font-size: 18px;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+.add_form input:focus::placeholder{
+    opacity: 0;
+}
+.add_form button{
+    width: 40%;
+    margin-top: 8px;
+    color: #fff;
+    padding: 8px;
+    letter-spacing: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    background-color: #07b4f9;
+}
+.add_form button:hover{
+    background-color: rgb(25, 216, 136);
+    color: #f6f6f6;
+}
+.add_form h1{
+    color: #07b4f9;
+    margin-left: 5%;
+    letter-spacing: 10px;
+}
