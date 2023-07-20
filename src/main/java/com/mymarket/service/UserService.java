@@ -15,6 +15,15 @@ public class UserService {
     public User login(String username, String password){
         return userMapper.getByUsernameAndPassword(username, password);
     }
+    public void put(Commodity commodity){
+        commodityMapper.put(commodity);
+    }
 
+    public void updateInfo(User user) throws DataAccessException {
+        userMapper.updateInfo(user);
+    }
 
+    public void register(User user) {
+        userMapper.register(user);
+    }
 }
