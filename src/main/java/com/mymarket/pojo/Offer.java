@@ -1,6 +1,7 @@
 package com.mymarket.pojo;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Offer {
@@ -9,10 +10,10 @@ public class Offer {
     private Integer cid;
     private Integer number;
     private BigDecimal totalPrice;
-    private Date orderDate;
+    private LocalDate orderDate;
     private String DeliveringAddress;
     private String shippingAddress;
-    private Date deliverDate;
+    private LocalDate deliverDate;
     public Integer getId(){
         return id;
     }
@@ -25,10 +26,10 @@ public class Offer {
     public Integer getNumber(){
         return number;
     }
-    public Date getDeliverDate() {
+    public LocalDate getDeliverDate() {
         return deliverDate;
     }
-    public Date getOrderDate() {
+    public LocalDate getOrderDate() {
         return orderDate;
     }
     public BigDecimal getTotalPrice() {
