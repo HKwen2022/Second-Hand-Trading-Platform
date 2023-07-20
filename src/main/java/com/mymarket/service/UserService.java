@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     UserMapper userMapper;
-    @Autowired
-    CommodityMapper commodityMapper;
     public User login(String username, String password){
         return userMapper.getByUsernameAndPassword(username, password);
     }
