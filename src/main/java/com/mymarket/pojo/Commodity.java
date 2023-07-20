@@ -12,9 +12,8 @@ import java.math.BigDecimal;
 public class Commodity {
     private Integer id;
     private String name;
-    private String imageUrl;
     private String description;
-    private Integer publisherId;
+    private Integer publisher;
     private String type;
     private BigDecimal price;
     private Integer stock;

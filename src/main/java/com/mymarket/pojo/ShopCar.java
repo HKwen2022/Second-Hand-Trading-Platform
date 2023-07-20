@@ -13,5 +13,5 @@ public class ShopCar {
     private String name;
     private String cImageUrl;
     private String type;
-    private Integer number;
+    private Integer cNumber;
 }
