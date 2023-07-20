@@ -1,25 +1,17 @@
 package com.mymarket.pojo;
 
-public class shopCar {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ShopCar {
     private Integer uid;
     private Integer cid;
     private String name;
-    private String Type;
+    private String cImageUrl;
+    private String type;
     private Integer number;
-    public Integer getUid() {
-        return uid;
-    }
-    public Integer getCid() {
-        return cid;
-    }
-    public Integer getNumber() {
-        return number;
-    }
-    public String getType() {
-        return Type;
-    }
-    public String getName() {
-        return name;
-    }
-
 }
