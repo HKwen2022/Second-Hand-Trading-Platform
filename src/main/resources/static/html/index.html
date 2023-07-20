@@ -9,18 +9,19 @@
 </head>
 <body  onload="changeImg()">
 <div class="container">
-    <form action="car.html" onsubmit="return check()">
+<!--    onsubmit="return check()"-->
+    <form action="#" method="post">
         <div class="box">
             <div class="transtion-box">
                 <div class="login-box">
                     <h1>用户！欢迎回来</h1>
                     <section>
-                        <label for="email">用户ID</label>
-                        <input type="text" id="email" />
+                        <label for="username">用户ID</label>
+                        <input type="text" id="username" name="username" />
                     </section>
                     <section>
                         <label for="password">密码</label>
-                        <input type="password" id="password" />
+                        <input type="password" id="password" name="password"/>
                         <!--                    <span>忘记密码?</span>-->
 
                         <!--                    <div class="row">-->
@@ -48,7 +49,8 @@
 
 
 
-                    <button type="submit" id="submit" onmouseover="this.style.backgroundColor='#FF8D00'" onmouseout="this.style.backgroundColor='#d4af7a'">登录</button>
+
+                    <button type="button" onmouseover="this.style.backgroundColor='#FF8D00'" onmouseout="this.style.backgroundColor='#d4af7a'" onclick="successOrDefeat()">登录</button>
                     <button type="button" id="manager_button" onmouseover="this.style.backgroundColor='#FF8D00'" onmouseout="this.style.backgroundColor='#fff'" class="other">
                         使用<span style="font-weight: 900; color: #455a81">管理员</span
                     >账户登录
@@ -62,6 +64,7 @@
             </div>
         </div>
     </form>
+
 </div>
 </body>
 
@@ -125,6 +128,51 @@
 
     }
 
+
+    function successOrDefeat()
+    {
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function()
+        {
+
+            if (this.readyState == 4 && this.status == 200)
+            {
+
+                var myObj = JSON.parse(this.responseText);
+
+                if(!check())
+                {
+
+                }
+
+                // if(xhttp.responseText.toString().)
+                else if(myObj.code==0)
+                {
+                    alert("请输入正确的账户名或密码！");
+                }
+                else
+                {
+                    window.open("/html/Commodity.html");
+                }
+
+                //window.open("Commodity.html");
+                // alert(xhttp.responseText);
+
+            }
+
+        };
+        var usernameV = document.getElementById("username");
+        var passwordV = document.getElementById('password');
+        var params = 'username=' + usernameV.value + '&password=' + passwordV.value;
+        // xhttp.onLoad = function() {
+        //
+        //     alert(xhttp.responseText);
+        // };
+        xhttp.open("POST", "login", true);
+        xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhttp.send(params);
+    }
 
 </script>
 </html>
