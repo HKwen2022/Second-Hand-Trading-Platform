@@ -11,7 +11,7 @@ public class LoginController {
     public LoginController(UserService userService) {
         this.userService = userService;
     }
-    @PostMapping("/login")
+    @PostMapping("/user/login")
     public Result login(String username, String password){
         User user = userService.login(username,password);
         if(user != null) return Result.success(user);
