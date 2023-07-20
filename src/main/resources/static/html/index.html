@@ -135,8 +135,11 @@
 
         xhttp.onreadystatechange = function()
         {
+
             if (this.readyState == 4 && this.status == 200)
             {
+
+                var myObj = JSON.parse(this.responseText);
 
                 if(!check())
                 {
@@ -144,7 +147,7 @@
                 }
 
                 // if(xhttp.responseText.toString().)
-                else if(!(xhttp.response=="success"))
+                else if(myObj.code==0)
                 {
                     alert("请输入正确的账户名或密码！");
                 }
