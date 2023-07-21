@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Admin {
-    private Integer id;
+public class ShopCar {
+    private Integer uid;
+    private Integer cid;
     private String name;
-    private String password;
-    private String phone;
-    private String email;
-    private String imageUrl;
+    private String cImageUrl;
+    private String type;
+    private Integer cNumber;
 }
