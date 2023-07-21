@@ -22,34 +22,12 @@
                     <section>
                         <label for="password">密码</label>
                         <input type="password" id="password" name="password"/>
-                        <!--                    <span>忘记密码?</span>-->
-
-                        <!--                    <div class="row">-->
-                        <!--                        <span></span>-->
-                        <!--                        <label id="register" class="form-label" for="password">没有账号？<a href="register.html">点击注册</a></label><br>-->
-                        <!--                    </div>-->
-
                     </section>
-
-
                     <section>
                         <label for="vcode">验证码</label>
                         <span id="code" title="看不清，换一张"></span>
                         <input type="text" id="vcode" onfocus="this.value=''" onblur="if(this.value=='')this.value='验证码'" />
-
                     </section>
-
-                    <!--        验证码-->
-<!--                    <input type="text" id="vcode" placeholder="验证码" value="验证码" onfocus="this.value=''" onblur="if(this.value=='')this.value='验证码'" /><span id="code" title="看不清，换一张"></span>-->
-
-
-<!--                    <input type="submit" id="submit1" value="登录" class="btns" onmouseover="this.style.backgroundColor='#FF8D00'" onmouseout="this.style.backgroundColor='#d4af7a'">-->
-<!--                    <input type="reset"  value="取消" class="btns" onmouseover="this.style.backgroundColor='#FF8D00'" onmouseout="this.style.backgroundColor='#FC5628'">-->
-
-
-
-
-
                     <button type="button" onmouseover="this.style.backgroundColor='#FF8D00'" onmouseout="this.style.backgroundColor='#d4af7a'" onclick="successOrDefeat()">登录</button>
                     <button type="button" id="manager_button" onmouseover="this.style.backgroundColor='#FF8D00'" onmouseout="this.style.backgroundColor='#fff'" class="other">
                         使用<span style="font-weight: 900; color: #455a81">管理员</span
@@ -69,21 +47,14 @@
 </body>
 
 <script>
-    // 获取注册按钮1元素
-    var registerButton1 = document.querySelector('button[type="button"]');
-    // 绑定点击事件，跳转到 xxxmu.html 页面
-    // registerButton1.addEventListener("click", function() {
-    //     window.location.href = "car.html";
-    // });
-
     let transfer1 = document.getElementById('manager_button');
     transfer1.addEventListener('click', function () {
-        window.location.href = "manager_login.html";
+        window.location.href = "/html/manager_login.html";
     });
 
     let transfer = document.getElementById('transfetBtn');
     transfer.addEventListener('click', function () {
-        window.location.href = "register02.html";
+        window.location.href = "/html/register02.html";
     });
 
 
@@ -165,10 +136,6 @@
         var usernameV = document.getElementById("username");
         var passwordV = document.getElementById('password');
         var params = 'username=' + usernameV.value + '&password=' + passwordV.value;
-        // xhttp.onLoad = function() {
-        //
-        //     alert(xhttp.responseText);
-        // };
         xhttp.open("POST", "login", true);
         xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhttp.send(params);

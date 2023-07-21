@@ -9,7 +9,7 @@
 </head>
 <body  onload="changeImg()">
 <div class="container">
-    <form action="allUser.html" onsubmit="return check()">
+    <form action="#" method="post">
         <div class="box">
             <div class="transtion-box">
                 <div class="login-box">
@@ -48,7 +48,7 @@
 
 
 
-                    <button type="submit" id="submit" onmouseover="this.style.backgroundColor='#FF8D00'" onmouseout="this.style.backgroundColor='#d4af7a'">登录</button>
+                    <button type="button" onmouseover="this.style.backgroundColor='#FF8D00'" onmouseout="this.style.backgroundColor='#d4af7a'" onclick="successOrDefeat()">登录</button>
                     <button type="button" id="manager_button" onmouseover="this.style.backgroundColor='#FF8D00'" onmouseout="this.style.backgroundColor='#fff'" class="other">
                         使用<span style="font-weight: 900; color: #455a81">用户</span
                     >账户登录
@@ -66,21 +66,14 @@
 </body>
 
 <script>
-    // 获取注册按钮1元素
-    var registerButton1 = document.querySelector('button[type="button"]');
-    // 绑定点击事件，跳转到 xxxmu.html 页面
-    // registerButton1.addEventListener("click", function() {
-    //     window.location.href = "car.html";
-    // });
-
     let transfer1 = document.getElementById('manager_button');
     transfer1.addEventListener('click', function () {
-        window.location.href = "logintest02.html";
+        window.location.href = "/html/index.html";
     });
 
     let transfer = document.getElementById('transfetBtn');
     transfer.addEventListener('click', function () {
-        window.location.href = "manager_register.html";
+        window.location.href = "/html/manager_register.html";
     });
 
 
@@ -123,6 +116,46 @@
 
     }
 
+    function successOrDefeat()
+    {
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function()
+        {
+
+            if (this.readyState == 4 && this.status == 200)
+            {
+
+                var myObj = JSON.parse(this.responseText);
+
+                if(!check())
+                {
+
+                }
+
+                // if(xhttp.responseText.toString().)
+                else if(myObj.code==0)
+                {
+                    alert("请输入正确的账户名或密码！");
+                }
+                else
+                {
+                    window.open("/html/allUser.html");
+                }
+
+                //window.open("Commodity.html");
+                // alert(xhttp.responseText);
+
+            }
+
+        };
+        var usernameV = document.getElementById("username");
+        var passwordV = document.getElementById('password');
+        var params = 'username=' + usernameV.value + '&password=' + passwordV.value;
+        xhttp.open("POST", "login", true);
+        xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhttp.send(params);
+    }
 
 </script>
 </html>

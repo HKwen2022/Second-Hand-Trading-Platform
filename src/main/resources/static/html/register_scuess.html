@@ -1,0 +1,31 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>创建成功</title>
+</head>
+<body>
+<script type="text/javascript">
+    // 该js 不需要引用，当该页面中所有的内容执行完后自动执行
+    onload=function(){
+        setInterval(go, 1000);
+        //js 中时间以毫秒计时
+    };
+    var x=3; //利用了全局变量来执行
+    function go(){
+        x--;
+        if(x>0){
+            document.getElementById("sp").innerHTML=x+"秒后跳转页面！！！";  //每次设置的x的值都不一样了,兵现实这段话。
+        }else{
+            location.href='blog_login.html';
+        }
+    }
+</script>
+<div align="center">
+    <h1>创建成功,   请返回重新登录！！！</h1><br>
+    <span id="sp"> 3秒后跳转页面！！！</span><br>
+    <a href="blog_login.html">若没有跳转，请点击此处！！！</a>
+</div>
+</body>
+</html>
