@@ -107,16 +107,16 @@
         var telephoneV=document.getElementById("telephone");
         var passwordV = document.getElementById("password");
         var ensurePasswordV=document.getElementById("ensurePassword");
-        if(passwordV.value==ensurePasswordV.value)
+        if(passwordV.value!=ensurePasswordV.value)
         {
             alert("请输入正确的密码（两次的密码必须相同）");
             return;
         }
-        alert("test");
-        var params = 'username=' + usernameV.value + '&email' + emailV.value + '&telephone' + telephoneV.value + '&password=' + passwordV.value;
-        xhttp.open("POST", "register", true);
+        var params = 'username=' + usernameV.value + '&email=' + emailV.value + '&telephone=' + telephoneV.value + '&password=' + passwordV.value;
+        xhttp.open("POST", "../register", true);
         xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhttp.send(params);
+        window.open("/html/register_scuess.html");
 
     }
 
