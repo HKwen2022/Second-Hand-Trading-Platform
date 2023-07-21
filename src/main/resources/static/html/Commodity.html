@@ -36,11 +36,11 @@
         <button>搜索</button>
         <button>-</button>
         <button>修改</button>
-        <button>+</button>
+        <button type="button" onclick="addValue()">+</button>
         <button><a th:href="adminAndUser">查看全部商品</a></button>
         <span th:text="${msg}"></span>
     </div>
-    <table class="table-th">
+    <table class="table-th" id="Commodity" data-name="Commodity">
         <tr>
             <th>商品ID</th>
             <th>发布者ID</th>
@@ -51,16 +51,16 @@
 <!--            <th>电话</th>-->
         </tr>
     </table>
-    <table class="table">
-        <tr th:each="alluser:${alluser}">
-            <td th:text="${alluser.id}"></td>
-            <td th:text="${alluser.username}"></td>
-            <td th:text="${alluser.password}"></td>
-            <td th:text="${alluser.status}"></td>
-            <td th:text="${#dates.format(alluser.create_time,'yyyy-MM-dd')}"></td>
-            <td th:text="${alluser.email}"></td>
-<!--            <td th:text="${alluser.tel}"></td>-->
-        </tr>
+    <table class="table" id="tableTh">
+<!--        <tr th:each="alluser:${alluser}">-->
+<!--            <td >123</td>-->
+<!--            <td >123</td>-->
+<!--            <td >123</td>-->
+<!--            <td >123</td>-->
+<!--            <td >123</td>-->
+<!--            <td >123</td>-->
+<!--&lt;!&ndash;            <td th:text="${alluser.tel}"></td>&ndash;&gt;-->
+<!--        </tr>-->
     </table>
     <form class="delect_form"  method="post" th:action="@{/delectUser}">
         <input type="text" name="username">
@@ -90,126 +90,324 @@
 </body>
 
 <script>
-    window.onload=function (){
-        const table = document.getElementsByClassName("table")[0];
-        const funtionsInput = document.querySelectorAll(".funtions-box input")[0];
-        const funtionsButtonSearch = document.querySelectorAll(".funtions-box button")[0];
-        const funtionsButtonDelect = document.querySelectorAll(".funtions-box button")[1];
-        const funtionsButtonUpdata = document.querySelectorAll(".funtions-box button")[2];
-        const funtionsButtonAdd = document.querySelectorAll(".funtions-box button")[3];
+    const table = document.getElementsByClassName("table")[0];
+    const funtionsInput = document.querySelectorAll(".funtions-box input")[0];
+    const funtionsButtonSearch = document.querySelectorAll(".funtions-box button")[0];
+    const funtionsButtonDelect = document.querySelectorAll(".funtions-box button")[1];
+    const funtionsButtonUpdata = document.querySelectorAll(".funtions-box button")[2];
+    const funtionsButtonAdd = document.querySelectorAll(".funtions-box button")[3];
 
-        const formDelect = document.getElementsByClassName("delect_form")[0];
-        const formAdd = document.getElementsByClassName("add_form")[0];
-        const formAlter = document.getElementsByClassName("alter_form")[0];
+    const formDelect = document.getElementsByClassName("delect_form")[0];
+    const formAdd = document.getElementsByClassName("add_form")[0];
+    const formAlter = document.getElementsByClassName("alter_form")[0];
 
-        const formAddAllButton = document.querySelectorAll(".add_form button");
-        const formAlterAllButton = document.querySelectorAll(".alter_form button");
-        const nameTd = [];
+    const formAddAllButton = document.querySelectorAll(".add_form button");
+    const formAlterAllButton = document.querySelectorAll(".alter_form button");
+    const nameTd = [];
 
-        addButtonSearch()
-        delectUser()
-        addUser()
-        alterUser()
+    addButtonSearch()
 
-        function addButtonSearch()//点击查找按钮时
-        {
-            funtionsButtonSearch.addEventListener('click',()=>{
-                if(funtionsInput.value!=='')
-                {
-                    getNameAllTd()
-                    let i;
-                    for(i = 0; i<nameTd.length; i++)
-                    {
-                        if(funtionsInput.value===nameTd[i].innerText){
-                            table.innerHTML='';
-                            table.appendChild(nameTd[i].parentNode);
-                            document.querySelector(".funtions-box span").innerText="查找成功!再次查找请先显示所有用户"
-                            break
-                        }
-                    }
-                    if(i===nameTd.length)
-                    {
-                        alert("没有找到该用户")
-                    }
-                }
-                else
-                {
-                    alert("用户名为空!")
-                }
+    //addValue()
+    delectUser()
 
-            })
-        }
 
-        function getNameAllTd()//获取表格每一行的名字
-        {
-            for(let i=0;i<table.rows.length;i++)
+
+
+    //var resultCollection = myObj.data;
+    // for(var i = 0; i < resultCollection; i++) {
+    //     console.log(resultCollection[i].id);
+    // }
+
+
+    function addButtonSearch()//点击查找按钮时
+    {
+        funtionsButtonSearch.addEventListener('click',()=>{
+            if(funtionsInput.value!=='')
             {
-                nameTd[i]=table.rows[i].cells[1]
+                getNameAllTd()
+                let i;
+                for(i = 0; i<nameTd.length; i++)
+                {
+                    if(funtionsInput.value===nameTd[i].innerText){
+                        table.innerHTML='';
+                        table.appendChild(nameTd[i].parentNode);
+                        document.querySelector(".funtions-box span").innerText="查找成功!再次查找请先显示所有用户"
+                        break
+                    }
+                }
+                if(i===nameTd.length)
+                {
+                    alert("没有找到该用户")
+                }
+            }
+            else
+            {
+                alert("用户名为空!")
+            }
+
+        })
+    }
+
+    function getNameAllTd()//获取表格每一行的名字
+    {
+        for(let i=0;i<table.rows.length;i++)
+        {
+            nameTd[i]=table.rows[i].cells[0]
+            //alert(nameTd[i].toString());
+        }
+    }
+
+    function addValue()
+    {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "../user/login", true);
+        xhttp.setRequestHeader('Content-Type', 'application/json');
+        xhttp.send();
+
+        xhttp.onreadystatechange = function()
+        {
+
+            if (this.readyState == 4 && this.status == 200)
+            {
+                var myObj = JSON.parse(this.responseText);
+                var data = myObj.data;
+                var tbody = document.getElementById('tableTh');
+                tbody.className="table";
+
+                alert("45456");
+                //for(var i = 0;i < data.length; i++){ //遍历一下json数据
+                    var trow = addValue1(myObj); //定义一个方法,返回tr数据
+                    tbody.appendChild(trow);
+                    // var Id=per[i].id;
+                    // tbody.innerHTML += "<tr>   <td>"+Id+"</td>  <td>1</td>   <td>1</td>    <td>1</td>    <td>1</td>     <td>1</td> </tr>";
+                //}
             }
         }
 
-        function delectUser()//点击删除按钮
-        {
-            funtionsButtonDelect.addEventListener('click',()=>{
-                //输入框不为空继续
-                //不为空后如果找到输入框与表格一致的姓名则可删除用户
-                if(funtionsInput.value!=='') {
-                    getNameAllTd()
-                    for(let i=0;i<nameTd.length;i++){
-                        if(funtionsInput.value===nameTd[i].innerText){
-                            let remiderDelect=window.confirm("你确定要删除"+funtionsInput.value+"用户吗?")
-                            if(remiderDelect===true)
-                            {
-                                formDelect.firstElementChild.value=funtionsInput.value
-                                formDelect.submit()//表单提交至后端，用后端处理删除用户
-                            }
-                            break;
-                        }
-                    }
-                    if(i===nameTd.length){ //如果i==所有名字的长度，证明没有找到用户
-                        alert("没有找到该用户")
-                    }
-                }
-                else{
-                    alert("用户名为空!")
-                }
-            })
-        }
+        // var tbody = document.getElementById('tableTh');
+        // tbody.className="table";
+        // var data= [
+        //     {id:001,name:'张珊',job:'学生'},
+        //     {id:002,name:'李斯',job:'教师'},
+        //     {id:003,name:'王武',job:'经理'}]
+        // for(var i = 0;i < data.length; i++){ //遍历一下json数据
+        //     var trow = addValue1(data[i]); //定义一个方法,返回tr数据
+        //     tbody.appendChild(trow);
+        //     // var Id=per[i].id;
+        //     // tbody.innerHTML += "<tr>   <td>"+Id+"</td>  <td>1</td>   <td>1</td>    <td>1</td>    <td>1</td>     <td>1</td> </tr>";
+        // }
 
-        function addUser(){ //点击+按钮
-            funtionsButtonAdd.addEventListener('click',()=>{
-                formAdd.style.visibility="visible" //添加用户表单显示
-            })
-            formAddAllButton[1].addEventListener('click',()=>{
-                formAdd.style.visibility="hidden" //添加用户表单点击取消隐藏表单
-            })
-        }
-
-        function alterUser(){
-            funtionsButtonUpdata.addEventListener('click',()=>{
-                if(funtionsInput.value!=='') {
-                    let i;
-                    getNameAllTd()
-                    for(i = 0; i<nameTd.length; i++){
-                        if(funtionsInput.value===nameTd[i].innerText){
-                            document.querySelectorAll(".alter_form input")[0].value=funtionsInput.value
-                            formAlter.style.visibility="visible"
-                            break;
-                        }
-                    }
-                    if(i===nameTd.length){
-                        alert("没有找到该用户")
-                    }
-                }
-                else{
-                    alert("用户名为空!")
-                }
-            })
-            formAlterAllButton[1].addEventListener('click',()=>{
-                formAlter.style.visibility="hidden"
-            })
-        }
     }
+
+
+    function addValue1(h)
+    {
+        var row = document.createElement('tr'); //创建行
+
+        var idCell = document.createElement('td'); //创建第一列id
+        //idCell.className="add-form";
+        idCell.innerHTML = h.code; //填充数据
+        row.appendChild(idCell); //加入行  ，下面类似
+
+        var nameCell = document.createElement('td');//创建第二列name
+        //nameCell.className="table-th";
+        nameCell.innerHTML = h.code;
+        row.appendChild(nameCell);
+
+        var jobCell = document.createElement('td');//创建第三列job
+        //jobCell.className="table-th";
+        jobCell.innerHTML = h.code;
+        row.appendChild(jobCell);
+
+        // var emailCell = document.createElement('td');//创建第三列job
+        // //emailCell.className="table-th";
+        // emailCell.innerHTML = h.publisher;
+        // row.appendChild(emailCell);
+        //
+        // var telCell = document.createElement('td');//创建第三列job
+        // //telCell.className="table-th";
+        // telCell.innerHTML = h.type;
+        // row.appendChild(telCell);
+        //
+        // var numCell = document.createElement('td');//创建第三列job
+        // //telCell.className="table-th";
+        // numCell.innerHTML = h.price;
+        // row.appendChild(numCell);
+
+        // var delCell = document.createElement('td');//创建第四列，操作列
+        // row.appendChild(delCell);
+        // var btnDel = document.createElement('input'); //创建一个input控件
+        // btnDel.setAttribute('type','button'); //type="button"
+        // btnDel.setAttribute('value','删除');
+        //
+        // //删除操作
+        // btnDel.οnclick=function(){
+        //     if(confirm("确定删除这一行嘛？")){
+        //         //找到按钮所在行的节点，然后删掉这一行
+        //         this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
+        //         //btnDel - td - tr - tbody - 删除(tr)
+        //         //刷新网页还原。实际操作中，还要删除数据库中数据，实现真正删除
+        //     }
+        // }
+        // delCell.appendChild(btnDel);  //把删除按钮加入td，别忘了
+
+        return row; //返回tr数据
+
+    }
+
+
+    function delectUser()//点击删除按钮
+    {
+        funtionsButtonDelect.addEventListener('click',()=>{
+            //输入框不为空继续
+            //不为空后如果找到输入框与表格一致的姓名则可删除用户
+            var tbody = document.getElementById('tableTh');
+            if(funtionsInput.value!=='') {
+                getNameAllTd()
+                for(let i=0;i<nameTd.length;i++){
+                    if(funtionsInput.value===nameTd[i].innerText){
+                        let remiderDelect=window.confirm("你确定要删除"+funtionsInput.value+"用户吗?")
+                        if(remiderDelect===true)
+                        {
+
+                            //formDelect.firstElementChild.value=funtionsInput.value
+                            //formDelect.submit()//表单提交至后端，用后端处理删除用户
+
+                        }
+                        break;
+                    }
+                }
+                if(i===nameTd.length){ //如果i==所有名字的长度，证明没有找到用户
+                    alert("没有找到该用户")
+                }
+            }
+            else{
+                alert("用户名为空!")
+            }
+        })
+    }
+
+
+    // window.onload=function (){
+    //     const table = document.getElementsByClassName("table")[0];
+    //     const funtionsInput = document.querySelectorAll(".funtions-box input")[0];
+    //     const funtionsButtonSearch = document.querySelectorAll(".funtions-box button")[0];
+    //     const funtionsButtonDelect = document.querySelectorAll(".funtions-box button")[1];
+    //     const funtionsButtonUpdata = document.querySelectorAll(".funtions-box button")[2];
+    //     const funtionsButtonAdd = document.querySelectorAll(".funtions-box button")[3];
+    //
+    //     const formDelect = document.getElementsByClassName("delect_form")[0];
+    //     const formAdd = document.getElementsByClassName("add_form")[0];
+    //     const formAlter = document.getElementsByClassName("alter_form")[0];
+    //
+    //     const formAddAllButton = document.querySelectorAll(".add_form button");
+    //     const formAlterAllButton = document.querySelectorAll(".alter_form button");
+    //     const nameTd = [];
+    //
+    //     addButtonSearch()
+    //     delectUser()
+    //     addUser()
+    //     alterUser()
+    //
+    //     function addButtonSearch()//点击查找按钮时
+    //     {
+    //         funtionsButtonSearch.addEventListener('click',()=>{
+    //             if(funtionsInput.value!=='')
+    //             {
+    //                 getNameAllTd()
+    //                 let i;
+    //                 for(i = 0; i<nameTd.length; i++)
+    //                 {
+    //                     if(funtionsInput.value===nameTd[i].innerText){
+    //                         table.innerHTML='';
+    //                         table.appendChild(nameTd[i].parentNode);
+    //                         document.querySelector(".funtions-box span").innerText="查找成功!再次查找请先显示所有用户"
+    //                         break
+    //                     }
+    //                 }
+    //                 if(i===nameTd.length)
+    //                 {
+    //                     alert("没有找到该用户")
+    //                 }
+    //             }
+    //             else
+    //             {
+    //                 alert("用户名为空!")
+    //             }
+    //
+    //         })
+    //     }
+    //
+    //     function getNameAllTd()//获取表格每一行的名字
+    //     {
+    //         for(let i=0;i<table.rows.length;i++)
+    //         {
+    //             nameTd[i]=table.rows[i].cells[1]
+    //         }
+    //     }
+    //
+    //     function delectUser()//点击删除按钮
+    //     {
+    //         funtionsButtonDelect.addEventListener('click',()=>{
+    //             //输入框不为空继续
+    //             //不为空后如果找到输入框与表格一致的姓名则可删除用户
+    //             if(funtionsInput.value!=='') {
+    //                 getNameAllTd()
+    //                 for(let i=0;i<nameTd.length;i++){
+    //                     if(funtionsInput.value===nameTd[i].innerText){
+    //                         let remiderDelect=window.confirm("你确定要删除"+funtionsInput.value+"用户吗?")
+    //                         if(remiderDelect===true)
+    //                         {
+    //                             formDelect.firstElementChild.value=funtionsInput.value
+    //                             formDelect.submit()//表单提交至后端，用后端处理删除用户
+    //                         }
+    //                         break;
+    //                     }
+    //                 }
+    //                 if(i===nameTd.length){ //如果i==所有名字的长度，证明没有找到用户
+    //                     alert("没有找到该用户")
+    //                 }
+    //             }
+    //             else{
+    //                 alert("用户名为空!")
+    //             }
+    //         })
+    //     }
+    //
+    //     function addUser(){ //点击+按钮
+    //         funtionsButtonAdd.addEventListener('click',()=>{
+    //             formAdd.style.visibility="visible" //添加用户表单显示
+    //         })
+    //         formAddAllButton[1].addEventListener('click',()=>{
+    //             formAdd.style.visibility="hidden" //添加用户表单点击取消隐藏表单
+    //         })
+    //     }
+    //
+    //     function alterUser(){
+    //         funtionsButtonUpdata.addEventListener('click',()=>{
+    //             if(funtionsInput.value!=='') {
+    //                 let i;
+    //                 getNameAllTd()
+    //                 for(i = 0; i<nameTd.length; i++){
+    //                     if(funtionsInput.value===nameTd[i].innerText){
+    //                         document.querySelectorAll(".alter_form input")[0].value=funtionsInput.value
+    //                         formAlter.style.visibility="visible"
+    //                         break;
+    //                     }
+    //                 }
+    //                 if(i===nameTd.length){
+    //                     alert("没有找到该用户")
+    //                 }
+    //             }
+    //             else{
+    //                 alert("用户名为空!")
+    //             }
+    //         })
+    //         formAlterAllButton[1].addEventListener('click',()=>{
+    //             formAlter.style.visibility="hidden"
+    //         })
+    //     }
+    // }
 </script>
 
 </html>
