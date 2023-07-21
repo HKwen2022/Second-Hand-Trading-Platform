@@ -54,11 +54,11 @@
 
 <script>
     // 获取注册按钮1元素
-    var registerButton1 = document.querySelector('button[type="button"]');
-    // 绑定点击事件，跳转到 xxxmu.html 页面
-    registerButton1.addEventListener("click", function() {
-        window.location.href = "/html/register_scuess.html";
-    });
+    // var registerButton1 = document.querySelector('button[type="button"]');
+    // // 绑定点击事件，跳转到 xxxmu.html 页面
+    // registerButton1.addEventListener("click", function() {
+    //     window.location.href = "/html/register_scuess.html";
+    // });
 
     let transfer1 = document.getElementById('client_button');
     transfer1.addEventListener('click', function () {
@@ -107,16 +107,16 @@
         var telephoneV=document.getElementById("telephone");
         var passwordV = document.getElementById("password");
         var ensurePasswordV=document.getElementById("ensurePassword");
-        if(passwordV.value==ensurePasswordV.value)
+        if(passwordV.value!=ensurePasswordV.value)
         {
             alert("请输入正确的密码（两次的密码必须相同）");
             return;
         }
-        alert("test");
-        var params = 'username=' + usernameV.value + '&email' + emailV.value + '&telephone' + telephoneV.value + '&password=' + passwordV.value;
-        xhttp.open("POST", "register", true);
-        xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhttp.send(params);
+        var obj = JSON.stringify({"name":usernameV.value,"email":emailV.value,"phone":telephoneV.value,"password":passwordV.value,"imageUrl":"null"});
+        xhttp.open("POST", "../admin/register", true);
+        xhttp.setRequestHeader('Content-Type', 'application/json');
+        xhttp.send(obj);
+        window.open("/html/register_scuess.html");
 
     }
 

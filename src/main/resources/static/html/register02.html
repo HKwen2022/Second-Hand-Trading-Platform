@@ -83,12 +83,12 @@
             alert("请输入正确的密码（两次的密码必须相同）");
             return;
         }
-        alert("2421212");
-        var params = 'username=' + usernameV.value + '&email' + emailV.value + '&telephone' + telephoneV.value + '&password=' + passwordV.value;
-        xhttp.open("POST", "login", true);
-        xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhttp.send(params);
-        window.open("/html/register_scuess.html");
+        //var params = 'username=' + usernameV.value + '&email=' + emailV.value + '&telephone=' + telephoneV.value + '&password=' + passwordV.value;
+        var obj = JSON.stringify({"name":usernameV.value,"email":emailV.value,"phone":telephoneV.value,"password":passwordV.value,"imageUrl":"null"});
+        xhttp.open("POST", "../user/register", true);
+        xhttp.setRequestHeader('Content-Type', 'application/json');
+        xhttp.send(obj);
+        //window.open("/html/register_scuess.html");
 
     }
 

@@ -15,12 +15,12 @@
                 <div class="login-box">
                     <h1>管理员！欢迎回来</h1>
                     <section>
-                        <label for="email">管理员ID</label>
-                        <input type="text" id="email" />
+                        <label for="username">用户ID</label>
+                        <input type="text" id="username" name="username" />
                     </section>
                     <section>
                         <label for="password">密码</label>
-                        <input type="password" id="password" />
+                        <input type="password" id="password" name="password"/>
                         <!--                    <span>忘记密码?</span>-->
 
                         <!--                    <div class="row">-->
@@ -140,7 +140,7 @@
                 }
                 else
                 {
-                    window.open("/html/allUser.html");
+                    window.open("/html/Commodity.html");
                 }
 
                 //window.open("Commodity.html");
@@ -151,8 +151,8 @@
         };
         var usernameV = document.getElementById("username");
         var passwordV = document.getElementById('password');
-        var params = 'username=' + usernameV.value + '&password=' + passwordV.value;
-        xhttp.open("POST", "login", true);
+        var params = 'name=' + usernameV.value + '&password=' + passwordV.value;
+        xhttp.open("POST", "../admin/login", true);
         xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhttp.send(params);
     }
