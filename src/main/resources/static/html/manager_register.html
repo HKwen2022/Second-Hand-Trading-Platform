@@ -15,25 +15,25 @@
                 <h1>注册为管理员</h1>
                 <section>
                     <label for="username">用户名</label>
-                    <input type="text" id="username" />
+                    <input type="text" id="username" name="username"/>
                 </section>
                 <section>
                     <label for="email">邮箱</label>
-                    <input type="text" id="email" />
+                    <input type="text" id="email" name="email"/>
                 </section>
                 <section>
                     <label for="email">电话</label>
-                    <input type="text" id="telephone" />
+                    <input type="text" id="telephone" name="telephone"/>
                 </section>
                 <section>
                     <label for="password">密码</label>
-                    <input type="password" id="password" />
+                    <input type="password" id="password" name="password"/>
                 </section>
                 <section>
                     <label for="email">确认密码</label>
-                    <input type="text" id="ensurePassword" />
+                    <input type="text" id="ensurePassword" name="ensurePassword"/>
                 </section>
-                <button type="button" onmouseover="this.style.backgroundColor='#FF8D00'" onmouseout="this.style.backgroundColor='#d4af7a'">注册</button>
+                <button type="button" onmouseover="this.style.backgroundColor='#FF8D00'" onmouseout="this.style.backgroundColor='#d4af7a'" onclick="ensureRegister()">注册</button>
                 <button type="button" id="client_button" onmouseover="this.style.backgroundColor='#FF8D00'" onmouseout="this.style.backgroundColor='#fff'" class="other">
                     注册<span style="font-weight: 900; color: #455a81">用户</span
                 >账号
@@ -57,18 +57,67 @@
     var registerButton1 = document.querySelector('button[type="button"]');
     // 绑定点击事件，跳转到 xxxmu.html 页面
     registerButton1.addEventListener("click", function() {
-        window.location.href = "register_scuess.html";
+        window.location.href = "/html/register_scuess.html";
     });
 
     let transfer1 = document.getElementById('client_button');
     transfer1.addEventListener('click', function () {
-        window.location.href = "register02.html";
+        window.location.href = "/html/register02.html";
     });
 
     let transfer = document.getElementById('transfetBtn');
     transfer.addEventListener('click', function () {
-        window.location.href = "manager_login.html";
+        window.location.href = "/html/manager_login.html";
     });
+
+    function ensureRegister(){
+        var xhttp = new XMLHttpRequest();
+
+        // xhttp.onreadystatechange = function()
+        // {
+        //
+        //     if (this.readyState == 4 && this.status == 200)
+        //     {
+        //
+        //         var myObj = JSON.parse(this.responseText);
+        //
+        //         if(!check())
+        //         {
+        //
+        //         }
+        //
+        //         // if(xhttp.responseText.toString().)
+        //         else if(myObj.code==0)
+        //         {
+        //             alert("请输入正确的账户名或密码！");
+        //         }
+        //         else
+        //         {
+        //             window.open("/html/Commodity.html");
+        //         }
+        //
+        //         //window.open("Commodity.html");
+        //         // alert(xhttp.responseText);
+        //
+        //     }
+        //
+        // };
+        var usernameV = document.getElementById("username");
+        var emailV=document.getElementById("email");
+        var telephoneV=document.getElementById("telephone");
+        var passwordV = document.getElementById("password");
+        var ensurePasswordV=document.getElementById("ensurePassword");
+        if(passwordV.toString()==ensurePasswordV.toString())
+        {
+            alert("请输入正确的密码（两次的密码必须相同）")
+            return;
+        }
+        var params = 'username=' + usernameV.value + '&email' + emailV.value + '&telephone' + telephoneV.value + '&password=' + passwordV.value;
+        xhttp.open("POST", "register", true);
+        xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhttp.send(params);
+
+    }
 
 </script>
 </html>
