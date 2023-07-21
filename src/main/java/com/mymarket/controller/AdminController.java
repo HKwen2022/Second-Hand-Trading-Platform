@@ -8,6 +8,8 @@ import com.mymarket.service.UserService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class AdminController {
     public final AdminService adminService;
@@ -23,23 +25,26 @@ public class AdminController {
         adminService.register(admin);
         return Result.success(admin);
     }
-
-    @PostMapping("/admin/administrate")
+    @PostMapping("/admin")
     public Result addUser(@RequestBody User user){
         System.out.println(user);
         adminService.addUser(user);
         return Result.success();
     }
-    @PutMapping("/admin/administrate")
+    @PutMapping("/admin")
     public Result alterUser(@RequestBody User user){
         try{adminService.alterUser(user);}
         catch (DataAccessException e){return Result.error("修改失败！");}
         return Result.success();
     }
-
-    @DeleteMapping("/admin/administrate")
-    public Result delUser(Integer id){
-        adminService.delUser(id);
+    @DeleteMapping("/admin/{ids}")
+    public Result delUser(@PathVariable List<Integer> ids){
+        adminService.delUser(ids);
         return Result.success();
+    }
+    @GetMapping("/admin")
+    public Result getUserById(@RequestParam(defaultValue = "1") Integer page,
+                              String name, String phone, String email){
+        return Result.success(adminService.getUserById(page, name, phone, email));
     }
 }

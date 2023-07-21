@@ -5,6 +5,8 @@ import com.mymarket.pojo.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.dao.DataAccessException;
 
+import java.util.List;
+
 @Mapper
 public interface AdminMapper {
     @Select("select * from admin where name = #{name} and password = #{password}")
@@ -18,10 +20,11 @@ public interface AdminMapper {
             "values (#{name},#{password},#{phone},#{email},#{imageUrl})")
     void addUser(User user);
 
-    @Delete("delete from user where id = #{id}")
-    void delUser(Integer id);
+    void delUser(List<Integer>ids);
 
     @Update("update user set name = #{name}, password = #{password}, phone = #{phone}," +
             "email = #{email}, image_url = #{imageUrl} where id = #{id}")
     void alterUser(User user) throws DataAccessException;
+
+    List<User> getUsers(String name, String phone, String email);
 }
