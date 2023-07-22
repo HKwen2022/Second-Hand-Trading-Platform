@@ -45,5 +45,6 @@
                 imageUrl = #{imageUrl}
             </if>
         </set>
+        where id = #{id}
     </update>
 </mapper>
