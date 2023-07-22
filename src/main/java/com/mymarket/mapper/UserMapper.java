@@ -14,12 +14,10 @@ public interface UserMapper {
     User getByUsernameAndPassword(String username, String password);
     @Select("select * from user")
     List<User> getAllUsers();
-
-    @Update("update user set name = #{name}, password = #{password}, phone = #{phone}," +
-            "email = #{email}, image_url = #{imageUrl} where id = #{id}")
     void updateInfo(User user);
-
     @Insert("insert into user(name,password,phone,email,image_url)"  +
             "values (#{name},#{password},#{phone},#{email},#{imageUrl})")
     void register(User user);
+    @Select("select * from user where id = #{id}")
+    User getUserById(Integer id);
 }
