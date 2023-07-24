@@ -15,7 +15,6 @@ public class UserService {
     public User login(String username, String password){
         return userMapper.getByUsernameAndPassword(username, password);
     }
-
     public void updateInfo(User user) throws DataAccessException {
         userMapper.updateInfo(user);
     }
