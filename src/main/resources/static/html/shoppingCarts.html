@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>购物车</title>
+  <link rel="stylesheet" href="../css/shoppingCarts.css">
+</head>
+
+<body>
+<ul >
+  <li><a class="active" href="#home" style="margin-right: 80px"><h1>我的商城</h1></a></li>
+  <li><a href="#news" style="margin-top: 40px;margin-right: 30px">首页</a></li>
+  <li><a href="#contact" style="margin-top: 40px;margin-right: 30px">账户设置</a></li>
+  <li><a href="#about" style="margin-top: 40px;margin-right: 150px">关于</a></li>
+  <input  id ="rcorners1" type="search" style="margin-top: 43px;margin-right: 10px;height: 35px">
+  <i class="fa fa-search" style="font-size: 34px"></i>
+</ul>
+<br>
+<br>
+<div class="wrap clearfix">
+  <table width="100%" class="cartTable" cellspacing="0" cellpadding="10px">
+    <!-- 首行 -->
+    <tr class="title">
+      <td width="50"><input type="checkbox" name="" class="choose_all"></td>
+      <td width="100" class=""><span style="margin-left: -10px;">全选</span></td>
+      <td width="400">商品信息</td>
+      <td width="150">单价（元）</td>
+      <td width="150">数量</td>
+      <td width="150">金额（元）</td>
+      <td width="80">操作</td>
+    </tr>
+
+
+
+    <tr class="count">
+      <td colspan="7">
+        <div class="jiesuan clearfix">
+          <div class="left fl">
+            <p><input type="checkbox" name="" class="choose_all"> 全选&nbsp;&nbsp;&nbsp;<a href="#" class="del_check">删除选中商品</a></p>
+          </div>
+          <div class="right fr clearfix">
+            <p>商品总计：￥465.00</p>
+            <p>活动优惠：-￥0.00</p>
+            <p>已选商品<span class="red t-number"> 0 </span>件 总价(不含运费、税费)：<span class="red t-price">￥0.00</span></p>
+            <!-- <div><a href="#" class="btn pay">结算</a></div> -->
+            <a href="#"  onclick="moveToLastPosition()" class="btn pay fr">结算</a>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<!-- 引入JS文件 -->
+<script >
+  /*
+    功能列表
+    1，全选功能
+        选中所有行，汇总价格
+    2，单选功能
+        选中或取消选中一行
+    3，数量加减按钮
+        增减商品数量，计算小计价格
+    4，删除按钮
+        移除当前行，重新计算总计价格
+    5，删除被选中的商品
+*/
+
+  //获取所有加减按钮(得到的是一个数组)
+  var add = document.querySelectorAll(".Increase");
+
+  var reduce = document.querySelectorAll(".Reduce");
+
+  // 获取所有行
+    var rows = document.querySelectorAll(".row");
+
+  // 获取所有全选按钮
+  var choose_alls = document.querySelectorAll(".choose_all");
+
+
+   var table = document.querySelector('.cartTable');
+   var elementToMove = document.querySelector('.count');
+
+  // 全选框点击事件
+  for(var i=0; i<choose_alls.length; i++){
+    choose_alls[i].onclick = function(){
+      var rows123 = document.querySelectorAll(".choose");
+      // 全选/全不选所有单选框
+      for(var i=0; i<rows123.length; i++){
+        var checkbox = rows123[i].parentNode.parentNode.querySelector(".choose");
+        checkbox.checked = this.checked;
+      }
+      // 与另外一个全选框联动
+      choose_alls[0].checked = this.checked;
+      choose_alls[1].checked = this.checked;
+      // 计算总计
+      setTotal();
+    }
+  }
+
+  // 计算总计价格 & 计算选中的商品总数 & 同时判断是否全选
+  function setTotal(){
+    var total = 0;  // 商品总价
+    var allNum = 0; // 商品总数
+    // 重新获取行
+    var rows123 = document.querySelectorAll(".choose");
+    //alert(rows123.length.toString());
+    // 遍历所有行
+    for(var i=0; i<rows123.length; i++){
+      // 查找被选中的行
+      //var checkbox = rows123[i].querySelector(".choose");
+      if(rows123[i].checked){
+        alert("第"+i+"行");
+
+        // 获取小计价格（得到的是字符串，不是数字，需要转化）
+        var smallTr = rows123[i].parentNode.parentNode;
+        var smallTotal = smallTr.querySelector(".u-price").innerHTML;
+        //alert(smallTotal.toString());
+        // 获取商品数量
+        var num = smallTr.querySelector(".unum").value;
+        alert(num.toString());
+        // 把小计价格转化为数字
+        smallTotal = Number(smallTotal);
+        total += smallTotal;
+        // 计算商品总数
+        num = Number(num);
+        allNum += num;
+        //total=num*smallTotal
+      }
+    }
+
+    // 把总计放在它应在的位置
+    var totalPrice = document.querySelector(".t-price");
+    totalPrice.innerHTML = total.toFixed(2);
+    // 设置商品总数
+    document.querySelector(".t-number").innerHTML = allNum;
+
+    var isCheckAll = true;
+
+    for(var i=0; i<rows123.length; i++){
+      var checkbox = rows123[i].querySelector(".choose");
+      if(!checkbox.checked){
+        isCheckAll = false;
+        break;
+      }
+    }
+    if(rows123.length<=0){
+      isCheckAll = false;
+    }
+    // 将两个全选框设置为和全选变量相同的值
+    choose_alls[0].checked = isCheckAll;
+    choose_alls[1].checked = isCheckAll;
+  }
+
+  function moveToLastPosition() {
+
+    // 移除元素
+    if (elementToMove.parentNode) {
+      elementToMove.parentNode.removeChild(elementToMove);
+    }
+
+    addCommodity1()
+    // 添加到表格的最后边
+    table.appendChild(elementToMove);
+
+  }
+
+  function addCommodity1()
+  {
+    var danjia=80;
+    var count=100;
+
+    //var table = document.querySelector('.cartTable');
+
+// 创建新行
+    var newRow = document.createElement('tr');
+
+// 创建并添加单元格元素
+    var checkboxCell = document.createElement('td');
+    checkboxCell.innerHTML = '<input type="checkbox" name="" class="choose">';
+    newRow.appendChild(checkboxCell);
+
+    var thumbCell = document.createElement('td');
+    thumbCell.className = 'tal';
+    thumbCell.innerHTML = '<a href="#" class="pic"><img src="../image/TV.png" alt="" style="width: 200px"></a>';
+    newRow.appendChild(thumbCell);
+
+    var productCell = document.createElement('td');
+    productCell.className = 'tal';
+    productCell.innerHTML = '<a href="#">新商品名称</a>';
+    newRow.appendChild(productCell);
+
+    var priceCell = document.createElement('td');
+    priceCell.innerHTML = '<span class="tdl">99.00</span><br><b class="unit">'+danjia+'</b>';
+    newRow.appendChild(priceCell);
+
+    var quantityCell = document.createElement('td');
+    quantityCell.innerHTML = '<div class="amount"><a href="#" class="Increase">+</a><input type="text" value="'+count+'" class="unum"><a href="#" class="Reduce">-</a></div>';
+    newRow.appendChild(quantityCell);
+
+    var subTotalCell = document.createElement('td');
+    subTotalCell.innerHTML = '<b class="u-price">'+(count*danjia)+'</b>';
+    newRow.appendChild(subTotalCell);
+
+    var deleteCell = document.createElement('td');
+    deleteCell.innerHTML = '<a href="#" class="btn-del">删除</a>';
+    newRow.appendChild(deleteCell);
+
+    checkboxCell.addEventListener('click', function () {
+      setTotal();
+    });
+
+    deleteCell.addEventListener('click', function() {
+      var currentRow = this.parentNode;
+      currentRow.parentNode.removeChild(currentRow);
+      setTotal();
+    });
+
+
+    var reduceButton = quantityCell.querySelector(".Reduce");
+    var addButton = quantityCell.querySelector(".Increase");
+    var inputButton = quantityCell.querySelector(".unum");
+    reduceButton.addEventListener('click', function(){
+
+      // 获取对应的父节点
+      var amount = this.parentNode;
+      // 获取文本框
+      var input = amount.querySelector(".unum");
+      // 获取文本框中的数量
+      var num = input.value;
+      if(num > 1){
+        num--;
+      }
+      // 修改文本框的值
+      input.value=num;
+
+      alert("减少之后总数量为："+num.toString());
+
+      // 计算小计
+      // 获取当前行
+      var tr =  amount.parentNode.parentNode;
+      // 获取商品单价
+      var unit = tr.querySelector(".unit");
+      var price = unit.innerHTML;
+      // 重新计算小计价格
+      smallTotal = num*price;
+      // 保留两位小数
+      smallTotal = smallTotal.toFixed(2);
+
+      // 将计算好的小计价格设置给金额
+      var u_price = tr.querySelector(".u-price");
+      u_price.innerHTML = smallTotal;
+
+      // 使当前行被选中
+      var choose = tr.querySelector(".choose");
+      // 把它当成逻辑变量，赋true false也可以
+      choose.checked = "checked";
+
+      setTotal();
+    });
+
+    addButton.addEventListener('click', function(){
+
+      // 获取对应的父节点
+      var amount = this.parentNode;
+      // 获取文本框
+      var input = amount.querySelector(".unum");
+      // 获取文本框中的数量
+      var num = input.value;
+      num++;
+      // 修改文本框的值
+      input.value=num;
+
+      alert("添加之后总数量为："+num.toString());
+
+      // 计算小计
+      // 获取当前行
+      var tr =  amount.parentNode.parentNode;
+      // 获取商品单价
+      var unit = tr.querySelector(".unit");
+      var price = unit.innerHTML;
+      // 重新计算小计价格
+      smallTotal = num*price;
+      // 保留两位小数
+      smallTotal = smallTotal.toFixed(2);
+
+      // 将计算好的小计价格设置给金额
+      var u_price = tr.querySelector(".u-price");
+      u_price.innerHTML = smallTotal;
+
+      // 使当前行被选中
+      var choose = tr.querySelector(".choose");
+      // 把它当成逻辑变量，赋true false也可以
+      choose.checked = "checked";
+
+      // 计算总计
+      setTotal();
+    });
+
+    inputButton.onblur = function(){
+          // 防止出现负数
+          if(this.value < 1){
+            this.value = 1;
+          }
+          // 防止输入小数或其它字符
+          this.value = parseInt(this.value);
+
+          // 计算小计
+          // 获取当前行
+          var tr =  this.parentNode.parentNode.parentNode;
+          // 获取商品单价
+          var unit = tr.querySelector(".unit");
+          var price = unit.innerHTML;
+          // 重新计算小计价格
+          smallTotal = this.value*price;
+          // 保留两位小数
+          smallTotal = smallTotal.toFixed(2);
+
+          // 将计算好的小计价格设置给金额
+          var u_price = tr.querySelector(".u-price");
+          u_price.innerHTML = smallTotal;
+
+          // 使当前行被选中
+          var choose = tr.querySelector(".choose");
+          // 把它当成逻辑变量，赋true false也可以
+          choose.checked = "checked";
+
+          setTotal();
+        }
+
+// 将新行添加到表格中
+    table.appendChild(newRow);
+
+  }
+
+
+</script>
+</body>
+
+</html>
