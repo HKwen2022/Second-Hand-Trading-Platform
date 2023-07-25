@@ -12,14 +12,12 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     UserMapper userMapper;
-    public User login(String username, String password){
-        return userMapper.getByUsernameAndPassword(username, password);
-    }
-    public void updateInfo(User user) throws DataAccessException {
-        userMapper.updateInfo(user);
-    }
+    public User login(String username, String password){return userMapper.getByUsernameAndPassword(username, password);}
+    public void updateInfo(User user) throws DataAccessException {userMapper.updateInfo(user);}
 
     public void register(User user) {
         userMapper.register(user);
     }
+
+    public User getUserById(Integer id) {return userMapper.getUserById(id);}
 }
