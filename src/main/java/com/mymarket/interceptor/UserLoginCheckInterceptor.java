@@ -17,7 +17,7 @@ public class UserLoginCheckInterceptor implements HandlerInterceptor {
         String url = request.getRequestURI();
         if(url.contains("login") || url.contains("register")) return true;
         Integer[] type = JwtUtils.checkToken(request);
-        if(type[0] != 0) {
+        if(type[0] == -1) {
             Result error =Result.error("NOT_LOGIN");
             String notLogin = JSONObject.toJSONString(error);
             response.getWriter().write(notLogin);
