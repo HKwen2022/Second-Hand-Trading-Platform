@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mymarket.mapper.AdminMapper">
+    <delete id="delUser">
+        delete
+        from user
+        where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="getUsers" resultType="com.mymarket.pojo.User">
+        select *
+        from user
+        <where>
+            <if test="name != null and name != ''">
+                name like concat('%',#{name},'%')
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone = #{phone}
+            </if>
+            <if test="email != null and phone != ''">
+                and email = #{email}
+            </if>
+        </where>
+    </select>
+</mapper>
