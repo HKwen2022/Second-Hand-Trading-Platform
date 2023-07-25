@@ -27,7 +27,6 @@ public class AdminController {
     }
     @PostMapping("/admin")
     public Result addUser(@RequestBody User user){
-        System.out.println(user);
         adminService.addUser(user);
         return Result.success();
     }
@@ -45,6 +44,6 @@ public class AdminController {
     @GetMapping("/admin")
     public Result getUserById(@RequestParam(defaultValue = "1") Integer page,
                               String name, String phone, String email){
-        return Result.success(adminService.getUserById(page, name, phone, email));
+        return Result.success(adminService.getUserById(name, phone, email));
     }
 }
