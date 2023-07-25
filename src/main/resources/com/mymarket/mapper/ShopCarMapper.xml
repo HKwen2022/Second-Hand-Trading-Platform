@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mymarket.mapper.ShopCarMapper">
+    <insert id="put">
+        insert into shop_car(uid,cid,c_number) values (#{uid},#{cid},#{cNumber});
+    </insert>
+    <delete id="delete">
+        delete from shop_car where id = #{id}
+    </delete>
+    <select id="getByUserId" resultType="com.mymarket.pojo.ShopCar">
+        select * from shop_car where uid = #{userId};
+    </select>
+    <select id="get" resultType="com.mymarket.pojo.ShopCar">
+        select * from shop_car s, commodity c
+            <where>
+                s.cid = c.id
+                <if test="userId != null">
+                    and s.uid = #{userId}
+                </if>
+                <if test="commodity.id != null">
+                    and s.cid = #{commodity.id}
+                </if>
+                <if test="commodity.name != null and commodity.name != ''">
+                    and c.name like concat('%',#{commodity.name},'%')
+                </if>
+                <if test="commodity.description != null and commodity.description != ''">
+                    and c.description like concat('%',#{commodity.description},'%')
+                </if>
+                <if test="commodity.publisher != null">
+                    and c.publisher = #{commodity.publisher}
+                </if>
+                <if test="commodity.type != null">
+                    and c.type = #{commodity.type}
+                </if>
+                <if test="commodity.price != null">
+                    and c.price = #{commodity.price}
+                </if>
+            </where>
+    </select>
+</mapper>

@@ -24,6 +24,18 @@
             <if test="stock != null">
                 stock=#{stock}
             </if>
+            <if test="imageUrl1 != null">
+                image_url=#{imageUrl1}
+            </if>
+            <if test="imageUrl2 != null">
+                image_url2=#{imageUrl2}
+            </if>
+            <if test="imageUrl3 != null">
+                image_url3=#{imageUrl3}
+            </if>
+            <if test="imageUrl4 != null">
+                image_url4=#{imageUrl4}
+            </if>
         </set>
         where id = #{id}
     </update>
@@ -33,7 +45,7 @@
                  <if test="userId != null">
                      publisher = #{userId}
                  </if>
-                 <if test="commodityName != null">
+                 <if test="commodityName != null and commodityName != ''">
                      and name like concat('%',#{commodityName},'%')
                  </if>
             </where>

@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -18,8 +17,8 @@ public class Offer {
     private BigDecimal price;
     private Integer number;
     //private BigDecimal totalPrice;
-    private LocalDate orderDate;
-    private String deliveringAddress;
-    private String shippingAddress;
-    private LocalDate deliverDate;
+    public LocalDate orderDate;
+    public String deliveryAddress;
+    public String shippingAddress;
+    public LocalDate deliverDate;
 }

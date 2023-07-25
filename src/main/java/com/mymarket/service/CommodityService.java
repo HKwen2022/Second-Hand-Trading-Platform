@@ -30,4 +30,7 @@ public class CommodityService {
     public List<Commodity> getAllCommodities(){
         return commodityMapper.getAllCommodities();
     }
+    public Commodity get(Integer id) {
+        return commodityMapper.get(id);
+    }
 }
