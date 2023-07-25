@@ -19,14 +19,13 @@ public class UserController {
         catch (DataAccessException e){return Result.error("修改失败！");}
         return Result.success();
     }
-    @PostMapping("/user/login")
+    @PostMapping("/login")
     public Result login(String username, String password){
-        System.out.println(username + " " + password);
         User user = userService.login(username,password);
         if(user != null) return Result.success(user);
         else return Result.error("用户名或密码错误！");
     }
-    @PostMapping("/user/register")
+    @PostMapping("/register")
     public Result register(@RequestBody User user){
         userService.register(user);
         return Result.success();
