@@ -15,9 +15,9 @@ public class Offer {
     private Integer id;
     private Integer uid;
     private Integer cid;
-    private String cImageUrl;
+    private BigDecimal price;
     private Integer number;
-    private BigDecimal totalPrice;
+    //private BigDecimal totalPrice;
     private LocalDate orderDate;
     private String deliveringAddress;
     private String shippingAddress;
