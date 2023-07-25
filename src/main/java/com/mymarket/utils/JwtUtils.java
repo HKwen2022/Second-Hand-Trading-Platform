@@ -3,6 +3,7 @@ package com.mymarket.utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.util.Date;
 import java.util.Map;
@@ -18,11 +19,19 @@ public class JwtUtils {
                 .compact();
         return jwt;
     }
+    public static String generateJwt(Map<String, Object>claims, long expire){
+        String jwt = Jwts.builder()
+                .addClaims(claims)
+                .signWith(SignatureAlgorithm.HS256, signKey)
+                .setExpiration(new Date(System.currentTimeMillis() + expire))
+                .compact();
+        return jwt;
+    }
     public static Claims parseJwt(String jwt){
         Claims claims = Jwts.parserBuilder()
-                .setSigningKey(signKey).build().
-                parseClaimsJwt(jwt).
-                getBody();
+                .setSigningKey(signKey).build()
+                .parseClaimsJws(jwt)
+                .getBody();
         return claims;
     }
 }

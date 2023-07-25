@@ -11,8 +11,13 @@ import java.util.List;
 
 @Service
 public class AdminService {
-    @Autowired
+    final
     AdminMapper adminMapper;
+
+    public AdminService(AdminMapper adminMapper) {
+        this.adminMapper = adminMapper;
+    }
+
     public Admin login(String name, String password){
         return adminMapper.getByAdminNameAndPassword(name, password);
     }

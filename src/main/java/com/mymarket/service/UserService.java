@@ -8,14 +8,21 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    @Autowired
+    final
     UserMapper userMapper;
+
+    public UserService(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
+
     public User login(User user){return userMapper.getByUsernameAndPassword(user);}
     public void update(User user) throws DataAccessException {userMapper.update(user);}
-
     public void register(User user) {
         userMapper.register(user);
     }
-
-    public User getUserById(Integer id) {return userMapper.getUserById(id);}
+    public User getUserById(Integer id) {
+        User user = userMapper.getUserById(id);
+        user.setPassword(null);
+        return user;
+    }
 }

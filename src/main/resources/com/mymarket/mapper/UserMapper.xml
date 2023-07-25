@@ -19,7 +19,7 @@
                 email = #{email},
             </if>
             <if test="imageUrl != null and imageUrl != ''">
-                imageUrl = #{imageUrl}
+                image_url = #{imageUrl}
             </if>
         </set>
         where id = #{id}

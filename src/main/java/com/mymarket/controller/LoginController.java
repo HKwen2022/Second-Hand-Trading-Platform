@@ -12,8 +12,12 @@ import java.util.Map;
 
 @RestController
 public class LoginController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public LoginController(UserService userService) {
+        this.userService = userService;
+    }
+
     @PostMapping("/user/login")
     public Result login(@RequestBody User user){
         User u = userService.login(user);

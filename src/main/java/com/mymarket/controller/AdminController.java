@@ -42,8 +42,7 @@ public class AdminController {
         return Result.success();
     }
     @GetMapping("/admin")
-    public Result getUserById(@RequestParam(defaultValue = "1") Integer page,
-                              String name, String phone, String email){
+    public Result getUserById(String name, String phone, String email){
         return Result.success(adminService.getUserById(name, phone, email));
     }
 }
