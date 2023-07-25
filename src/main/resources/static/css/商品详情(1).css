@@ -1,0 +1,228 @@
+iframe{
+    width: 1200px;
+    margin: auto;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+
+
+li {
+    float: left;
+}
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+
+#rcorners {
+    border-radius: 100%;
+//background: #73AD21;
+    padding: 20px;
+    width: 150px;
+    height: 150px;
+}
+#rcorners1 {
+    border-radius: 25px;
+    background: #fff;
+    padding: 20px;
+    width: 200px;
+    height: 150px;
+}
+li a:hover {
+    background-color: #1A8BE8;
+}
+section {
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.all{
+    width: 100%;
+    height: 810px;
+    padding-bottom: 50px;
+    margin-top: -80px;
+    margin-bottom: 1px;
+}
+.all .content{
+    margin-top: 0px;
+    float: left;
+}
+.all iframe{
+    /* border: 2px solid red; */
+}
+#content{
+    /* 	border: 1px solid red; */
+
+    width: 1400px;
+    margin: auto;
+}
+#content .a1{
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+    width: 550px;
+    float: left;
+    margin-left: 100px;
+}
+#content .a1 .big{
+    /* float: left; */
+    width: 550px;
+    height: 400px;
+}
+#content .a11 ul li{
+    float: left;
+    width: 20%;
+    height: 90px;
+}
+.arrows {
+    position: relative;
+}
+.arrow {
+    margin-top: -40px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 45px;
+    color: black;
+    cursor: pointer;
+}
+
+.left {
+    margin-left: -10px;
+    left: 20px;
+}
+
+.right {
+    right: 20px;
+}
+
+.a11 ul li img{
+
+    width: 100%;
+    height: 100%;
+}
+.a11 ul li img:hover{
+    border: 3px #FF4F0D solid;
+}
+.a2{
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+    height: 550px;
+    width: 620px;
+    float: left;
+    margin-left: 90px;
+}
+.a21 .color{
+    color: #758188;
+}
+.a21 .a211{
+    background-color: #F2F5F8;
+    color: #758188;
+}
+.a21 .a211 .prices,.shic{
+    margin-left: 40px;
+}
+.a21 .a211 .prices{
+    color: #FF4F0D;
+    font-size: 35px;
+    font-weight: bold;
+}
+.a21 .a211 .prices2{
+    text-decoration: line-through;
+}
+.a21 .a211 .yis{
+    margin-left: 230px;
+}
+.a22{
+    margin-top: 50px;
+    background-color: #F6F9FB;
+}
+.a22 span,p{
+    margin-top: 10px;
+}
+.a22 .neir{
+    margin-left: 50px;
+}
+.a23{
+    margin-top: 50px;
+}
+.a24{
+    margin-top: 10px;
+}
+.a24 .bang{
+    display: inline-block;
+    border: 3px #EDF0F5 solid;
+    width: 50px;
+    line-height: 40px;
+    margin-left: 30px;
+    text-align: center;
+}
+.a24 .bang:hover{
+    border: 3px #FF4F0D solid;
+}
+.a25{
+    margin-top: 30px;
+}
+.a25 button{
+    display: inline-block;
+    width: 200px;
+    height: 60px;
+    border-radius: 30px;
+    margin-left: 30px;
+}
+.a25 .a25color1{
+    background-color: #FFEEE8;
+    color: #FF4F0D;
+    font-size: 20px;
+    font-weight: bolder;
+    border: 1px #FF4F0D solid;
+}
+.a25 .a25color2{
+    background-color: #FF4F0D;
+    color: white;
+    font-size: 20px;
+    font-weight: bolder;
+    border: 1px #FF4F0D solid;
+}
+
+
+.login-container{
+    width: 100%;
+    height: calc(100% - 50px);
+
+    /* 需要让里面的登录框垂直水平居中： */
+    display: flex;
+    /* 垂直居中 */
+    align-items: center;
+    /* 水平居中 */
+    justify-content: center;
+}
+
+/* 放置一些页面都会用到的样式 */
+
+/* 此操作取消浏览器的默认样式： */
+
+/* 给整个页面添加背景： */
+html,body{
+    height: 900px;
+}
+.add-to-cart-button {
+    background-color: white;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.add-to-cart-button:hover {
+    color: #0056b3;
+}
+

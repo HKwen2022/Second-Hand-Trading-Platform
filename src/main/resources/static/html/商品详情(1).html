@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>商品详情</title>
+    <!--    <link rel="stylesheet" href="newCss/gerenzhongxin.css">-->
+    <link rel="stylesheet" href="../css/商品详情(1).css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.cn/cdnjs/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='https://www.w3schools.cn/fonts/kit/a076d05399.js'></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-XXXXXXXXXXXX" crossorigin="anonymous" />
+</head>
+<body style="background-color: #ADD8E6;overflow: hidden">
+<ul style="background-color: black">
+    <li><a class="active" href="#home" style="margin-right: 80px"><h1>我的商城</h1></a></li>
+    <li><a href="#news" style="margin-top: 40px;margin-right: 30px">首页</a></li>
+    <li><a href="#contact" style="margin-top: 40px;margin-right: 30px">账户设置</a></li>
+    <li><a href="#about" style="margin-top: 40px;margin-right: 150px">关于</a></li>
+    <input  id ="rcorners1" type="search" style="margin-top: 43px;margin-right: 10px;height: 35px">
+    <i class="fa fa-search" style="font-size: 34px"></i>
+</ul>
+<br>
+<br>
+<div id="all">
+    <div class="login-container">
+        <div style="clear: both;"></div>
+        <div id="content">
+            <div class="a1">
+                <img class="big" id="image" src="../image/tilamisu.png">
+                <div class="a11">
+                    <ul>
+                        <li style="margin-left: 50px"><img src="../image/tilamisu.png"></li>
+                        <li><img id="image1" src="../image/TV.png"></li>
+                        <li><img src="../image/tilamisu.png"></li>
+                        <li><img src="../image/tilamisu.png"></li>
+                    </ul>
+                </div>
+                <div class="arrows">
+                    <span class="arrow left">&lt;</span>
+                    <span class="arrow right">&gt;</span>
+                </div>
+            </div>
+            <script>
+                // 获取箭头元素和小照片列表元素
+                // 获取箭头元素和小照片列表元素
+                var leftArrow = document.querySelector('.arrow.left');
+                var rightArrow = document.querySelector('.arrow.right');
+                var photoList = document.querySelectorAll('.a11 ul li');
+                var bigPhoto = document.querySelector('.big');
+
+                // 初始化索引为 0
+                var currentIndex = 0;
+
+                // 点击左箭头切换到上一张小照片
+                leftArrow.addEventListener('click', function() {
+                    currentIndex = (currentIndex - 1 + photoList.length) % photoList.length;
+                    updatePhotos();
+                });
+
+                // 点击右箭头切换到下一张小照片
+                rightArrow.addEventListener('click', function() {
+                    currentIndex = (currentIndex + 1) % photoList.length;
+                    updatePhotos();
+                });
+                // 给每个小照片添加点击事件处理程序
+                // 更新小照片和大照片的显示
+                function updatePhotos() {
+                    // 移除所有小照片的选中样式
+                    photoList.forEach(function(photo) {
+                        photo.classList.remove('selected');
+                    });
+
+                    // 添加选中样式到当前小照片
+                    photoList[currentIndex].classList.add('selected');
+
+                    // 更新大照片的显示
+                    bigPhoto.src = photoList[currentIndex].querySelector('img').src;
+                }
+
+                // 初始化显示
+                updatePhotos();
+
+            </script>
+            <div class="a2" style="background-color: white;padding: 2px">
+                <div style="display: flex">
+                    <h2 style="padding-left: 15px;font-size: 35px" id="name">提拉米苏</h2>
+                    <button class="add-to-cart-button">
+                        <a href="shoppingCarts.html">购物车
+                        <i class="fa fa-shopping-cart"></i>
+                    </a>
+
+                    </button>
+                </div>
+                <div class="a21">
+                    <div class="a211">
+                        <span class="color" style="padding-left: 15px">售价</span>
+                        <span class="prices" style="margin-right: 1px;margin-left: 1px">￥</span>
+                        <span class="prices" id="price" style="margin-left: 1px">98</span>
+                        <span class="shic">市场价<span class="prices2">￥338</span></span>
+                        <span  class="yis" style="margin-right: 1px;margin-left: 50px">库存：</span>
+                        <span  class="yis" id="stock" style="margin-left: 1px">123</span>
+                    </div>
+                    <div class="a22">
+                        <p></p>
+                        <span class="color"style="padding-left: 15px">商品编号</span>
+                        <span class="neir" id="id">1231321</span>
+                        <p></p>
+                        <span class="color"style="padding-left: 15px">类型</span>
+                        <span class="neir" id="type">食品、蛋糕</span>
+                        <p></p>
+                        <span class="color"style="padding-left: 15px">发布者</span>
+                        <span class="neir" id="publisher">4564654654</span>
+                    </div>
+                    <div class="a23">
+                        <p></p>
+                        <span class="color"style="padding-left: 15px">商品描述</span>
+                        <p style="padding-left: 15px" id="description">真的很好吃……</p>
+                    </div>
+                    <div class="a25">
+                        <a href="#"><button style="margin-left: 60px" class="a25color1" onclick="ensureAddShoppingCarts()">加入购物车</button></a>
+                        <a href="#"><button style="margin-left: 50px" class="a25color2" onclick="ensureBuy()">立即购买</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+</div>
+<script>
+    //window.onload=ensureAddShoppingCarts;
+    function ensureBuy()
+    {
+        var imageV = document.getElementById("image");
+        var nameV = document.getElementById("name");
+        var idV = document.getElementById("id");
+        var typeV = document.getElementById("type");
+        var priceV = document.getElementById("price");
+        var stockV = document.getElementById("stock");
+        var publisherV = document.getElementById("publisher");
+        var descriptionV = document.getElementById("description");
+
+
+        //idV.innerHTML="2222222222222";
+        //alert(cidV.innerHTML);
+        //alert(imageV.src);
+        // 获取需要传递的信息
+        // var product = productCell.innerHTML;
+        // var price = priceCell.querySelector('.unit').innerHTML;
+        // var quantity = count;
+        // var subTotal = quantity * parseInt(price);
+
+        var id=idV.innerHTML;
+        var name = nameV.innerHTML;
+        var type = typeV.innerHTML;
+        var price = priceV.innerHTML;
+        var stock = stockV.innerHTML;
+        var publisher = publisherV.innerHTML;
+        var description = descriptionV.innerHTML;
+        //alert(id+name+type+price+stock+publisher+description);
+
+        // 拼接跳转链接
+        var url = '购买.html';
+        url += '?id=' + encodeURIComponent(id);
+        url += '&price=' + encodeURIComponent(price);
+        url += '&name=' + encodeURIComponent(name);
+        url += '&type=' + encodeURIComponent(type);
+        url += '&stock=' + encodeURIComponent(stock);
+        url += '&publisher=' + encodeURIComponent(publisher);
+        url += '&description=' + encodeURIComponent(description);
+        url += '&imageSrc=' + encodeURIComponent(imageV.src);
+        url += '&source=' + encodeURIComponent("A");
+
+        // 跳转到czhhhh.html页面
+        window.location.href = url;
+    }
+
+    function ensureAddShoppingCarts()
+    {
+        var xhttp = new XMLHttpRequest();
+
+        var idV = document.getElementById("id");
+
+        var obj = JSON.stringify({"id":idV.value,"number":1});
+        xhttp.open("POST", "../admin/register", true);
+        xhttp.setRequestHeader('Content-Type', 'application/json');
+        xhttp.send(obj);
+        alert("添加购物车成功！");
+    }
+</script>
+</body>
+</html>

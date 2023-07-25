@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>立即购买页面</title>
+    <link href="../css/购买.css" rel="stylesheet"/>
+</head>
+<body>
+
+<form class="order-container" id="form1">
+
+
+    <div class="login-box" style="cursor: pointer;">
+        <span class="login-tips">请详细填写订单信息！！！</span>
+        <div>
+
+            <div class="order-item" style="position: relative;margin-top: 24px;">
+                <h3 class="order-item-hd">收货人信息</h3>
+
+                <div class="order-item-content">
+                    <div class="order-item-li">
+                        <label class="order-item-title">收货人</label>
+                        <input class="order-item-input" placeholder="请输入收货人姓名" type="text"/>
+                    </div>
+                    <div class="order-item-li">
+                        <label class="order-item-title">手机号码</label>
+                        <input class="order-item-input" id="telephone" placeholder="请输入收货人手机号码" type="text"/>
+                    </div>
+                    <div class="order-item-li">
+
+                        <label class="order-item-title">所在地区</label>
+                        <select id="province-select" class="order-item-select">
+                            <!-- 根据行政区划数据源动态添加省份选项 -->
+                        </select>
+                        <select id="city-select" class="order-item-select">
+                            <!-- 根据所选省份动态添加城市选项 -->
+                        </select>
+                        <select id="district-select" class="order-item-select">
+                            <!-- 根据所选城市动态添加区县选项 -->
+                        </select>
+
+                        <script>
+                            // 行政区划数据源
+                            var provinceData = ["河北省", "山西省", "辽宁省", "黑龙江省", "甘肃省", "吉林省", "青海省", "河南省", "江苏省","湖北省","湖南省","浙江省","江西省","广东省","云南省","福建省","台湾省","海南省","山东省","四川省","陕西省","贵州省","安徽省","北京市","重庆市","上海市","天津市","内蒙古自治区","广西壮族自治区","西藏自治区","新疆维吾尔自治区","宁夏回族自治区","澳门特别行政区","香港特别行政区"]; // 省份数据
+                            var cityData = {
+                                "河北省": ["石家庄市", "唐山市", "秦皇岛市","邯郸市","邢台市","保定市","张家口市","承德市","沧州市","廊坊市","衡水市"],
+                                "山西省": ["太原市", "大同市", "阳泉市", "长治市", "晋城市", "朔州市", "晋中市", "运城市", "忻州市", "临汾市", "吕梁市"],
+                                "辽宁省": ["沈阳市", "大连市", "鞍山市", "抚顺市", "本溪市", "丹东市", "锦州市", "营口市", "阜新市", "辽阳市", "盘锦市", "铁岭市", "朝阳市", "葫芦岛市"],
+                            }; // 城市数据
+
+
+                            var districtData = {
+                                '石家庄市':['长安区','桥东区','桥西区','新华区','井陉矿区','裕华区','井陉县','正定县','栾城县','行唐县','灵寿县','高邑县','深泽县','赞皇县','无极县','平山县','元氏县','赵　县','辛集市','藁城市','晋州市','新乐市','鹿泉市'],
+                                '唐山市':['路南区','路北区','古冶区','开平区','丰南区','丰润区','滦　县','滦南县','乐亭县','迁西县','玉田县','唐海县','遵化市','迁安市'],
+                                '秦皇岛市' :['海港区','山海关区','北戴河区','青龙满族自治县','昌黎县','抚宁县','卢龙县'],
+                                '邯郸市' :['邯山区','丛台区','复兴区','峰峰矿区','邯郸县','临漳县','成安县','大名县','涉　县','磁　县','肥乡县','永年县','邱　县','鸡泽县','广平县','馆陶县','魏　县','曲周县','武安市'],
+                                '邢台市' :['桥东区','桥西区','邢台县','临城县','内丘县','柏乡县','隆尧县','任　县','南和县','宁晋县','巨鹿县','新河县','广宗县','平乡县','威　县','清河县','临西县','南宫市','沙河市'],
+                                '保定市' :['新市区','北市区','南市区','满城县','清苑县','涞水县','阜平县','徐水县','定兴县','唐　县','高阳县','容城县','涞源县','望都县','安新县','易　县','曲阳县','蠡　县','顺平县','博野县','雄　县','涿州市','定州市','安国市','高碑店市'],
+                                '张家口市':['桥东区','桥西区','宣化区','下花园区','宣化县','张北县','康保县','沽源县','尚义县','蔚　县','阳原县','怀安县','万全县','怀来县','涿鹿县','赤城县','崇礼县'],
+                                '承德市':['双桥区','双滦区','鹰手营子矿区','承德县','兴隆县','平泉县','滦平县','隆化县','丰宁满族自治县','宽城满族自治县','围场满族蒙古族自治县'],
+                                '沧州市' :['新华区','运河区','沧　县','青　县','东光县','海兴县','盐山县','肃宁县','南皮县','吴桥县','献　县','孟村回族自治县','泊头市','任丘市','黄骅市','河间市'],
+                                '廊坊市' :['安次区','广阳区','固安县','永清县','香河县','大城县','文安县','大厂回族自治县','霸州市','三河市'],
+                                '衡水市' :['桃城区','枣强县','武邑县','武强县','饶阳县','安平县','故城县','景　县','阜城县','冀州市','深州市'],
+                                '太原市':['小店区','迎泽区','杏花岭区','尖草坪区','万柏林区','晋源区','清徐县','阳曲县','娄烦县','古交市'],
+                                '大同市' :['南郊区','新荣区','阳高县','天镇县','广灵县','灵丘县','浑源县','左云县','大同县'],
+                                '阳泉市' :['平定县','盂　县'],
+                                '长治市' :['长治县','襄垣县','屯留县','平顺县','黎城县','壶关县','长子县','武乡县','沁　县','沁源县','潞城市'],
+                                '晋城市' :['沁水县','阳城县','陵川县','泽州县','高平市'],
+                                '朔州市' :['朔城区','平鲁区','山阴县','应　县','右玉县','怀仁县'],
+                                '晋中市' :['榆次区','榆社县','左权县','和顺县','昔阳县','寿阳县','太谷县','祁　县','平遥县','灵石县','介休市'],
+                                '运城市' :['盐湖区','临猗县','万荣县','闻喜县','稷山县','新绛县','绛　县','垣曲县','夏　县','平陆县','芮城县','永济市','河津市'],
+                                '忻州市' :['忻府区','定襄县','五台县','代　县','繁峙县','宁武县','静乐县','神池县','五寨县','岢岚县','河曲县','保德县','偏关县','原平市'],
+                                '临汾市' :['尧都区','曲沃县','翼城县','襄汾县','洪洞县','古　县','安泽县','浮山县','吉　县','乡宁县','大宁县','隰　县','永和县','蒲　县','汾西县','侯马市','霍州市'],
+                                '吕梁市' :['离石区','文水县','交城县','兴　县','临　县','柳林县','石楼县','岚　县','方山县','中阳县','交口县','孝义市','汾阳市'],
+
+                                '沈阳市' :['和平区','沈河区','大东区','皇姑区','铁西区','苏家屯区','东陵区','新城子区','于洪区','辽中县','康平县','法库县','新民市'],
+                                '大连市' :['中山区','西岗区','沙河口区','甘井子区','旅顺口区','金州区','长海县','瓦房店市','普兰店市','庄河市'],
+                                '鞍山市' :['铁东区','铁西区','立山区','千山区','台安县','岫岩满族自治县','海城市'],
+                                '抚顺市' :['新抚区','东洲区','望花区','顺城区','抚顺县','新宾满族自治县','清原满族自治县'],
+                                '本溪市' :['平山区','溪湖区','明山区','南芬区','本溪满族自治县','桓仁满族自治县'],
+                                '丹东市' :['元宝区','振兴区','振安区','宽甸满族自治县','东港市','凤城市'],
+                                '锦州市' :['古塔区','凌河区','太和区','黑山县','义　县','凌海市','北宁市'],
+                                '营口市' :['站前区','西市区','鲅鱼圈区','老边区','盖州市','大石桥市'],
+                                '阜新市' :['海州区','新邱区','太平区','清河门区','细河区','阜新蒙古族自治县','彰武县'],
+                                '辽阳市' :['白塔区','文圣区','宏伟区','弓长岭区','太子河区','辽阳县','灯塔市'],
+                                '盘锦市' :['双台子区','兴隆台区','大洼县','盘山县'],
+                                '铁岭市' :['银州区','清河区','铁岭县','西丰县','昌图县','调兵山市','开原市'],
+                                '朝阳市' :['双塔区','龙城区','朝阳县','建平县','喀喇沁左翼蒙古族自治县','北票市','凌源市'],
+                                '葫芦岛市' :['连山区','龙港区','南票区','绥中县','建昌县','兴城市']
+
+                            }; // 县数据
+
+                            // 动态添加省份选项
+                            var provinceSelect = document.getElementById("province-select");
+                            provinceData.forEach(function(province) {
+                                var option = document.createElement("option");
+                                option.value = province;
+                                option.text = province;
+                                provinceSelect.appendChild(option);
+                            });
+
+                            // 监听城市选项的改变，动态添加区县选项
+                            var districtSelect = document.getElementById("district-select");
+
+                            // 监听省份选项的改变，动态添加城市选项
+                            var citySelect = document.getElementById("city-select");
+                            provinceSelect.addEventListener("change", function() {
+                                var selectedProvince = this.value;
+                                citySelect.innerHTML = ""; // 清空城市选项
+                                districtSelect.innerHTML=""; // 清空城市选项
+                                if (selectedProvince) {
+                                    var cities = cityData[selectedProvince];
+                                    cities.forEach(function(city) {
+                                        var option = document.createElement("option");
+                                        option.value = city;
+                                        option.text = city;
+                                        citySelect.appendChild(option);
+                                    });
+                                }
+                            });
+
+
+                            citySelect.addEventListener("change", function() {
+                                var selectedCity = this.value;
+                                districtSelect.innerHTML = ""; // 清空区县选项
+                                if (selectedCity) {
+                                    var districts = districtData[selectedCity];
+                                    districts.forEach(function(district) {
+                                        var option = document.createElement("option");
+                                        option.value = district;
+                                        option.text = district;
+                                        districtSelect.appendChild(option);
+                                    });
+                                }
+                            });
+                        </script>
+
+                    </div>
+
+                    <div class="order-item-li">
+                        <label class="order-item-title">详细地址</label>
+                        <div class="order-item-input-box">
+                            <!--                    <span class="order-item-addr-header">河南省郑州市金水区</span>-->
+                            <span class="order-item-addr-header"></span>
+                            <input id="detailAddress" placeholder="请输入收货人详细地址" type="text" style="padding-left: 124px;width: 222px;"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<!--            <div class="order-item">-->
+<!--                <h3 class="order-item-hd">订购人信息</h3>-->
+<!--                <div class="order-item-content">-->
+<!--                    <div class="order-item-li">-->
+<!--                        <label class="order-item-title">订购人姓名</label>-->
+<!--                        <input class="order-item-input" placeholder="请输入订购人姓名"/>-->
+<!--                    </div>-->
+<!--                    <div class="order-item-content-hastel" style="display: block;">-->
+<!--                        <div class="order-item-li">-->
+<!--                            <label class="order-item-title">订购人手机</label>-->
+<!--                            <input class="order-item-input" placeholder="请输入订购人手机号码"/>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <div class="order-item">
+                <h3 class="order-item-hd">送达日期</h3>
+                <div class="order-item-content">
+                    <div class="order-item-li">
+                        <label class="order-item-title">送达日期</label>
+                        <td>&nbsp;&nbsp;
+                            <!-- <from> -->
+                            <select id="year" class="order-item-select">
+                                <option>请选择年份</option>
+                                <option>2023</option>
+                                <option>2024</option>
+                                <option>2025</option>
+                                <option>2026</option>
+                            </select>&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;
+                            <!-- </from> -->
+                            <!-- <from> -->
+                            <select id="month" class="order-item-select">
+                                <option>请选择月份</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                            </select>&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;
+                            <!-- </from> -->
+                            <!-- <from> -->
+                            <select id="day" class="order-item-select">
+                                <option>请选择日</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                                <option>13</option>
+                                <option>14</option>
+                                <option>15</option>
+                                <option>16</option>
+                                <option>17</option>
+                                <option>18</option>
+                                <option>19</option>
+                                <option>20</option>
+                                <option>21</option>
+                                <option>22</option>
+                                <option>23</option>
+                                <option>24</option>
+                                <option>25</option>
+                                <option>26</option>
+                                <option>27</option>
+                                <option>28</option>
+                                <option>29</option>
+                                <option>30</option>
+                                <option>31</option>
+                            </select>&nbsp;&nbsp;日
+                            <!-- </from> -->
+                        </td>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-item">
+                <div class="order-item-hd">
+                    <h5>留言</h5>
+                </div>
+                <div class="order-item-box">
+                    <div class="order-item-left">
+						<textarea id="Congra" class="order-item-left-textarea"
+                                  placeholder="贺卡留言：最多30字，生日牌：最多8个字，请在“贺卡留言”中标明."></textarea>
+                    </div>
+                    <div class="order-item-right"></div>
+                </div>
+            </div>
+
+            <div class="order-item order-item-border-bottom order-item-line" style="color:black">
+                <h3 class="order-item-hd" onclick="getAllInformation()">核对购物清单</h3>
+                <table class="order-item-table" cellspacing="0" cellpadding="40px" id="tableBody">
+                    <tr class="title">
+                        <td width="120px">商品编号</td>
+                        <td width="150px">商品图片</td>
+                        <td width="250px" style="padding-left: 10px;">商品名称</td>
+                        <td width="120px">单价（元）</td>
+                        <td width="120px">数量</td>
+                        <td width="120px">总金额（元）</td>
+                    </tr>
+<!--                    <tr>-->
+<!--                        <td><b>1</b></td>-->
+<!--                        <td><img id="imageUrl" src="#" alt="" style="width: 200px"></td>-->
+<!--                        <td>凌美Lamy Safari钢笔/签字笔T52黑色墨水</td>-->
+<!--                        <td><b>129.00</b></td>-->
+<!--                        <td><b>1</b></td>-->
+<!--                        <td><b>129</b></td>-->
+<!--                    </tr>-->
+                </table>
+            </div>
+            <div class="order-item-footer">
+                <div class="order-item-footer-left">
+                    <div class="order-item-footer-send">
+                        <span class="send-title" id="addressGotten">配送至:</span>
+                    </div>
+                    <div class="order-item-footer-receiver">
+                        <span class="receiver-name" id="nameGotten">张三</span>
+                        <span id="telephoneGotten">15919173982</span>
+                    </div>
+                </div>
+                <div class="order-item-footer-right">
+                    <div class="order-item-footer-price">
+                        共<span id="pro_count" class="pro-count">1</span>件商品，总商品金额:
+                        <span id="pro_price" class="pro-price">198</span>
+                    </div>
+                    <div class="order-item-footer-pay">
+                        应付:<span class="pay-price" id="pay_price">198</span>
+                        <button class="pay-btn" onclick="setInformationDB()">提交订单</button>
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    var urlParams = new URLSearchParams(window.location.search);
+    var source = urlParams.get('source');
+
+    //alert(source);
+     if (source === 'A') {
+         // 从商品详情界面进入的操作
+         var id = urlParams.get('id');
+         var price = urlParams.get('price');
+         var name = urlParams.get('name');
+         var type = urlParams.get('type');
+         var stock = urlParams.get('stock');
+         var publisher = urlParams.get('publisher');
+         var description = urlParams.get('description');
+         var imageSrc = urlParams.get('imageSrc');
+
+         // var imageV=document.getElementById("imageUrl");
+         // var nameV=document.getElementById("name");
+         // var priceV=document.getElementById("price");
+         // imageV.src=imageSrc;
+         // nameV.innerHTML=name;
+         // priceV.innerHTML=price;
+         //alert(ima);
+
+         var newRow = document.createElement('tr');
+
+         var idCell = document.createElement('td');
+         idCell.innerHTML = '<b>'+id+'</b>';
+         newRow.appendChild(idCell);
+
+         var thumbCell = document.createElement('td');
+         thumbCell.innerHTML = '<img src="'+imageSrc+'" alt="" style="width: 200px">';
+         newRow.appendChild(thumbCell);
+
+         var productCell = document.createElement('td');
+         productCell.innerHTML = name;
+         newRow.appendChild(productCell);
+
+         var priceCell = document.createElement('td');
+         priceCell.innerHTML = '<b>'+price+'</b>'
+         newRow.appendChild(priceCell);
+
+         var quantityCell = document.createElement('td');
+         quantityCell.innerHTML = '<div class="amount"><a href="#" class="Increase">+</a><input type="text" value=1 class="unum"><a href="#" class="Reduce">-</a></div>';
+         newRow.appendChild(quantityCell);
+
+         var subTotalCell = document.createElement('td');
+         subTotalCell.innerHTML = '<b>129</b>'
+         newRow.appendChild(subTotalCell);
+
+         document.getElementById('tableBody').appendChild(newRow);
+    }
+     else if (source === 'B')
+     {
+         // 从购物车界面进入的操作
+
+         var tableData = JSON.parse(decodeURIComponent(urlParams.get('data')));
+
+         // 填充数据到页面中
+         var tableBody = document.getElementById('tableBody');
+
+         for (var i = 0; i < tableData.length; i++) {
+             var rowData = tableData[i];
+
+             var newRow = document.createElement('tr');
+
+             var idCell = document.createElement('td');
+             idCell.innerHTML = '<b>'+rowData.id+'</b>';
+             newRow.appendChild(idCell);
+
+             var thumbCell = document.createElement('td');
+             thumbCell.className = 'tal';
+             thumbCell.innerHTML = '<a href="#" class="pic"><img src="' + rowData.thumbImage + '" alt="" style="width: 200px"></a>';
+             newRow.appendChild(thumbCell);
+
+             var productCell = document.createElement('td');
+             productCell.className = 'tal';
+             productCell.innerHTML = '<a>' + rowData.name + '</a>';
+             newRow.appendChild(productCell);
+
+             var priceCell = document.createElement('td');
+             priceCell.innerHTML = '<b class="unit">' + rowData.price + '</b>';
+             newRow.appendChild(priceCell);
+
+             var quantityCell = document.createElement('td');
+             quantityCell.innerHTML = '<a >' + rowData.quantity + '</a>';
+             newRow.appendChild(quantityCell);
+
+             var subTotalCell = document.createElement('td');
+             subTotalCell.innerHTML = '<b class="u-price">' + rowData.subTotal + '</b>';
+             newRow.appendChild(subTotalCell);
+
+             tableBody.appendChild(newRow);
+         }
+
+         var totalPriceV=document.getElementById("pro_price");
+         totalPriceV.innerHTML=tableData[0].totalPrice;
+
+         var totalNumberV=document.getElementById("pro_count");
+         totalNumberV.innerHTML=tableData[0].totalNumber;
+
+         var payPriceV=document.getElementById("pay_price");
+         payPriceV.innerHTML=tableData[0].totalPrice;
+
+     }
+
+
+     function getAllInformation()
+     {
+         alert("00");
+         // Retrieve the values from the order form
+         var recipientName = document.querySelector('.order-item-content .order-item-li:nth-child(1) .order-item-input').value;
+         var recipientPhoneNumber = document.querySelector('.order-item-content .order-item-li:nth-child(2) .order-item-input').value;
+         var province = document.getElementById('province-select').value;
+         var city = document.getElementById('city-select').value;
+         var district = document.getElementById('district-select').value;
+
+         var detailedAddress = document.getElementById('detailAddress').value;
+         var deliveryDate = document.getElementById('year').value + '-' + document.getElementById('month').value + '-' + document.getElementById('day').value;
+         var message = document.querySelector('.order-item .order-item-box .order-item-left textarea').value;
+
+
+         var address=document.getElementById('addressGotten');
+         address.innerHTML="配送至："+province+city+district+detailedAddress;
+
+         var name=document.getElementById("nameGotten");
+         name.innerHTML=recipientName;
+
+         var tel=document.getElementById("telephoneGotten");
+         tel.innerHTML=recipientPhoneNumber;
+
+         //Output the retrieved values
+         // alert(recipientName);
+         // alert( recipientPhoneNumber);
+         // alert(province);
+         // alert( city);
+         // alert(district);
+         // alert( detailedAddress);
+         // alert( deliveryDate);
+         // alert(message);
+     }
+
+     function setInformationDB()
+     {
+         //从商品详情界面进入的操作
+         if(source==='A')
+         {
+             var id = urlParams.get('id');//商品编号
+             var price = urlParams.get('price');//价格
+
+             //地址
+             var province = document.getElementById('province-select').value;
+             var city = document.getElementById('city-select').value;
+             var district = document.getElementById('district-select').value;
+             var detailedAddress = document.getElementById('detailAddress').value;
+
+             //发货日期
+             var deliveryDate = document.getElementById('year').value + '-' + document.getElementById('month').value + '-' + document.getElementById('day').value;
+
+             // 获取商品数量
+             var num = document.querySelector(".unum").value;
+
+             //下单日期
+
+             //发货地址
+
+             var xhttp = new XMLHttpRequest();
+
+
+             var obj = JSON.stringify({"name":usernameV.value,"email":emailV.value,"phone":telephoneV.value,"password":passwordV.value,"imageUrl":"null"});
+             xhttp.open("POST", "../admin/register", true);
+             xhttp.setRequestHeader('Content-Type', 'application/json');
+             xhttp.send(obj);
+             window.open("/html/register_scuess.html");
+
+         }
+     }
+
+</script>
+</body>
+</html>

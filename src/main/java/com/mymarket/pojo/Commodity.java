@@ -17,4 +17,5 @@ public class Commodity {
     private String type;
     private BigDecimal price;
     private Integer stock;
+    private String imageUrl;
 }

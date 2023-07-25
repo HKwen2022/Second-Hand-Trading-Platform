@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>立即购买页面</title>
-    <link href="css/order.css" rel="stylesheet"/>
+    <link href="../css/order.css" rel="stylesheet"/>
 </head>
 <body>
 
@@ -27,47 +27,6 @@
                 <input class="order-item-input" placeholder="请输入收货人手机号码" type="text"/>
             </div>
             <div class="order-item-li">
-<!--                <label class="order-item-title">所在地区</label>-->
-<!--                <select class="order-item-select">-->
-<!--                    <option value="">河南省</option>-->
-<!--                    <option value="">河北省</option>-->
-<!--                    <option value="">江苏省</option>-->
-<!--                    <option value="">湖南省</option>-->
-<!--                    <option value="">河南省</option>-->
-<!--                    <option value="">河北省</option>-->
-<!--                    <option value="">江苏省</option>-->
-<!--                    <option value="">湖南省</option>-->
-<!--                    <option value="">河南省</option>-->
-<!--                    <option value="">河北省</option>-->
-<!--                    <option value="">江苏省</option>-->
-<!--                    <option value="">湖南省</option>-->
-<!--                    <option value="">河南省</option>-->
-<!--                    <option value="">河北省</option>-->
-<!--                    <option value="">江苏省</option>-->
-<!--                    <option value="">湖南省</option>-->
-<!--                    <option value="">河南省</option>-->
-<!--                    <option value="">河北省</option>-->
-<!--                    <option value="">江苏省</option>-->
-<!--                    <option value="">湖南省</option>-->
-<!--                    <option value="">河南省</option>-->
-<!--                    <option value="">河北省</option>-->
-<!--                    <option value="">江苏省</option>-->
-<!--                    <option value="">湖南省</option>-->
-
-<!--                </select>-->
-<!--                <select class="order-item-select">-->
-<!--                    <option value="">郑州市</option>-->
-<!--                    <option value="">南京市</option>-->
-<!--                    <option value="">杭州市</option>-->
-<!--                    <option value="">长沙市</option>-->
-<!--                </select>-->
-<!--                <select class="order-item-select" style="width: 142px;">-->
-<!--                    <option value="">金水区</option>-->
-<!--                    <option value="">回族区</option>-->
-<!--                    <option value="">哈哈区</option>-->
-<!--                    <option value="">天齐区</option>-->
-<!--                </select>-->
-                <!-- <span class="order-item-wrong"></span> -->
 
                 <label class="order-item-title">所在地区</label>
                 <select id="province-select" class="order-item-select">
@@ -294,20 +253,23 @@
     <div class="order-item order-item-border-bottom order-item-line">
 
         <h3 class="order-item-hd">核对购物清单</h3>
-        <div class="order-item-product-list">
-            <div class="order-item-product-li">
-                <a href="#" target="_blank"
-                   style="display: inline-block; width: 100%; height: 100%;">
-                    <div class="order-item-product-pic">
-                        <img src="image/tilamisu.png" alt="提拉米苏(约2磅)" width="737"/>
-                    </div>
-                    <div class="order-item-product-info">
-                        <p class="order-item-product-name">                            提拉米苏(约2磅)</p>
-                    </div>
-                    <span class="order-item-product-iprice"data-itemcode="5602003">198</span>
-                    <span class="order-item-product-count">x1</span>
-            </div>
-        </div>
+<!--        <div class="order-item-product-list">-->
+<!--            <div class="order-item-product-li">-->
+<!--                <a href="#" target="_blank"-->
+<!--                   style="display: inline-block; width: 100%; height: 100%;">-->
+<!--                    <div class="order-item-product-pic">-->
+<!--                        <img id="imageUrl" src="#" alt="" width="737"/>-->
+<!--                    </div>-->
+<!--                    <div class="order-item-product-info">-->
+<!--                        <p class="order-item-product-name" id="name"></p>-->
+<!--                    </div>-->
+<!--                    <span class="order-item-product-iprice" data-itemcode="5602003" id="price">198</span>-->
+<!--                    <span class="order-item-product-count" id="number">x1</span></a>-->
+<!--            </div>-->
+<!--        </div>-->
+        <table id="tableBody">
+
+        </table>
         </a>
     </div>
 
@@ -335,7 +297,71 @@
             </div>
         </div>
     </div>
+    </div>
+    </div>
 </form>
 
+<script>
+    // var urlParams = new URLSearchParams(window.location.search);
+    // var id = urlParams.get('id');
+    // var price = urlParams.get('price');
+    // var name = urlParams.get('name');
+    // var type = urlParams.get('type');
+    // var stock = urlParams.get('stock');
+    // var publisher = urlParams.get('publisher');
+    // var description = urlParams.get('description');
+    // var imageSrc = urlParams.get('imageSrc');
+    //
+    // var imageV=document.getElementById("imageUrl");
+    // var nameV=document.getElementById("name");
+    // var priceV=document.getElementById("price");
+    // imageV.src=imageSrc;
+    // nameV.innerHTML=name;
+    // priceV.innerHTML=price;
+    // alert(imageV.src);
+
+
+    // 获取URL参数
+    var urlParams = new URLSearchParams(window.location.search);
+    var tableData = JSON.parse(decodeURIComponent(urlParams.get('data')));
+
+    // 填充数据到页面中
+    var tableBody = document.getElementById('tableBody');
+
+    for (var i = 0; i < tableData.length; i++) {
+        var rowData = tableData[i];
+
+        var newRow = document.createElement('tr');
+
+        var checkboxCell = document.createElement('td');
+        checkboxCell.innerHTML = '<input type="checkbox" name="" class="choose" ' + (rowData.checkbox ? 'checked' : '') + '>';
+        newRow.appendChild(checkboxCell);
+
+        var thumbCell = document.createElement('td');
+        thumbCell.className = 'tal';
+        thumbCell.innerHTML = '<a href="#" class="pic"><img src="' + rowData.thumbImage + '" alt="" style="width: 200px"></a>';
+        newRow.appendChild(thumbCell);
+
+        var productCell = document.createElement('td');
+        productCell.className = 'tal';
+        productCell.innerHTML = '<a href="#">' + rowData.productName + '</a>';
+        newRow.appendChild(productCell);
+
+        var priceCell = document.createElement('td');
+        priceCell.innerHTML = '<span class="tdl">' + rowData.price + '</span><br><b class="unit">' + rowData.price + '</b>';
+        newRow.appendChild(priceCell);
+
+        var quantityCell = document.createElement('td');
+        quantityCell.innerHTML = '<div class="amount"><a href="#" class="Increase">+</a><input type="text" value="' + rowData.quantity + '" class="unum"><a href="#" class="Reduce">-</a></div>';
+        newRow.appendChild(quantityCell);
+
+        var subTotalCell = document.createElement('td');
+        subTotalCell.innerHTML = '<b class="u-price">' + rowData.subTotal + '</b>';
+        newRow.appendChild(subTotalCell);
+
+        tableBody.appendChild(newRow);
+    }
+
+</script>
 </body>
 </html>
