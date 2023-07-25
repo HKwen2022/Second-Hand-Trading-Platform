@@ -22,4 +22,6 @@ public interface CommodityMapper {
     List<Commodity> getCommodityByUserIdAndName(Integer userId, String commodityName);
     @Select("select * from commodity")
     List<Commodity> getAllCommodities();
+    @Select("select * from commodity where id = #{id}")
+    Commodity get(Integer id);
 }
