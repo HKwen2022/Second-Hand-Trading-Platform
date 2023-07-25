@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -15,11 +14,11 @@ public class Offer {
     private Integer id;
     private Integer uid;
     private Integer cid;
-    private String cImageUrl;
+    private BigDecimal price;
     private Integer number;
-    private BigDecimal totalPrice;
-    private LocalDate orderDate;
-    private String deliveringAddress;
-    private String shippingAddress;
-    private LocalDate deliverDate;
+    //private BigDecimal totalPrice;
+    public LocalDate orderDate;
+    public String deliveryAddress;
+    public String shippingAddress;
+    public LocalDate deliverDate;
 }

@@ -16,8 +16,12 @@ public interface CommodityMapper {
     List<Commodity> getCommodityByUser(User user);
     @Delete("delete from commodity where id = #{id}")
     void delete(Integer id) throws DataAccessException;
-    @Update("update commodity set name=#{name},description=#{description},publisher=#{publisher},type=#{type},price=#{price},stock=#{stock} where id = #{id}")
+    //@Update("update commodity set name=#{name},description=#{description},publisher=#{publisher},type=#{type},price=#{price},stock=#{stock} where id = #{id}")
     void update(Commodity commodity) throws DataAccessException;
-    @Select("select * from commodity where publisher = #{userId} and name like #{commodityName}")
+    //@Select("select * from commodity where publisher = #{userId} and name like #{commodityName}")
     List<Commodity> getCommodityByUserIdAndName(Integer userId, String commodityName);
+    @Select("select * from commodity")
+    List<Commodity> getAllCommodities();
+    @Select("select * from commodity where id = #{id}")
+    Commodity get(Integer id);
 }

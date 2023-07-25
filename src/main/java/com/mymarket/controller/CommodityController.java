@@ -24,8 +24,8 @@ public class CommodityController {
         }
         return Result.success();
     }
-    @DeleteMapping("/commodity")
-    public Result delete(Integer id){
+    @DeleteMapping("/commodity/{id}")
+    public Result delete(@PathVariable Integer id){
         try{
             commodityService.delete(id);
         }
@@ -37,11 +37,11 @@ public class CommodityController {
     }
     @PutMapping("/commodity")
     public Result update(@RequestBody Commodity commodity){
+        if(commodity.getId() == null) return Result.error("修改商品失败！未提供商品id。");
         try{
             commodityService.update(commodity);
         }
         catch (DataAccessException e){
-            //实际上不存在对应id的商品也不会返回错误
             return Result.error("修改商品失败！");
         }
         return Result.success();
@@ -49,6 +49,17 @@ public class CommodityController {
     @GetMapping("/commodity")
     public Result getCommodityByUserIdAndName(Integer id, String name){
         List<Commodity> ret = commodityService.getCommodityByUserIdAndName(id,name);
+        return Result.success(ret);
+    }
+    @GetMapping("/commodity/all")
+    public Result getAllCommodities(){
+        List<Commodity> ret = commodityService.getAllCommodities();
+        return Result.success(ret);
+    }
+    @GetMapping("/commodity/{id}")
+    public Result getDetail(@PathVariable Integer id){
+        Commodity ret = commodityService.get(id);
+        if(ret == null) return Result.error("未找到该商品！");
         return Result.success(ret);
     }
 }

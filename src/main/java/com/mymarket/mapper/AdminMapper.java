@@ -19,12 +19,7 @@ public interface AdminMapper {
     @Insert("insert into user(name,password,phone,email,image_url)"  +
             "values (#{name},#{password},#{phone},#{email},#{imageUrl})")
     void addUser(User user);
-
     void delUser(List<Integer>ids);
-
-    @Update("update user set name = #{name}, password = #{password}, phone = #{phone}," +
-            "email = #{email}, image_url = #{imageUrl} where id = #{id}")
     void alterUser(User user) throws DataAccessException;
-
     List<User> getUsers(String name, String phone, String email);
 }

@@ -25,6 +25,12 @@ public class CommodityService {
         commodityMapper.update(commodity);
     }
     public List<Commodity> getCommodityByUserIdAndName(Integer userId, String name){
-        return commodityMapper.getCommodityByUserIdAndName(userId,'%'+name+'%');
+        return commodityMapper.getCommodityByUserIdAndName(userId,name);
+    }
+    public List<Commodity> getAllCommodities(){
+        return commodityMapper.getAllCommodities();
+    }
+    public Commodity get(Integer id) {
+        return commodityMapper.get(id);
     }
 }

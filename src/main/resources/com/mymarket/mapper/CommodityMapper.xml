@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mymarket.mapper.CommodityMapper">
+    <update id="update">
+        update commodity
+        <set>
+            <if test="name != null">
+               name=#{name},
+            </if>
+            <if test="description != null">
+                description=#{description},
+            </if>
+            <if test="publisher != null">
+                publisher=#{publisher},
+            </if>
+            <if test="type != null">
+                type=#{type},
+            </if>
+            <if test="price != null">
+                price=#{price},
+            </if>
+            <if test="stock != null">
+                stock=#{stock}
+            </if>
+            <if test="imageUrl1 != null">
+                image_url=#{imageUrl1}
+            </if>
+            <if test="imageUrl2 != null">
+                image_url2=#{imageUrl2}
+            </if>
+            <if test="imageUrl3 != null">
+                image_url3=#{imageUrl3}
+            </if>
+            <if test="imageUrl4 != null">
+                image_url4=#{imageUrl4}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <select id="getCommodityByUserIdAndName" resultType="com.mymarket.pojo.Commodity">
+        select * from commodity
+            <where>
+                 <if test="userId != null">
+                     publisher = #{userId}
+                 </if>
+                 <if test="commodityName != null and commodityName != ''">
+                     and name like concat('%',#{commodityName},'%')
+                 </if>
+            </where>
+    </select>
+</mapper>
