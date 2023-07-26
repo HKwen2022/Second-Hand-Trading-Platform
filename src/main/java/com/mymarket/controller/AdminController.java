@@ -5,21 +5,19 @@ import com.mymarket.pojo.Result;
 import com.mymarket.pojo.User;
 import com.mymarket.service.AdminService;
 import com.mymarket.service.UserService;
+import com.mymarket.utils.JwtUtils;
+import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 public class AdminController {
     public final AdminService adminService;
     public AdminController(AdminService adminService){this.adminService = adminService;}
-    @PostMapping("/admin/login")
-    public Result login(String name, String password){
-        Admin admin = adminService.login(name,password);
-        if(admin != null) return Result.success(admin);
-        else return Result.error("用户名或密码错误！");
-    }
     @PostMapping("/admin/register")
     public Result register(@RequestBody Admin admin){
         adminService.register(admin);
@@ -28,6 +26,13 @@ public class AdminController {
     @PostMapping("/admin")
     public Result addUser(@RequestBody User user){
         adminService.addUser(user);
+        return Result.success();
+    }
+    @PutMapping("/admin/update")
+    public Result update(HttpServletRequest request, @RequestBody Admin admin){
+        Claims claims = JwtUtils.parseJwt(request.getHeader("token"));
+        if(!Objects.equals(admin.getId(), claims.get("id", Integer.class))) return Result.error("id不匹配！");
+        adminService.update(admin);
         return Result.success();
     }
     @PutMapping("/admin")

@@ -18,12 +18,13 @@ public class AdminService {
         this.adminMapper = adminMapper;
     }
 
-    public Admin login(String name, String password){
-        return adminMapper.getByAdminNameAndPassword(name, password);
+    public Admin login(Admin admin){
+        return adminMapper.getByAdminNameAndPassword(admin);
     }
     public void register(Admin admin) {
         adminMapper.register(admin);
     }
+    public void update(Admin admin){adminMapper.update(admin);}
     public void addUser(User user) {
         adminMapper.addUser(user);
     }
