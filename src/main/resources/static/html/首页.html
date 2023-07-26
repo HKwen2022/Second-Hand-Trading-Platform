@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src='https://www.w3schools.cn/fonts/kit/a076d05399.js'></script>
+
+    <link rel="stylesheet" href="../css/首页.css">
+</head>
+<body>
+<!--顶部下拉出现的状态栏-->
+<div class="header1">
+    <div class="search-container">
+        <form style="background-color:#DCE2F1">
+            <input type="text1" placeholder="搜索你想要的商品" style="width:400px;height: 30px">
+            <input type="submit1" value="搜索" style="height: 30px;width: 100px">
+        </form>
+    </div>
+</div>
+<div class="header2">
+    <li class="headercolumn"style="list-style: none;margin-left: 10px">
+        <p class='fas fa-book-open' style="height: 20px;margin-left: 10px;font-size: 25px;background-color: white">  闲置书籍</p>
+    </li>
+    <li class="headercolumn"style="list-style: none;margin-left: 10px">
+        <p class='fas fa-desktop' style="height: 20px;margin-left: 10px;font-size: 25px;background-color: white">  数码电子</p>
+    </li>
+    <li class="headercolumn"style="list-style: none;margin-left: 10px">
+        <p class='fas fa-tshirt' style="height: 20px;margin-left: 10px;font-size: 25px;background-color: white">  鞋服配饰</p>
+    </li>
+    <li class="headercolumn"style="list-style: none;margin-left: 10px">
+        <p class='fas fa-hamburger' style="height: 20px;margin-left: 10px;font-size: 25px;background-color: white">  水果零食</p>
+    </li>
+    <li class="headercolumn"style="list-style: none;margin-left: 10px">
+        <p class='fas fa-car' style="height: 20px;margin-left: 10px;font-size: 25px;background-color: white">  出行交通</p>
+    </li>
+    <li class="headercolumn"style="list-style: none;margin-left: 10px">
+        <p class='fas fa-user-alt' style="height: 20px;margin-left: 10px;font-size: 25px;background-color: white">  其他闲置</p>
+    </li>
+</div>
+<!--右下方状态栏-->
+<div class="goTop_huidaodingbu">
+    <p style="border:0.5px solid black;margin: 0; background-color: white; display: flex; justify-content: center; align-items: center; height: 100%; border-radius: 50%; text-align: center; flex-direction: column;">
+        <span style="line-height: 1; font-size: 20px;background-color: white">回到</span>
+        <span style="line-height: 1; font-size: 20px;background-color: white">顶部</span>
+    </p>
+</div>
+
+
+<script>
+    var header = document.querySelector('.header1');
+    var header2 = document.querySelector('.header2');
+    var goTop=document.querySelector('.goTop_huidaodingbu');
+    window.addEventListener('scroll', function() {
+        var height = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        if (height >= 600&&height<=2100) {
+            header.style.top = '0px';
+            goTop.style.display = 'block';
+        }
+        else if(height>2100)
+        {
+            header.style.top = '0px';
+            header2.style.top='60px';
+            goTop.style.display = 'block';
+        }
+        else {
+            header.style.top = '-60px';
+            header2.style.top='-200px';
+            goTop.style.display = 'none';
+        }
+    });
+    goTop.addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+</script>
+<!--标题-->
+</div>
+<div class="header" style="border: 0.25px solid black">
+    <td><img src="../image/标题.jpg" width="600" height="120" style="margin-left: auto;"></a></td>
+</div>
+<div class="topnav" >
+    <div class="top hover-opacity" style="display: flex; align-items: center;">
+        <a style="color: inherit; display: inline-block; background-color: white" href="../html/个人中心.html" target="_top">
+            <i class="fas fa-user-alt white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 25px; margin-top: 10px;margin-bottom: 10px">
+            <p style="padding: 5px; text-align: center; font-size: 25px; background-color: white; margin: 0;">个人主页</p></i>
+        </a>
+    </div>
+    <div class="top hover-opacity" style="display: flex; align-items: center;">
+        <a style="color: inherit; display: inline-block; background-color: white" href="../html/个人中心.html" target="_top">
+            <i class="fas fa-wallet white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 25px; margin-top: 10px;margin-bottom: 10px">
+            <p style="padding: 5px; text-align: center; font-size: 25px; background-color: white; margin: 0;">我卖出的</p></i>
+        </a>
+    </div>
+    <div class="top hover-opacity" style="display: flex; align-items: center;">
+        <a style="color: inherit; display: inline-block; background-color: white" href="../html/个人中心.html" target="_top">
+            <i class="fas fa-shopping-bag white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 25px; margin-top: 10px;margin-bottom: 10px">
+                <p style="padding: 5px; text-align: center; font-size: 25px; background-color: white; margin: 0;">我买入的</p></i>
+        </a>
+    </div>
+    <div class="top hover-opacity" style="display: flex; align-items: center;">
+        <a style="color: inherit; display: inline-block; background-color: white" href="../html/个人中心.html" target="_top">
+            <i class="far fa-star white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 25px; margin-top: 10px;margin-bottom: 10px">
+                <p style="padding: 5px; text-align: center; font-size: 25px; background-color: white; margin: 0;">我的收藏</p></i>
+        </a>
+    </div>
+    <div class="top hover-opacity" style="display: flex; align-items: center;">
+        <a style="color: inherit; display: inline-block; background-color: white" href="../html/登录.html" target="_top">
+            <i class="fas fa-book white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 25px; margin-top: 10px;margin-bottom: 10px">
+                <p style="padding: 5px; text-align: center; font-size: 25px; background-color: white; margin: 0;">登录注册</p></i>
+        </a>
+    </div>
+</div>
+<!--搜索框-->
+<div class="search-container" >
+    <form >
+        <input type="text" placeholder="搜索你想要的商品" style="width:400px;height: 40px;color:black">
+        <input type="submit" value="搜索" style="height: 40px;width: 100px;background-color:#DCE2F1;color:black;">
+        <i class="fa fa-search " style="font-size: 25px;margin-left:20px;margin-top: 10px"></i>
+    </form>
+</div>
+
+<div class="row">
+    <div class="leftcolumn">
+        <div class="card">
+            <div class="banner">
+                <ul class="img">
+                    <li class="active"><img src="https://imgcps.jd.com/ling-cubic/ling4/lab/amZzL3QxLzE3MTI1My8xOC8xMjE2MS81NjI2My82MDRiNTE3MkU1N2I1MzkwOS8wMDU5MDI1Mzg5MjM5Y2Q4LnBuZw/5Lqs6YCJ5aW96LSn/5L2g5YC85b6X5oul5pyJ/1635187874214178818/cr/s/q.jpg"></li>
+                    <li><img src="https://imgcps.jd.com/ling-cubic/ling4/lab/amZzL3QxLzc5NjAyLzI3LzE5Mjk0LzkwMDY3LzYzZWE0YzlmRmVkZTNmYjYyLzg3YTYwM2JlZmVmYzE5MzYucG5n/5Lqs6YCJ5aW96LSn/5L2g5YC85b6X5oul5pyJ/1635187706996019201/cr/s/q.jpg"></li>
+                    <li><img src="https://imgcps.jd.com/img-cubic/creative_server_cia_jdcloud/v2/2000367/10068025063677/FocusFullshop/CkJqZnMvdDEvOTU5NTUvMi8zMzk4MC8zMDcyMTcvNjRiM2NkNzBGOTU5NTQzNmIvNmFkNzBlMWY0Nzg5MjNhMy5wbmcSCTQtdHlfMF81NTACOO-LekITCg_lsI_luqblrabkuaDmnLoQAUIRCg3np5LmnYDku7czODk5EAJCEAoM56uL5Y2z5oqi6LStEAZCCgoG57K-6YCJEAdY_fG6qIKlAg/cr/s/q.jpg"></li>
+                    <li><img src="../image/TV.png" alt=""></li>
+                    <li><img src="../image/tilamisu.png" alt=""></li>
+                </ul>
+                <ol>
+                    <li data-name="point" class="active"></li>
+                    <li data-name="point"></li>
+                    <li data-name="point"></li>
+                    <li data-name="point"></li>
+                    <li data-name="point"></li>
+                </ol>
+                <div class="left"><</div>
+                <div class="right">></div>
+            </div>
+            <script>
+                var imgs=document.querySelectorAll('ul>li');
+                var points=document.querySelectorAll('ol>li');
+                var leftBtn = document.querySelector('.left');
+                var rightBtn = document.querySelector('.right');
+                var index=0;
+                function changeOne(type){
+                    imgs[index].className='';
+                    points[index].className='';
+                    if(type===true){
+                        index++;
+                    }
+                    else if(type===false){
+                        index--;
+                    }
+                    else{
+                        index=type;
+                    }
+                    if(index>=imgs.length)
+                    {
+                        index=0;
+                    }
+                    if(index<0){
+                        index=imgs.length-1;
+                    }
+                    imgs[index].className='active';
+                    points[index].className='active';
+
+                }
+                leftBtn.addEventListener('click', function() {
+                    changeOne(false);
+                });
+
+                rightBtn.addEventListener('click', function() {
+                    changeOne(true);
+                });
+                points.forEach(function(point, i) {
+                    point.addEventListener('click', function() {
+                        changeOne(i);
+                    });
+                });
+                setInterval(function () {
+                    changeOne(true);
+
+                },5000)
+
+            </script>
+
+    </div>
+    </div>
+
+    <div class="rightcolumn" style="background-color: #eee">
+        <div class="card" style="height: 680px" >
+            <h2 style="text-align: center;margin-top: -10px;font-size: 35px;background-color: white">个人中心</h2>
+            <div  style="height:250px; margin-top: -30px"><img src="../image/用户头像.jpg" style="height: 250px"></div>
+            <p style="font-size: 25px;background-color: white;text-align: center">您还未登录，请先<a style="background-color: white" href="http://www.w3school.com.cn/" target="_blank">登录</a></p>
+            <div class="gerenzhongxin hover-opacity">
+                <i class="far fa-star white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 35px; margin-top: 20px;"></i>
+                <p style=" text-align: center; font-size: 25px;background-color: white">我的收藏</p>
+            </div>
+            <div class="gerenzhongxin hover-opacity">
+                <i class="fas fa-wallet white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 35px; margin-top: 20px;"></i>
+                <p style=" text-align: center; font-size: 25px;background-color: white">我卖出的</p>
+            </div>
+            <div class="gerenzhongxin hover-opacity">
+                <i class="fas fa-shopping-bag white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 35px; margin-top: 20px;"></i>
+                <p style=" text-align: center; font-size: 25px;background-color: white">我买入的</p>
+            </div>
+            <div class="gerenzhongxin hover-opacity">
+                <i class="far fa-clock white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 35px; margin-top: 20px;"></i>
+                <p style=" text-align: center; font-size: 25px;background-color: white">浏览历史</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card" style="background-color: #eee">
+    <h2 style="text-align: center;font-size: 35px">
+        <i class='fas fa-broadcast-tower'></i>
+        <span style="margin-left: 5px">频道广场</span>
+    </h2>
+    <div class="clearfix">
+        <div class="pindaoguangchang" style="background-color:#fff;height: 400px">
+            <img src="https://img11.360buyimg.com/n7/jfs/t1/220122/21/30976/61607/649186f3F885f8300/119a849d55ed3f42.jpg" class="image-opacity">
+        </div>
+        <div class="pindaoguangchang" style="background-color:#fff;height: 400px">
+            <img class="image-opacity" src="https://img12.360buyimg.com/img/s200x200_jfs/t1/132423/19/11570/85912/5f7c02faEc94e78cc/9019924011bff0ed.jpg!cc_100x100.webp">
+        </div>
+        <div class="pindaoguangchang" style="background-color:#fff;height: 400px">
+            <div class="two-rows" >
+                <div style="background-color: #fff;height: 195px">
+                    <div style="background-color: #fff "><b style="font-size: 25px;background-color: white;padding-left: 30px">优选好书</b></div>
+                    <div class="lefts" style="height:83%"><img class="image-opacity" src="https://img13.360buyimg.com/n7/jfs/t1/89544/24/29627/46320/630f6c74Efb5873cd/5665b22f96676dbd.jpg"> </div>
+                    <div class="lefts" style="height:83%"><img class="image-opacity" src="https://img11.360buyimg.com/n7/jfs/t1/178936/9/29373/27831/636e74a1E60c4bc28/c6ac6914919bc412.jpg"> </div>
+                </div>
+                <div style="background-color: #fff;height: 195px;margin-top: 10px">
+                    <div style="background-color: #fff"><b style="font-size: 25px;background-color: white;padding-left: 30px">精选美食</b></div>
+                    <div class="lefts" style="height:83%"><img class="image-opacity" src="https://img11.360buyimg.com/n7/jfs/t1/89194/39/38449/141778/64b0dfa5F131d02c4/6371a6b5dc387bd2.jpg"></div>
+                    <div class="lefts" style="height:83%"><img class="image-opacity" src="https://img13.360buyimg.com/n7/jfs/t1/134500/4/32826/84885/64b0d89dF71d04d50/3d79e1b9a4c11b00.jpg"></div>
+                </div>
+            </div>
+        </div>
+        <div class="pindaoguangchang" style="background-color:#fff;height: 400px">
+            <div class="two-rows" >
+                <div style="background-color: #fff;height: 195px">
+                    <div style="background-color: #fff"><b style="font-size: 25px;background-color: white;padding-left: 30px">时尚潮品</b></div>
+                    <div class="lefts" style="height:83%"><img class="image-opacity" src="https://img10.360buyimg.com/n7/jfs/t1/107699/12/25383/72348/62273099E73c957b6/585b0a414a8c5367.jpg"></div>
+                    <div class="lefts" style="height:83%"><img class="image-opacity" src="https://img12.360buyimg.com/n7/jfs/t1/92438/22/25278/26752/64548440Ff151a95c/7ab7b4d4d8eec9e8.jpg"></div>
+                </div>
+                <div style="background-color: #fff;height: 195px;margin-top: 10px">
+                    <div style="background-color: #fff"><b style="font-size: 25px;background-color: white;padding-left: 30px">家居百宝</b></div>
+                    <div class="lefts" style="height:83%"><img class="image-opacity" src="https://img11.360buyimg.com/n7/jfs/t1/98687/7/41843/37330/649cf8e7Fb5eaf8f1/6d517ef6957aa49a.jpg"></div>
+                    <div class="lefts" style="height:83%"><img class="image-opacity" src="https://img13.360buyimg.com/n7/jfs/t1/81773/19/24811/31349/63fd94c8Feac99aeb/cbda8a097db49c1b.jpg"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--    下面的推荐栏-->
+    <div class="clearfix" >
+        <div class="pindaoguangchang" style="background-color:#fff;height: 200px;margin-top: 0.15px">
+            <div style="background-color: #fff;height: 195px">
+                <div style="background-color: #fff"><b style="font-size: 25px;background-color: white;padding-left: 30px">数码科技</b></div>
+                <div class="lefts" style="height:83%"><img class="image-opacity" src="https://img10.360buyimg.com/n7/jfs/t1/38409/12/21147/61769/64a3ead6F32c424e2/86b0fa42a3019743.jpg"></div>
+                <div class="lefts" style="height:83%"><img class="image-opacity" src="https://img12.360buyimg.com/n7/jfs/t1/115463/32/29005/58994/6375df00Ed19eaf16/4e80519248247962.jpg"></div>
+            </div>
+        </div>
+        <div class="pindaoguangchang" style="background-color:#fff;height: 200px;margin-top: 0.15px">
+            <div style="background-color: #fff;height: 195px">
+                <div style="background-color: #fff"><b style="font-size: 25px;background-color: white;padding-left: 30px">运动健身</b></div>
+                <div class="lefts" style="height:83%"><img class="image-opacity" src="https://img12.360buyimg.com/n7/jfs/t1/200110/17/37858/98474/649264f5F7c106fb4/c385c38c96c76202.jpg"></div>
+                <div class="lefts" style="height:83%"><img class="image-opacity" src="https://img10.360buyimg.com/n2/jfs/t1/113613/10/23765/106738/62550c62E9c2c2268/9b382ad740705ea4.jpg"></div>
+            </div>
+        </div>
+        <div class="pindaoguangchang" style="background-color:#fff;height: 200px;margin-top: 0.15px">
+            <div style="background-color: #fff;height: 195px">
+                <div style="background-color: #fff"><b style="font-size: 25px;background-color: white;padding-left: 30px">美容护肤</b></div>
+                <div class="lefts" style="height:83%"><img class="image-opacity" src="https://img12.360buyimg.com/n1/s190x190_jfs/t1/89049/10/42336/70351/64b0d1f8F33a9b53d/a24b91ef11f1599a.jpg"></div>
+                <div class="lefts" style="height:83%"><img class="image-opacity" src="https://img14.360buyimg.com/n7/jfs/t1/150796/32/27746/140814/64afd99cF0bae3268/8c2e5fca27a33a96.jpg"></div>
+            </div>
+        </div>
+        <div class="pindaoguangchang" style="background-color:#fff;height: 200px;margin-top: 0.15px">
+            <div style="background-color: #fff;height: 195px">
+                <div style="background-color: #fff"><b style="font-size: 25px;background-color: white;padding-left: 30px">游戏娱乐</b></div>
+                <div class="lefts" style="height:83%"><img class="image-opacity" src="https://img13.360buyimg.com/n7/jfs/t1/148213/23/20797/143438/61dbea6bE1eab539b/49ac79be7a4602cd.jpg"></div>
+                <div class="lefts" style="height:83%"><img class="image-opacity" src="https://img13.360buyimg.com/n7/jfs/t1/176440/25/1535/208834/60667270E48b279ec/b47cb82144f08aea.jpg"></div>
+            </div>
+        </div>
+</div>
+<h2 style="text-align: center;font-size: 35px;margin-top: 100px" >
+    <i class='fas fa-award'></i>
+    <span style="margin-left: 5px">好物推荐</span>
+    </h2>
+<div class="box">
+    <ul>
+        <li class="active">
+            <i class='fas fa-book-open'></i>
+            <p style="margin-left: 5px;background-color: white">闲置书籍</p>
+        </li>
+        <li>
+            <i class='fas fa-desktop'></i>
+            <p style="margin-left: 5px;background-color: white">数码电子</p>
+        </li>
+        <li>
+            <i class='fas fa-tshirt'></i>
+            <p style="margin-left: 5px;background-color: white">鞋服配饰</p>
+        </li>
+        <li>
+            <i class='fas fa-hamburger'></i>
+            <p style="margin-left: 5px;background-color: white">水果零食</p>
+        </li>
+        <li>
+            <i class='fas fa-car'></i>
+            <p style="margin-left: 5px;background-color: white">出行交通</p>
+        </li>
+        <li><i class='fas fa-user-alt'></i>
+            <p style="margin-left: 5px;background-color: white">其他闲置</p>
+        </li>
+    </ul>
+    <ol>
+<!--        每个li是一个内容页，每个div是一件商品-->
+        <li style="background-color: #eee;height:3000px" >
+            <table style="position: static;background-color: white;margin-top: -1770px">
+                <!--                <tr style="margin-left: -630px;position: absolute;margin-top: -150px">-->
+                <tr style="height: 200px">
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 200px">
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 200px">
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 200px">
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+
+                </tr>
+
+            </table>
+        </li>
+        <li style="background-color: #eee;height:3000px" >
+            <table style="position: static;background-color: white;margin-top: -1770px">
+<!--                <tr style="margin-left: -630px;position: absolute;margin-top: -150px">-->
+                <tr style="height: 200px">
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 200px">
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 200px">
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 200px">
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+                    <td style="width: 250px;background-color: white">
+                        <img class="image-opacity" src="https://img11.360buyimg.com/n1/s200x200_jfs/t1/131334/12/22004/54719/61de8e94Ec449ed96/2b8eba73981d5984.jpg" style="width: 160px;height: 220px;margin-left: auto;margin-right: auto" alt="" >
+                        <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >工程数学 线性代数 第七
+                            <div class="text image-opacity" style="color:black;font-size: 20px;text-align: left;background-color: white" >商品编号：123
+                            </div>
+                        </div>
+                        <div class="text" style="color:red;font-size: 25px;text-align: left;background-color: white" >￥79.9
+                        </div>
+                    </td>
+
+                </tr>
+
+            </table>
+        </li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+    </ol>
+</div>
+<script>
+    var btns = document.querySelectorAll('ul > li');
+    var tabs = document.querySelectorAll('ol > li');
+    btns.forEach(function(item, index) {
+        item.onclick = function() {
+            btns.forEach(function(t, i) {
+                t.classList.remove('active');
+                tabs[i].classList.remove('active');
+            });
+            item.classList.add('active');
+            tabs[index].classList.add('active');
+        };
+    });
+
+</script>
+<div class="footer">
+        <div class="bottom-box" style="background-color: #eee">
+            <p style="background-color: #eee">2023-2025 @ 版权所有  大学生二手交易网CCGHH </p>
+        </div>
+</div>
+</div>
+</body>
+</html>

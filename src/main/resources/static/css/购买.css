@@ -14,7 +14,8 @@ ul {
 }
 
 /* 数量加减按钮 */
-amount a{
+.amount a
+{
     display: block;
     width: 30px;
     height: 30px;
@@ -24,27 +25,18 @@ amount a{
     border: 1px solid #ccc;
     box-sizing: border-box;
 }
-amount a.Increase{
-    border-right: none;
-    float: left;
-}
-amount a.Reduce{
-    border-left: none;
-    float: left;
-}
-
 
 li {
     float: left;
 }
-li a {
+li a
+{
     display: block;
     color: black;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
-
 
 #rcorners {
     border-radius: 100%;

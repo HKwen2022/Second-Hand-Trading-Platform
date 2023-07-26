@@ -303,7 +303,7 @@
     var urlParams = new URLSearchParams(window.location.search);
     var source = urlParams.get('source');
 
-    //alert(source);
+    alert(source);
      if (source === 'A') {
          // 从商品详情界面进入的操作
          var id = urlParams.get('id');
@@ -342,19 +342,111 @@
          newRow.appendChild(priceCell);
 
          var quantityCell = document.createElement('td');
-         quantityCell.innerHTML = '<div class="amount"><a href="#" class="Increase">+</a><input type="text" value=1 class="unum"><a href="#" class="Reduce">-</a></div>';
+         quantityCell.innerHTML = '<div class="amount"> <a href="#" class="Reduce">-</a> <input  style="width: 22px" type="text" value="1" class="unum"> <a href="#" class="Increase">+</a> </div>';
          newRow.appendChild(quantityCell);
 
          var subTotalCell = document.createElement('td');
-         subTotalCell.innerHTML = '<b>129</b>'
+         subTotalCell.innerHTML = '<b id="u_price">'+price+'</b>'
          newRow.appendChild(subTotalCell);
+
+         var reduceButton = quantityCell.querySelector(".Reduce");
+         var addButton = quantityCell.querySelector(".Increase");
+         var inputButton = quantityCell.querySelector(".unum");
+         reduceButton.addEventListener('click', function(){
+             event.preventDefault();
+             // 获取对应的父节点
+             var amount = this.parentNode;
+             // 获取文本框
+             var input = amount.querySelector(".unum");
+             // 获取文本框中的数量
+             var num = input.value;
+             if(num > 1){
+                 num--;
+             }
+             // 修改文本框的值
+             input.value=num;
+
+             var count = document.getElementById("u_price");
+
+             count.innerHTML=num * price;
+
+             //alert(count.innerHTML);
+
+             var hhh = parseInt(count.innerHTML);
+
+             var totalPriceV=document.getElementById("pro_price");
+             totalPriceV.innerHTML=hhh;
+
+             var totalNumberV=document.getElementById("pro_count");
+             totalNumberV.innerHTML=num;
+
+             var payPriceV=document.getElementById("pay_price");
+             payPriceV.innerHTML=hhh;
+         });
+
+         addButton.addEventListener('click', function(){
+             event.preventDefault();
+             // 获取对应的父节点
+             var amount = this.parentNode;
+             // 获取文本框
+             var input = amount.querySelector(".unum");
+             // 获取文本框中的数量
+             var num = input.value;
+             num++;
+             // 修改文本框的值
+             input.value=num;
+
+             var count = document.getElementById("u_price");
+
+             count.innerHTML=num * price;
+
+             //alert(count.innerHTML);
+
+             var hhh = parseInt(count.innerHTML);
+
+             var totalPriceV=document.getElementById("pro_price");
+             totalPriceV.innerHTML=hhh;
+
+             var totalNumberV=document.getElementById("pro_count");
+             totalNumberV.innerHTML=num;
+
+             var payPriceV=document.getElementById("pay_price");
+             payPriceV.innerHTML=hhh;
+         });
+
+         inputButton.onblur = function(){
+             // 防止出现负数
+             if(this.value < 1){
+                 this.value = 1;
+             }
+             // 防止输入小数或其它字符
+             this.value = parseInt(this.value);
+             alert(this.value);
+             var count = document.getElementById("u_price");
+
+             count.innerHTML=this.value * price;
+
+             alert(count.innerHTML);
+
+             var hhh = parseInt(count.innerHTML);
+
+             var totalPriceV=document.getElementById("pro_price");
+             totalPriceV.innerHTML=hhh;
+
+             var totalNumberV=document.getElementById("pro_count");
+             totalNumberV.innerHTML=this.value;
+
+             var payPriceV=document.getElementById("pay_price");
+             payPriceV.innerHTML=hhh;
+
+         }
 
          document.getElementById('tableBody').appendChild(newRow);
     }
+
      else if (source === 'B')
      {
          // 从购物车界面进入的操作
-
          var tableData = JSON.parse(decodeURIComponent(urlParams.get('data')));
 
          // 填充数据到页面中
@@ -405,7 +497,6 @@
 
      }
 
-
      function getAllInformation()
      {
          alert("00");
@@ -446,34 +537,71 @@
          //从商品详情界面进入的操作
          if(source==='A')
          {
-             var id = urlParams.get('id');//商品编号
-             var price = urlParams.get('price');//价格
+             // var idV = urlParams.get('id');//商品编号
+             // var priceV = urlParams.get('price');//价格
+
+             var idV = urlParams.get('id');
+             var priceV = urlParams.get('price');
 
              //地址
-             var province = document.getElementById('province-select').value;
-             var city = document.getElementById('city-select').value;
-             var district = document.getElementById('district-select').value;
-             var detailedAddress = document.getElementById('detailAddress').value;
+             var provinceV = document.getElementById('province-select').value;
+             var cityV = document.getElementById('city-select').value;
+             var districtV = document.getElementById('district-select').value;
+             var detailedAddressV = document.getElementById('detailAddress').value;
 
              //发货日期
-             var deliveryDate = document.getElementById('year').value + '-' + document.getElementById('month').value + '-' + document.getElementById('day').value;
+             var deliveryDateV = document.getElementById('year').value + '-' + document.getElementById('month').value + '-' + document.getElementById('day').value;
 
              // 获取商品数量
-             var num = document.querySelector(".unum").value;
+             var numV = document.querySelector(".unum").value;
 
              //下单日期
-
-             //发货地址
+             //id
+             //uid
 
              var xhttp = new XMLHttpRequest();
+             alert(idV+priceV+provinceV+cityV+districtV+detailedAddressV+deliveryDateV+numV);
 
-
-             var obj = JSON.stringify({"name":usernameV.value,"email":emailV.value,"phone":telephoneV.value,"password":passwordV.value,"imageUrl":"null"});
+             var obj = JSON.stringify({"cid":idV,"price":priceV,"number":numV,"deliveryAddress":provinceV+cityV+districtV+detailedAddressV,"deliverDate":deliveryDateV,"shippingAddress":"厦门市厦门大学翔安校区"});
+             //alert(obj);
              xhttp.open("POST", "../admin/register", true);
              xhttp.setRequestHeader('Content-Type', 'application/json');
              xhttp.send(obj);
-             window.open("/html/register_scuess.html");
+             //window.open("/html/register_scuess.html");
 
+         }
+
+         else if(source==='B')
+         {
+             // 从购物车界面进入的操作
+             var tableData = JSON.parse(decodeURIComponent(urlParams.get('data')));
+
+             for (var i = 0; i < tableData.length; i++) {
+                 var rowData = tableData[i];
+
+                 //地址
+                 var province = document.getElementById('province-select').value;
+                 var city = document.getElementById('city-select').value;
+                 var district = document.getElementById('district-select').value;
+                 var detailedAddress = document.getElementById('detailAddress').value;
+
+                 //发货日期
+                 var deliveryDate = document.getElementById('year').value + '-' + document.getElementById('month').value + '-' + document.getElementById('day').value;
+
+                 //下单日期
+                 //id
+                 //uid
+
+                 var http = new XMLHttpRequest();
+
+                 var obj1 = JSON.stringify({"cid":rowData.id,"price":rowData.price,"number":rowData.quantity,"deliveryAddress":province+city+district+detailedAddress,"deliverDate":deliveryDate,"shippingAddress":"厦门市厦门大学翔安校区"});
+                 //var hhh1=JSON.parse(obj1);
+                 alert(obj1);
+                 http.open("POST", "../admin/register", true);
+                 http.setRequestHeader('Content-Type', 'application/json');
+                 http.send(obj1);
+                 //window.open("/html/register_scuess.html");
+             }
          }
      }
 

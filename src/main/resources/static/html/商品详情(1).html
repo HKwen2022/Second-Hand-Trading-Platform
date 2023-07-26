@@ -30,10 +30,10 @@
                 <img class="big" id="image" src="../image/tilamisu.png">
                 <div class="a11">
                     <ul>
-                        <li style="margin-left: 50px"><img src="../image/tilamisu.png"></li>
-                        <li><img id="image1" src="../image/TV.png"></li>
-                        <li><img src="../image/tilamisu.png"></li>
-                        <li><img src="../image/tilamisu.png"></li>
+                        <li style="margin-left: 50px"><img id="image1" src="../image/tilamisu.png"></li>
+                        <li><img id="image2" src="../image/TV.png"></li>
+                        <li><img id="image3" src="../image/tilamisu.png"></li>
+                        <li><img id="image4" src="../image/tilamisu.png"></li>
                     </ul>
                 </div>
                 <div class="arrows">
@@ -129,6 +129,53 @@
 </div>
 <script>
     //window.onload=ensureAddShoppingCarts;
+    // 获取URL参数
+    var urlParams = new URLSearchParams(window.location.search);
+
+    // 获取参数中的信息
+    //获得ID，将ID发给后端得到全部信息
+    var productId = urlParams.get('id');
+
+    document.getElementById('id').innerHTML = productId;
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "../commodity?id=1&name=name", true);
+    //xhttp.setRequestHeader('Content-Type', 'application/json');
+    xhttp.send();
+
+    var ima=document.getElementById('image');
+    var ima1=document.getElementById('image1');
+    var ima2=document.getElementById('image2');
+    var ima3=document.getElementById('image3');
+    var ima4=document.getElementById('image4');
+    var nameV=document.getElementById('name');
+    var priceV=document.getElementById('price');
+    var descriptionV=document.getElementById('description');
+    var publisherV=document.getElementById('publisher');
+    var typeV=document.getElementById('type');
+    var stockV=document.getElementById('stock');
+
+    xhttp.onreadystatechange = function()
+    {
+        if (this.readyState == 4 && this.status == 200)
+        {
+            var myObj = JSON.parse(this.responseText);
+            var data = myObj.data;
+            ima.src=data.imageUrl1;
+            ima1.src=data.imageUrl1;
+            ima2.src=data.imageUrl2;
+            ima3.src=data.imageUrl3;
+            ima4.src=data.imageUrl4;
+
+            nameV.innerHTML=data.name;
+            priceV.innerHTML=data.price;
+            descriptionV.innerHTML=data.description;
+            publisherV.innerHTML=data.publisher;
+            typeV.innerHTML=data.type;
+            stockV.innerHTML=data.stock;
+        }
+    }
+
     function ensureBuy()
     {
         var imageV = document.getElementById("image");

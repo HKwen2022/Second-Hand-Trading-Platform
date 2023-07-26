@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.cn/cdnjs/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/个人中心(1).css">
+    <script src='https://www.w3schools.cn/fonts/kit/a076d05399.js'></script>
+</head>
+<body style="height: 1200px;background-color: #eee">
+
+<ul>
+    <li><a class="active" href="#home" style="margin-right: 80px"><h1>我的商城</h1></a></li>
+    <li><a href="#news" style="margin-top: 40px;margin-right: 30px">首页</a></li>
+    <li><a href="#contact" style="margin-top: 40px;margin-right: 30px">账户设置</a></li>
+    <li><a href="#about" style="margin-top: 40px;margin-right: 150px">关于</a></li>
+    <input  id ="rcorners1" type="search" style="margin-top: 43px;margin-right: 10px;height: 35px">
+    <i class="fa fa-search" style="font-size: 34px"></i>
+</ul>
+<br>
+<br>
+<!--左列-->
+<div class="leftcolumn" style="background-color: #eee">
+    <div class="dingdanzhongxin" style="padding-top: 20px;padding-left:50px;width:150px;margin-left:90px;background-color: white">
+        <b style="font-size: 25px">订单中心</b>
+        <p class="hover-opacity" style="font-size: 20px">我的订单</p>
+        <p class="hover-opacity"style="font-size: 20px">我的评价</p>
+    </div>
+    <div class="wodeqianbao" style="padding-top: 20px;padding-left:50px;width:150px;margin-left:90px;background-color: white">
+        <b style="font-size: 25px">我的钱包</b>
+        <p class="hover-opacity" style="font-size: 20px">余额</p>
+        <p class="hover-opacity" style="font-size: 20px">优惠券</p>
+        <p class="hover-opacity" style="font-size: 20px">支出详情</p>
+        <p class="hover-opacity" style="font-size: 20px">收款详情</p>
+    </div>
+    <div class="wodeguanzhu" style="padding-top: 20px;padding-left:50px;width:150px;margin-left:90px;background-color: white">
+        <b style="font-size: 25px">我的关注</b>
+        <p class="hover-opacity" style="font-size: 20px">关注商品</p>
+        <p class="hover-opacity" style="font-size: 20px">关注卖家</p>
+        <p class="hover-opacity" style="font-size: 20px">关注好友</p>
+    </div>
+    <div class="kefufuwu" style="padding-top: 20px;padding-left:50px;width:150px;margin-left:90px;background-color: white">
+        <b style="font-size: 25px">客服服务</b>
+        <p class="hover-opacity" style="font-size: 20px">我要退货</p>
+        <p class="hover-opacity" style="font-size: 20px">物流查询</p>
+        <p class="hover-opacity" style="font-size: 20px">商品咨询</p>
+        <p class="hover-opacity" style="font-size: 20px">优惠活动</p>
+        <p class="hover-opacity" style="font-size: 20px">联系客服</p>
+    </div>
+</div>
+<!--右列-->
+<div class="rightcolumn" style="height: 250px; background-color: white; margin-left: 20px; display: flex; align-items: flex-start;">
+    <img id="selected-avatar1" style="width: 25%; height: 100%;margin: 0" src="../image/用户头像.jpg">
+    <div style="display: flex; flex-direction: column; justify-content: flex-start; margin-left: 10px;">
+        <b style="padding-left:10px;font-size: 35px;">个人信息    <a href="#" style="font-size: 20px" onclick="toggleModifyInfo()">修改</a></b>
+        <div style="display: flex;margin-top: 20px;margin-left: 10px">
+            <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;">我的账号:
+            <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;">1234567</p>
+            </p>
+            <p style="margin-left: 50px;margin-right: 10px;font-size: 20px; flex-grow: 0;">用户名:
+            <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;" id="usernameElement">Tom</p>
+            </p>
+        </div>
+        <div style="display: flex;margin-top: 20px;margin-left: 10px">
+            <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;">我的邮箱:
+            <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;" id="emailElement">123456@email.com
+            </p>
+            </p>
+            <p style="margin-left: 50px;margin-right: 10px;font-size: 20px; flex-grow: 0;">我的电话:
+            <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;" id="phoneElement">123456
+            </p>
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<div class="modify-info" id="modifyInfo">
+    <div class="modify-info-content">
+        <!-- 填充个人信息的表单 -->
+        <h2 style="text-align: center">个人信息修改</h2>
+        <img id="selected-avatar" style="height: 160px;width: 120px;margin-left: 110px" src="../image/用户头像.jpg">
+        <br>
+        <label for="avatar-input">选择新头像: </label>
+        <input type="file" id="avatar-input" onchange="displaySelectedAvatar(event)">
+        <br>
+        <br>
+        <label for="username">用户名: </label>
+        <input type="text" id="username" value="Tom" >
+        <br>
+        <br>
+        <label for="email">我的邮箱: </label>
+        <input type="email" id="email" value="123456@email.com">
+        <br>
+        <br>
+        <label for="phone">我的电话: </label>
+        <input type="text" id="phone" value="123456">
+        <br>
+        <br>
+        <button onclick="saveChanges()" style="margin-left: 70px">保存</button>
+        <button onclick="cancelChanges()" style="margin-left: 100px">取消</button>
+    </div>
+</div>
+<div class="rightcolumn" style="margin-top: 20px;height: 250px; background-color: #eee; margin-left: 20px; display: flex; align-items: flex-start;">
+    <div style="margin-right: 10px; width: 70%; height: 100%; background-color: white">
+        <b style="padding: 40px; font-size: 25px">我的交易</b>
+        <div  style="display: flex; flex-wrap: wrap; margin-top: 30px">
+            <div  class="hover-opacity"style="height: 175px; width: 20%; margin-left: 30px">
+                <i class="fas fa-yen-sign white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 35px; margin-top: 40px;"></i>
+                <p style="text-align: center; font-size: 25px; background-color: white">我的支出</p>
+            </div>
+            <div  style="height: 175px; width: 20%; margin-left: 30px">
+                <div class="hover-opacity" style="height: 135px; width: 100%; margin: 0">
+                    <i class="fas fa-money-bill-wave-alt white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 35px; margin-top: 40px;"></i>
+                    <p style="text-align: center; font-size: 25px; background-color: white">我的收入</p>
+                </div>
+            </div>
+            <div  style="height: 175px; width: 20%; margin-left: 30px">
+                <div class="hover-opacity" style="height: 135px; width: 100%; margin: 0">
+                    <i class="fas fa-truck white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 35px; margin-top: 40px;"></i>
+                    <p style="text-align: center; font-size: 25px; background-color: white">尚未收货</p>
+                </div>
+            </div>
+            <div  style="height: 175px; width: 20%; margin-left: 30px">
+                <div class="hover-opacity"style="height: 135px; width: 100%; margin: 0">
+                    <i class="fas fa-box white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 35px; margin-top: 40px;"></i>
+                    <p style="text-align: center; font-size: 25px; background-color: white">尚未发货</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="my-product">
+                <b style="padding: 305px; font-size: 25px">我的商品</b>
+            </div>
+            <div class="box" >
+                <img src="https://img10.360buyimg.com/jdcms/s300x300_jfs/t1/140355/19/30172/106024/64659980F7b1e85ed/47e94d74069d0aa5.jpg.webp" style="width: 150px;height: 200px;margin-left: 20px">
+                <b>花战 花道大师不可思议复仇之战</b>
+            </div>
+            <div class="box">
+                <img src="https://img14.360buyimg.com/img/s200x200_jfs/t1/10768/36/3080/325222/5be2baa3Edf52b26f/05789bd3c035f8c9.jpg!cc_100x100.webp" style="width: 150px;height: 200px;margin-left: 20px">
+                <b>洋河 海之蓝 52度 480ml*2瓶</b>
+            </div>
+            <div class="box">
+                <img src="https://img30.360buyimg.com/img/s200x200_jfs/t1/152343/36/21151/236678/60434e6bEca1ae2f0/c9f2c3c2e752a7e7.jpg!cc_100x100.webp" style="width: 150px;height: 200px;margin-left: 20px">
+                <b>赛雷三分钟漫画中国史 全5册套装</b>
+            </div>
+        </div>
+        <div style="margin-top:25px;width: 100%;height:45px;background-color: white;text-align: center;padding-top: 15px;font-size: 15px">
+            2023-2025 @ 版权所有  大学生二手交易网CCGHH
+        </div>
+    </div>
+
+    <div style="margin-left:0;width: 30%;height:425px;background-color: white">
+        <b style="padding-left:30px;margin-top: 30px;font-size: 25px">我要卖货</b>
+        <div style="margin-top:10px; width: 100%; height:120px; display: flex;">
+            <div style="width: 45%; height: 100%; ">
+                <div style="height: 100%;width:100%;margin-top:-20px;padding: 0;">
+                    <div class="hover-opacity" style="height: 65px;width:100%;margin: 0">
+                        <i class="fas fa-shopping-bag white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 25px; margin-top: 40px;"></i>
+                        <p style=" text-align: center; font-size: 20px;background-color: white">商品发布</p>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-left:20px;width: 45%; height: 100%; ">
+                <div style="height: 100%;width:100%;margin-top:-20px;padding: 0;">
+                    <div class="hover-opacity" style="height: 65px;width:100%;margin: 0">
+                        <i class="fas fa-clipboard-list white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 25px; margin-top: 40px;"></i>
+                        <p style=" text-align: center; font-size: 20px;background-color: white">订单管理</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top:10px; width: 100%; height:120px; display: flex;">
+            <div style="width: 45%; height: 100%;">
+                <div style="height: 100%;width:100%;margin-top:-20px;padding: 0;">
+                    <div class="hover-opacity" style="height: 65px;width:100%;margin: 0">
+                        <i class="fas fa-box-open white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 25px; margin-top: 40px;"></i>
+                        <p style=" text-align: center; font-size: 20px;background-color: white">商品管理</p>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-left:20px;width: 45%; height: 100%; ">
+                <div style="height: 100%;width:100%;margin-top:-20px;padding: 0;">
+                    <div class="hover-opacity" style="height: 65px;width:100%;margin: 0">
+                        <i class="far fa-comments white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 25px; margin-top: 40px;"></i>
+                        <p style=" text-align: center; font-size: 20px;background-color: white">评价管理</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top:10px; width: 100%; height:120px;  display: flex;">
+            <div style="width: 45%; height: 100%; ">
+                <div style="height: 100%;width:100%;margin-top:-20px;padding: 0;">
+                    <div class="hover-opacity" style="height: 65px;width:100%;margin: 0">
+                        <i class="fas fa-wallet white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 25px; margin-top: 40px;"></i>
+                        <p style=" text-align: center; font-size: 20px;background-color: white">收入管理</p>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-left:20px;width: 45%; height: 100%;">
+                <div style="height: 100%;width:100%;margin-top:-20px;padding: 0;">
+                    <div class="hover-opacity" style="height: 65px;width:100%;margin: 0">
+                        <i class="fas fa-bullhorn white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 25px; margin-top: 40px;"></i>
+                        <p style=" text-align: center; font-size: 20px;background-color: white">促销活动</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div  style="margin-top: 15px; width: 100%; height: 325px; display: flex; flex-direction: column;background-color: white">
+            <b  style="padding-left:30px;margin-top:15px;font-size: 25px;">帮助中心</b>
+            <p  class="hover-opacity" style="padding-left:30px;margin-top:25px;font-size: 20px;"><i class="fas fa-question-circle"></i>  在线咨询</p>
+            <p  class="hover-opacity" style="padding-left:30px;margin-top:10px;font-size: 20px;"><i class="fas fa-comments"></i>  意见反馈</p>
+            <p  class="hover-opacity" style="padding-left:30px;margin-top:10px;font-size: 20px;"><i class="fas fa-question "></i> 常见问题</p>
+            <p  class="hover-opacity" style="padding-left:30px;margin-top:10px;font-size: 20px;"><i class="fas fa-users"></i>  关于我们</p>
+        </div>
+
+
+    </div>
+</div>
+<script>
+    var avatarElement = document.getElementById("selected-avatar");
+    var avatarElement1 = document.getElementById("selected-avatar1");
+    var username = document.getElementById("username").value;
+    var email = document.getElementById("email").value;
+    var phone = document.getElementById("phone").value;
+    var usernameElement = document.getElementById("usernameElement");
+    var emailElement = document.getElementById("emailElement");
+    var phoneElement = document.getElementById("phoneElement");
+    var imagePath;
+
+    function displaySelectedAvatar(event) {
+        var selectedAvatar = document.getElementById("selected-avatar");
+        var file = event.target.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                selectedAvatar.src = e.target.result;
+                imagePath="../image/"+file.name;
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function saveChanges() {
+        // 获取表单中的个人信息数据
+        // 获取表单中的个人信息数据
+        var username = document.getElementById("username").value;
+        var email = document.getElementById("email").value;
+        var phone = document.getElementById("phone").value;
+        // 更新用户名
+        usernameElement.innerText = username;
+        // 更新邮箱
+        emailElement.innerText = email;
+        // 更新电话
+        phoneElement.innerText = phone;
+
+        if(imagePath!=="undefined")
+        {
+            avatarElement1.src=imagePath;
+        }
+
+        //alert(imagePath);
+
+        var xhttp = new XMLHttpRequest();
+
+        var obj = JSON.stringify({"name":username,"email":email,"phone":phone,"imageUrl":imagePath});
+        //alert(obj);
+        xhttp.open("POST", "../admin/register", true);
+        xhttp.setRequestHeader('Content-Type', 'application/json');
+        xhttp.send(obj);
+
+
+        // 隐藏修改页面
+        var modifyInfo = document.getElementById("modifyInfo");
+        modifyInfo.style.display = "none";
+    }
+
+    toggleModifyInfo()
+    function cancelChanges() {
+        // 取消修改，不保存
+
+        // 隐藏修改页面
+        var modifyInfo = document.getElementById("modifyInfo");
+        modifyInfo.style.display = "none";
+    }
+    function toggleModifyInfo() {
+        var modifyInfo = document.getElementById("modifyInfo");
+        if (modifyInfo.style.display === "none") {
+            modifyInfo.style.display = "block";
+        } else {
+            modifyInfo.style.display = "none";
+        }
+    }
+
+</script>
+</body>
+</html>

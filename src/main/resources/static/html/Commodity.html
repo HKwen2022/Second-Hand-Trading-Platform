@@ -271,7 +271,6 @@
 
         xhttp.onreadystatechange = function()
         {
-
             if (this.readyState == 4 && this.status == 200)
             {
                 var myObj = JSON.parse(this.responseText);
@@ -314,7 +313,8 @@
         //     {id:296,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
         //     {id:245,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
         //     {id:236,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:2757,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123}]for(var i = 0;i < data.length; i++){ //遍历一下json数据
+        //     {id:2757,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123}]
+        //     for(var i = 0;i < data.length; i++){ //遍历一下json数据
         //     var trow = addValue1(data[i]); //定义一个方法,返回tr数据
         //     tbody.appendChild(trow);
         //     // var Id=per[i].id;
