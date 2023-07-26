@@ -15,14 +15,11 @@ public class OfferService {
         this.offerMapper = offerMapper;
         this.commodityService = commodityService;
     }
-    public void put(Offer offer) throws Exception {
-        if (commodityService.get(offer.getCid()).getStock() >= offer.getNumber()) {
-            offer.orderDate = LocalDate.now();
-            offer.deliverDate = null;
-            offer.deliveryAddress = null;
-            offer.shippingAddress = null;
-
-            offerMapper.put(offer);
-        } else throw new Exception();
+    public void put(Offer offer) {
+        offer.orderDate = LocalDate.now();
+        offer.deliverDate = null;
+        offer.deliveryAddress = null;
+        offer.shippingAddress = null;
+        offerMapper.put(offer);
     }
 }

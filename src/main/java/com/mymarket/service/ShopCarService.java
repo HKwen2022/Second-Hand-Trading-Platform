@@ -54,6 +54,7 @@ public class ShopCarService {
     }
     private void settlement(ShopCar shopCar) throws Exception {
         Commodity commodity = commodityService.get(shopCar.getCid());
+        if(commodity.getStock() < shopCar.getCNumber()) throw new Exception("商品库存不足!");
         Offer offer = new Offer();
         offer.setCid(shopCar.getCid());
         offer.setUid(shopCar.getUid());
