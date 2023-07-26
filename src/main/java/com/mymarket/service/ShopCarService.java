@@ -29,7 +29,7 @@ public class ShopCarService {
         return shopCarMapper.get(userId,commodity);
     }
     public ShopCar get(Integer id){
-        return shopCarMapper.get(id);
+        return shopCarMapper.getById(id);
     }
     public List<ShopCar> getAll(){
         return shopCarMapper.getAll();
@@ -40,19 +40,19 @@ public class ShopCarService {
     public void update(ShopCar shopCar) {
         shopCarMapper.update(shopCar);
     }
-    public void settlement(List<Integer> list){
+    public void settlement(List<Integer> list) throws Exception {
         for (Integer id : list) {
             ShopCar shopCar = get(id);
             settlement(shopCar);
         }
     }
-    public void settlementAll(Integer userId){
+    public void settlementAll(Integer userId) throws Exception {
         List<ShopCar> list = getByUserId(userId);
         for(ShopCar shopCar : list){
             settlement(shopCar);
         }
     }
-    private void settlement(ShopCar shopCar){
+    private void settlement(ShopCar shopCar) throws Exception {
         Commodity commodity = commodityService.get(shopCar.getCid());
         Offer offer = new Offer();
         offer.setCid(shopCar.getCid());

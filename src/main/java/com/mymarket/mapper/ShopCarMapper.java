@@ -19,5 +19,5 @@ public interface ShopCarMapper {
 
     void update(ShopCar shopCar);
     @Select("select * from shop_car where id = #{id}")
-    ShopCar get(Integer id);
+    ShopCar getById(Integer id);
 }

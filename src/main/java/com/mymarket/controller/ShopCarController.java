@@ -19,13 +19,9 @@ import java.util.List;
 @RestController
 public class ShopCarController {
     final ShopCarService shopCarService;
-    final OfferService offerService;
-    final CommodityService commodityService;
 
-    public ShopCarController(ShopCarService shopCarService, OfferService offerService, CommodityService commodityService) {
+    public ShopCarController(ShopCarService shopCarService) {
         this.shopCarService = shopCarService;
-        this.offerService = offerService;
-        this.commodityService = commodityService;
     }
 
     @PostMapping("/shop_car")
@@ -98,7 +94,7 @@ public class ShopCarController {
         try {
             shopCarService.settlement(list);
         }
-        catch (DataAccessException e){
+        catch (Exception e){
             return Result.error("购物车结算失败!");
         }
         return Result.success();
@@ -109,7 +105,7 @@ public class ShopCarController {
         try{
             shopCarService.settlementAll(userId);
         }
-        catch (DataAccessException e){
+        catch (Exception e){
             return Result.error("购物车结算失败!");
         }
         return Result.success();
