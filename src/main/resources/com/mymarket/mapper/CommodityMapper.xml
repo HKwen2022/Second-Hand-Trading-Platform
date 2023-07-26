@@ -22,16 +22,16 @@
                 price=#{price},
             </if>
             <if test="stock != null">
-                stock=#{stock}
+                stock=#{stock},
             </if>
             <if test="imageUrl1 != null">
-                image_url=#{imageUrl1}
+                image_url=#{imageUrl1},
             </if>
             <if test="imageUrl2 != null">
-                image_url2=#{imageUrl2}
+                image_url2=#{imageUrl2},
             </if>
             <if test="imageUrl3 != null">
-                image_url3=#{imageUrl3}
+                image_url3=#{imageUrl3},
             </if>
             <if test="imageUrl4 != null">
                 image_url4=#{imageUrl4}

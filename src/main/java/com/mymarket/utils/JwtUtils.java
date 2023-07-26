@@ -39,7 +39,6 @@ public class JwtUtils {
     public static Integer[] checkToken(HttpServletRequest request) {
         Integer[] res = new Integer[2];     //{用户类型，id}
         String jwt = request.getHeader("token");
-        System.out.println("token: "+jwt);
         if(!StringUtils.hasLength(jwt)){
             res[0] = -1;
         }
