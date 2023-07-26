@@ -282,7 +282,7 @@
 
 2) 请求参数:
 
-   参数样式: application/x-www-form-urlencoded
+   参数样式: application/json
 
    参数说明:
 
@@ -292,8 +292,11 @@
    | password | string | 必须   | 用户密码 |
 
    请求数据样例:
-   ```text
-   name={name}&password={password}
+   ```json
+   {
+    "name": "Tom",
+    "password": "123456"
+   }
    ```
 3) 响应数据:
 
@@ -310,9 +313,9 @@
 响应数据样例:
 ```json
 {
-    "code": 1,
-    "msg": "Success.",
-    "data": null
+   "code": 1,
+   "msg": "Success.",
+   "data": "eyJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6IjEyMzQ1NiIsIm5hbWUiOiJUb20iLCJpZCI6MSwiZXhwIjoxNjkwNDQzODg4fQ.DhX6zzhyPPpUsMxzt1o4-CBctus9339224sje5mQ6TM"
 }
 ```
 
@@ -556,6 +559,57 @@
    ```http request
    /shop_car/1
    ```
+3) 响应数据:
+
+   参数样式: application/json
+
+   参数说明:
+
+   | 参数名  | 类型     | 是否必须 | 备注              |
+   |------|--------|------|-----------------|
+   | code | number | 必须   | 响应码，1代表成功，0代表失败 |
+   | msg  | string | 非必须  | 提示信息            |
+   | data | object | 非必须  | 返回的数据           |
+
+响应数据样例:
+```json
+{
+   "code": 1,
+   "msg": "Success.",
+   "data": null
+}
+```
+
+#### 1.4.6 修改用户购物车
+
+1) 基本信息:
+   * 请求路径: /shop_car
+   * 请求方式: PUT
+   * 接口描述: 根据提供的JSON修改用户的购物车信息
+
+2) 请求参数:
+
+   参数样式: application/json
+
+   参数说明:
+
+   | 参数名    | 类型  | 是否必须 | 备注    |
+   |--------|-----|------|-------|
+   | id     | int | 必须   | 购物车id |
+   | uid    | int | 非必须  | 用户id  |
+   | cid    | int | 非必须  | 商品id  | 
+   | number | int | 非必须  | 购买数量  |
+
+   请求数据样例:
+   ```json
+   {
+   "id": 1,
+   "uid": 2,
+   "cid": 3,
+   "number": 4
+   }
+   ```
+
 3) 响应数据:
 
    参数样式: application/json
