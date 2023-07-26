@@ -3,6 +3,8 @@ package com.mymarket.controller;
 import com.mymarket.pojo.Commodity;
 import com.mymarket.pojo.Result;
 import com.mymarket.service.CommodityService;
+import com.mymarket.utils.JwtUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +17,8 @@ public class CommodityController {
         this.commodityService = commodityService;
     }
     @PostMapping("/commodity")
-    public Result put(@RequestBody Commodity commodity){
+    public Result put(@RequestBody Commodity commodity, HttpServletRequest request){
+        if(JwtUtils.check(commodity.getId(),request)) return Result.error("用户id不匹配!");
         try {
             commodityService.put(commodity);
         }
@@ -25,7 +28,8 @@ public class CommodityController {
         return Result.success();
     }
     @DeleteMapping("/commodity/{id}")
-    public Result delete(@PathVariable Integer id){
+    public Result delete(@PathVariable Integer id, HttpServletRequest request){
+        if(JwtUtils.check(commodityService.get(id).getPublisher(),request)) return Result.error("用户id不匹配!");
         try{
             commodityService.delete(id);
         }
@@ -36,8 +40,9 @@ public class CommodityController {
         return Result.success();
     }
     @PutMapping("/commodity")
-    public Result update(@RequestBody Commodity commodity){
+    public Result update(@RequestBody Commodity commodity,HttpServletRequest request){
         if(commodity.getId() == null) return Result.error("修改商品失败！未提供商品id。");
+        if(JwtUtils.check(commodity.getPublisher(),request)) return Result.error("用户id不匹配!");
         try{
             commodityService.update(commodity);
         }

@@ -59,6 +59,8 @@ public class JwtUtils {
         return res;
     }
     public static boolean check(Integer id, HttpServletRequest request){
-        return !Objects.equals(JwtUtils.checkToken(request)[1], id);
+        Integer[] ret = JwtUtils.checkToken(request);
+        if(ret[0]==1) return false; //是管理员就通过
+        return !Objects.equals(ret[1], id);
     }
 }

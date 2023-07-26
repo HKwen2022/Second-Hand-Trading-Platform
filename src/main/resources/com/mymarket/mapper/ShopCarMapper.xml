@@ -6,6 +6,21 @@
     <insert id="put">
         insert into shop_car(uid,cid,c_number) values (#{uid},#{cid},#{cNumber});
     </insert>
+    <update id="update">
+        update shop_car
+        <set>
+            <if test="uid != null">
+                uid=#{uid},
+            </if>
+            <if test="cid != null">
+                cid=#{cid},
+            </if>
+            <if test="cNumber != null">
+                c_number=#{cNumber},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
     <delete id="delete">
         delete from shop_car where id = #{id}
     </delete>
