@@ -1,0 +1,481 @@
+
+* {
+    box-sizing: border-box;
+    background-color: #eee;
+}
+
+body {
+    padding: 10px;
+    /*background: #f1f1f1;*/
+    background-size: cover;
+    height: 3900px;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: #f1f1f1;
+}
+
+li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color on hover */
+li a:hover {
+    background-color: #555;
+    color: white;
+}
+
+/* 页眉/Blog 标题 */
+.header {
+    padding: 10px;
+    background: white;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 30px;
+}
+
+/* 设置上导航栏的样式 */
+.topnav {
+    overflow: hidden;
+    background-color: #eee;
+}
+
+/* 设置 topnav 链接的样式 */
+.topnav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* 改变鼠标悬停时的颜色 */
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* 创建两个不相等的彼此并排的浮动列 */
+/* 左列 */
+.leftcolumn {
+    float: left;
+    width: 70%;
+}
+.menu{
+    float:left;
+    width: 25%;
+}
+.content{
+    float: left;
+    width: 75%;
+}
+.lefts{
+    float: left;
+    width: 50%;
+}
+.shopping-column{
+    float:left;
+    width: 25%;
+}
+/* 右列 */
+.rightcolumn {
+    float: left;
+    width: 25%;
+    background-color: #f1f1f1;
+    padding-left: 20px;
+}
+
+/* 伪图像 */
+.fakeimg {
+    background-color: #aaa;
+    width: 100%;
+    padding: 20px;
+}
+
+/* 为文章添加卡片效果 */
+.card {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+/* 清除列之后的浮动 */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* 页脚 */
+.footer {
+    padding: 20px;
+    text-align: center;
+    background: #ddd;
+    margin-top: 20px;
+}
+
+/* 响应式布局 - 当屏幕的宽度小于 800 像素时，使两列堆叠而不是并排 */
+@media screen and (max-width: 800px) {
+    .leftcolumn, .rightcolumn {
+        width: 100%;
+        padding: 0;
+    }
+}
+
+/* 响应式布局 - 当屏幕的宽度小于 400 像素时，使导航链接堆叠而不是并排 */
+@media screen and (max-width: 400px) {
+    .topnav a {
+        float: none;
+        width: 100%;
+    }
+}
+.search-container {
+    text-align: center;
+
+}
+
+form {
+    display: inline-block;
+    text-align: left;
+}
+/*
+    搜索框
+ */
+input[type="text"] {
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 4px;
+}
+
+input[type="submit"] {
+    border: 1px solid black;
+    padding: 5px 10px;
+    background-color: black;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-top: 20px;
+}
+.pagination {
+    display: inline-block;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 80px;
+    text-decoration: none;
+    transition: background-color .3s;
+}
+
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+/*
+    好物推荐界面
+ */
+.box {
+    width: 1400px; /* 根据需要调整宽度 */
+    height: 400px;
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+}
+/*
+    好物推荐导航栏
+ */
+.box>ul {
+    width: 1400px;
+    height: 60px;
+    display: flex;
+    background-color: white;
+}
+
+
+.box>ul>li {
+    flex: auto;
+    color: black;
+    background-color: white;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.box>ul>li.active {
+    background-color: #DCE2F1;
+}
+.box>ul>li.active>p{
+    background-color:#DCE2F1  !important;
+}
+/*
+    好物推荐内容
+ */
+.box>ol {
+    flex: 1;
+    position: relative; /* 添加相对定位 */
+}
+
+.box>ol>li {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    color: #0000C0;
+    font-size: 30px;
+    position: absolute; /* 添加绝对定位 */
+    left: 0;
+    top: 0; /* 设置top值为相对于父容器的底部位置 */
+    display: none;
+}
+/*
+     每个界面分成五块
+ */
+.haowutuijian{
+    margin-top: 20px;
+    float:left;
+    width: 19%;
+    padding: 10px;
+}
+
+.haowutuijian>image {
+    width: 100%;
+    height: auto;
+}
+
+.haowutuijian>text {
+
+    margin-top: 40px;
+}
+.box>ol>li.active {
+    display: flex;
+}
+/*
+    图片轮播界面
+ */
+img{
+    width: 100%;
+    height:100%;
+    display:block;
+
+}
+.banner
+{
+    width:100%;
+    height: 600px;
+    position:relative;
+    margin: 20px 0;
+}
+.banner>ul{
+    width:100%;
+    height:100%;
+    position: relative;
+}
+.banner > ul > li {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.5s linear;
+}
+.banner>ol{
+    padding-left: 0;
+    list-style: none;
+    width:100px;
+    height: 20px;
+    position: absolute;
+    left: 30px;
+    bottom:30px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 60px;
+}
+.banner>ol>li{
+    width: 10px;
+    height: 10px;
+    background-color: #6A6A6A;
+    border-radius: 50%;
+}
+.banner>ol>li.active{
+    background-color: #fff;
+}
+.banner>ul>li.active{
+    opacity:1;
+}
+.banner>div{
+    width:40px;
+    height:60px;
+    position:absolute;
+    top:50%;
+    transform: translateY(-50%);
+    background-color: whitesmoke;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: #3f3f3f;
+}
+.banner>div.left{
+    left:0;
+    cursor: pointer;
+}
+.banner>div.right{
+    right:0;
+    cursor: pointer;
+}
+.pindaoguangchang{
+    float: left;
+    width: 22%;
+    margin: 20px;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.two-rows {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.two-rows div {
+    flex: 1;
+}
+.header1{
+     width: 100%;
+     height: 60px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     font-size: 30px;
+     color:blueviolet;
+     background-color: #DCE2F1;
+     position: fixed;
+     top:-80px;
+     left:0;
+    z-index: 10;
+ }
+.header2{
+    width: 100%;
+    text-align: center;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color:#00a8c6;
+    background-color:white;
+    position: fixed;
+    top:-200px;
+    left:0;
+    z-index: 10;
+}
+.header2>li:hover
+{
+    color: black;
+    cursor: pointer;
+}
+.goTop_huidaodingbu {
+    width: 75px;
+    height: 75px;
+    background-color: #00a8c6;
+    text-align: center;
+    line-height: 50px;
+    color: black;
+    border-radius: 50%; /* 设置边框的圆角半径为50% */
+    position: fixed;
+    bottom: 200px;
+    right: 50px;
+    display: none;
+    z-index: 100;
+}
+
+.goTop_huidaodingbu p {
+    margin: 0;
+    background-color: #00a8c6;
+    border-radius: 50%; /* 设置边框的圆角半径为50% */
+    width: 100%;
+    height: 100%;
+}
+
+
+.headercolumn{
+    float: left;
+    background-color: white;
+    width:12%
+}
+input[type="text1"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="submit1"] {
+    padding: 5px 10px;
+    background-color: black;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+.gerenzhongxin{
+    float: left;
+    width: 50%;
+}
+.top{
+    float: left;
+    width: 20%;
+}
+.white-bg { background-color: white; }
+.hover-opacity {
+    background-color: white;
+}
+
+.hover-opacity:hover i {
+    color: #1A8BE8; /* 鼠标悬停时图标颜色改变为红色 */
+}
+.hover-opacity:hover p {
+    color: #1A8BE8; /* 鼠标悬停时文字颜色改变为蓝色 */
+}
+.image-opacity {
+    transition: opacity 0.3s ease; /* 添加过渡效果 */
+}
+
+.image-opacity:hover {
+    opacity: 0.6; /* 鼠标悬停时的透明度 */
+    cursor: pointer;
+}
+.li-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+}

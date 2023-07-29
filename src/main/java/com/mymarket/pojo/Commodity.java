@@ -26,5 +26,4 @@ public class Commodity {
     private String imageUrl3;
     @JsonProperty("image_url4")
     private String imageUrl4;
-
 }

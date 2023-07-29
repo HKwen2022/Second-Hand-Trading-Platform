@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>历史订单</title>
+  <link rel="stylesheet" href="../css/订单详情.css">
+</head>
+
+<body>
+<ul>
+  <li><a class="active" href="#home" style="margin-right: 80px"><h1>我的商城</h1></a></li>
+  <li><a href="#news" style="margin-top: 40px;margin-right: 30px">首页</a></li>
+  <li><a href="#contact" style="margin-top: 40px;margin-right: 30px">账户设置</a></li>
+  <li><a href="#about" style="margin-top: 40px;margin-right: 150px">关于</a></li>
+  <input  id ="rcorners1" type="search" style="margin-top: 43px;margin-right: 10px;height: 35px">
+  <i class="fa fa-search" style="font-size: 34px"></i>
+</ul>
+<br>
+<br>
+<div class="wrap clearfix">
+  <table width="100%" class="cartTable" cellspacing="0" cellpadding="10px">
+    <!-- 首行 -->
+    <tr class="title">
+      <td width="150">商品名称</td>
+      <td width="350">商品图片</td>
+      <td width="120">单价（元）</td>
+      <td width="120">数量</td>
+      <td width="120">总金额（元）</td>
+      <td width="120">查看详情</td>
+    </tr>
+
+    <!-- 商品具体信息 -->
+
+  </table>
+</div>
+
+<!-- 订单详情模态框 -->
+<div id="orderDetailModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2 id="detail">订单详情</h2>
+    <p id="id">订单编号：123456789</p>
+    <p id="cid">商品编号：123456789</p>
+    <p id="number">商品数量：1</p>
+    <p id="price">商品单价：129.00元</p>
+    <p id="deliveringAddress">发货地址：XXX街道XXX号</p>
+    <p id="shippingAddress">收货地址：XXX街道XXX号</p>
+    <p id="orderDate">下单日期：2020-01-01 10:00:00</p>
+    <p id="deliverDate">发货日期：2020-01-01 10:00:00</p>
+    <p id="totalPrice">总金额：129.00元</p>
+  </div>
+</div>
+
+<!-- 引入JS文件 -->
+<script>
+  var table = document.querySelector('.cartTable');
+
+  //连接后端，得到JSON
+  function allOrders(){
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "../commodity?id=1&name=name", true);
+    //xhttp.setRequestHeader('Content-Type', 'application/json');
+    xhttp.send();
+
+    xhttp.onreadystatechange = function()
+    {
+
+      if (this.readyState == 4 && this.status == 200)
+      {
+        var myObj = JSON.parse(this.responseText);
+        var data = myObj.data;
+        // var tbody = document.getElementById('tableTh');
+        // tbody.className="table";
+
+        for(var i = 0;i < data.length; i++){ //遍历一下json数据
+          var trow = addCommodity1(data[i]); //定义一个方法,返回tr数据
+          table.appendChild(trow);
+        }
+      }
+    }
+  }
+
+  //解析JSON文件，获得信息，展示信息
+  function addAllOrders()
+  {
+    var danjia=80;
+    var count=100;
+
+    //var table = document.querySelector('.cartTable');
+
+// 创建新行
+    var newRow = document.createElement('tr');
+
+// 创建并添加单元格元素
+    var thumbCell = document.createElement('td');
+    thumbCell.className = 'tal';
+    thumbCell.innerHTML = '<a href="#" class="pic"><img src="../image/TV.png" alt="" style="width: 200px"></a>';
+    newRow.appendChild(thumbCell);
+
+    var productCell = document.createElement('td');
+    productCell.className = 'tal';
+    productCell.innerHTML = '<a href="#">新商品名称</a>';
+    newRow.appendChild(productCell);
+
+    var priceCell = document.createElement('td');
+    priceCell.innerHTML = '<span class="tdl"><b class="unit">'+danjia+'</b>';
+    newRow.appendChild(priceCell);
+
+    var quantityCell = document.createElement('td');
+    quantityCell.innerHTML = '<b class="u-price">'+(count*danjia)+'</b>';
+    newRow.appendChild(quantityCell);
+
+    var subTotalCell = document.createElement('td');
+    subTotalCell.innerHTML = '<b class="u-price">'+(count*danjia)+'</b>';
+    newRow.appendChild(subTotalCell);
+
+    var deleteCell = document.createElement('td');
+    deleteCell.innerHTML = '<a href="#" class="btn-del">查看详情</a>';
+    newRow.appendChild(deleteCell);
+
+
+    deleteCell.addEventListener('click', function() {
+      var thisId=this.parentNode;
+
+      orderDetailModal.style.display = "block";
+      var idV = document.getElementById("id");
+      var cidV = document.getElementById("cid");
+      var numberV = document.getElementById("number");
+      var priceV = document.getElementById("price");
+      var deliveringAddressV = document.getElementById("deliveringAddress");
+      var shippingAddressV = document.getElementById("shippingAddress");
+      var orderDateV = document.getElementById("orderDate");
+      var deliverDateV = document.getElementById("deliverDate");
+      var totalPriceV = document.getElementById("totalPrice");
+
+
+      var xhttp = new XMLHttpRequest();
+      xhttp.open("GET", "../commodity?id=1&name=name", true);
+      //xhttp.setRequestHeader('Content-Type', 'application/json');
+      xhttp.send();
+
+      xhttp.onreadystatechange = function()
+      {
+
+        if (this.readyState == 4 && this.status == 200)
+        {
+          var myObj = JSON.parse(this.responseText);
+          var data = myObj.data;
+          // var tbody = document.getElementById('tableTh');
+          // tbody.className="table";
+
+          for(var i = 0;i < data.length; i++){ //遍历一下json数据
+            idV.innerHTML="订单编号：" + data[i].id;
+            cidV.innerHTML="商品编号：" + data[i].cid;
+            numberV.innerHTML="商品数量：" + data[i].number;
+            priceV.innerHTML="商品单价：" + data[i].price;
+            deliveringAddressV.innerHTML="发货地址：" + data[i].deliveringAddress;
+            shippingAddressV.innerHTML="收货地址：" + data[i].shippingAddress;
+            orderDateV.innerHTML="下单日期：" + data[i].orderDate;
+            deliverDateV.innerHTML="发货日期：" + data[i].deliverDate;
+            totalPriceV.innerHTML="总金额：" + data[i].totalPrice;
+          }
+        }
+      }
+    });
+
+    // deleteCell.addEventListener('click', function() {
+    //   // 获取需要传递的信息
+    //   var product = productCell.innerHTML;
+    //   var price = priceCell.querySelector('.unit').innerHTML;
+    //   var quantity = count;
+    //   var subTotal = quantity * parseInt(price);
+    //
+    //   // 拼接跳转链接
+    //   var url = 'test.html';
+    //   url += '?product=' + encodeURIComponent(product);
+    //   url += '&price=' + encodeURIComponent(price);
+    //   url += '&quantity=' + encodeURIComponent(quantity);
+    //   url += '&subTotal=' + encodeURIComponent(subTotal);
+    //
+    //   // 跳转到czhhhh.html页面
+    //   window.location.href = url;
+    // });
+
+// 将新行添加到表格中
+    table.appendChild(newRow);
+
+    //return newRow;
+  }
+
+  window.onload=addAllOrders;
+
+
+  //详情页面的关闭
+  var orderDetailModal = document.getElementById("orderDetailModal");
+  var closeButton = document.getElementsByClassName("close")[0];
+
+  closeButton.onclick = function() {
+    orderDetailModal.style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    if (event.target == orderDetailModal) {
+      orderDetailModal.style.display = "none";
+    }
+  }
+</script>
+</body>
+
+</html>
+

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--<p>Id: <span id="id"></span></p >-->
+<!--<p>Price: <span id="price"></span></p >-->
+<!--<p>Name: <span id="name"></span></p >-->
+<!--<p>Type: <span id="type"></span></p >-->
+<!--<p>Stock: <span id="stock"></span></p >-->
+<!--<p>Publisher: <span id="publisher"></span></p >-->
+<!--<p>Description: <span id="description"></span></p >-->
+<!--<p>imageSrc: <span id="imageSrc"></span></p >-->
+
+<p>商品编号：<span id="productId"></span></p>
+<p>商品名称：<span id="productName"></span></p>
+<p>商品价格：<span id="productPrice"></span></p>
+
+</body>
+
+<script>
+  // var urlParams = new URLSearchParams(window.location.search);
+  // var id = urlParams.get('id');
+  // var price = urlParams.get('price');
+  // var name = urlParams.get('name');
+  // var type = urlParams.get('type');
+  // var stock = urlParams.get('stock');
+  // var publisher = urlParams.get('publisher');
+  // var description = urlParams.get('description');
+  // var imageSrc = urlParams.get('imageSrc');
+  //
+  // // 在页面上显示信息
+  // document.getElementById('id').innerHTML = id;
+  // document.getElementById('price').innerHTML = price;
+  // document.getElementById('name').innerHTML = name;
+  // document.getElementById('type').innerHTML = type;
+  // document.getElementById('stock').innerHTML = stock;
+  // document.getElementById('publisher').innerHTML = publisher;
+  // document.getElementById('description').innerHTML = description;
+  // document.getElementById('imageSrc').innerHTML = imageSrc;
+
+  // 获取URL参数
+  var urlParams = new URLSearchParams(window.location.search);
+
+  // 获取参数中的信息
+  var productId = urlParams.get('id');
+  var productName = decodeURIComponent(urlParams.get('name'));
+  var productPrice = decodeURIComponent(urlParams.get('price'));
+
+  // 将信息显示在页面上
+  document.getElementById('productId').innerHTML = productId;
+  document.getElementById('productName').innerHTML = productName;
+  document.getElementById('productPrice').innerHTML = productPrice;
+
+
+</script>
+</html>
