@@ -1,0 +1,219 @@
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #07b4f9;
+}
+
+.xiala{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 60px;
+}
+
+li {
+    float: left;
+}
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.xiala2{
+    display: block;
+    background-color: #dddddd;
+
+}
+
+p.double {
+    border-style: double;
+}
+
+#rcorners {
+    border-radius: 100%;
+//background: #73AD21;
+    padding: 20px;
+    width: 150px;
+    height: 150px;
+}
+#rcorners1 {
+    border-radius: 25px;
+    background: #fff;
+    padding: 20px;
+    width: 200px;
+    height: 150px;
+}
+li a:hover {
+    background-color: #1A8BE8;
+}
+
+
+section {
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.footer {
+    padding: 20px;
+    text-align: center;
+    background: #ddd;
+    margin-top: 20px;
+}
+
+.profile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-info {
+    flex-grow: 1;
+}
+
+.profile-picture {
+    flex-shrink: 0;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    /*background-image: url('profile-picture.jpg');*/
+    background-size: cover;
+    background-position: center;
+}
+
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.product {
+    background-color: #fff;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.profile button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+}
+.leftcolumn
+{
+    float: left;
+    width:20%;
+}
+.rightcolumn
+{
+    float: left;
+    width: 75%;
+}
+.rightcolumn .redcolor
+{
+    font-size: 35px;
+}
+.rightcolumn .redcolor:hover
+{
+    color:red;
+    cursor: pointer;
+}
+.rightcolumn>column1
+{
+    float: left;
+    width: 50%;
+}
+.dingdanzhongxin
+{
+    margin-left: 50px;
+    width: 80%;
+    height: 150px;
+}
+.wodeqianbao
+{
+    margin-top: 10px;
+    margin-left:50px;
+    width: 80%;
+    height: 250px;
+}
+.wodeguanzhu
+{
+    margin-top: 10px;
+    margin-left:50px;
+    width: 80%;
+    height: 200px;
+
+}
+.kefufuwu
+{
+    margin-top: 10px;
+    margin-left:50px;
+    width: 80%;
+    height: 300px;
+}
+.dingdanxiangqing
+{
+    float: left;
+    width: 60%;
+}
+.hover-opacity {
+    background-color: white;
+}
+
+.hover-opacity:hover,
+.hover-opacity:hover i,
+.hover-opacity:hover p {
+    color: #1A8BE8; /* 鼠标悬停时文字和图标颜色改变为蓝色 */
+    cursor: pointer;
+}
+.container {
+    margin-top: 30px;
+    width: 100%;
+    height: 375px;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    border: none;
+    position: relative;
+    z-index: -1;
+}
+
+.my-product {
+    width: 100%;
+    height: 25px;
+}
+.box {
+    margin-top: 25px;
+    width: 25%;
+    margin-left: 45px;
+    height: 275px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+.modify-info {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+}
+
+.modify-info-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    height: 460px;
+}

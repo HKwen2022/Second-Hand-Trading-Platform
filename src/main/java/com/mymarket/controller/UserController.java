@@ -28,6 +28,7 @@ public class UserController {
             return Result.error("修改失败！");}
         return Result.success();
     }
+
     @PostMapping("/user/register")
     public Result register(@RequestBody User user){
         userService.register(user);

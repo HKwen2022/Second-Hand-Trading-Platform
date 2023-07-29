@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <script src='https://www.w3schools.cn/fonts/kit/a076d05399.js'></script>
+
+  <link rel="stylesheet" href="../css/商品浏览.css">
+
+</head>
+<body>
+<ul>
+
+  <li><a class="active" href="#xianzhishuji" ><p class='fas fa-book-open'>  闲置书籍</p></a></li>
+  <li><a href="#shumadianzi"><p class="fas fa-desktop">  数码电子</p></a></li>
+  <li><a href="#xiefupeishi"><p class="fas fa-tshirt"> 鞋服配饰</p></a></li>
+  <li><a href="#shuiguolingshi"><p class="fas fa-hamburger"> 水果零食</p> </a></li>
+  <li><a href="#chuxingjiaotong"><p class="fas fa-car"> 出行交通</p> </a></li>
+  <li><a href="#qitaxianzhi"><p class="fas fa-user-alt"> 其他闲置</p> </a></li>
+</ul>
+
+<div id="content-container" >
+  <div id="xianzhishuji" class="content-area">
+    <!-- 首页内容 -->
+    <table width="100%" id="table1" class="cartTable" cellspacing="0" cellpadding="10px">
+      <!-- 首行 -->
+      <h1 class='fas fa-book-open' style="margin-left: 380px">  闲置书籍</h1>
+      <tr class="title">
+        <td width="150">商品编号</td>
+        <td width="300">商品图片</td>
+        <td width="400">商品名称</td>
+        <td width="150">单价（元）</td>
+      </tr>
+<!--      <tr >-->
+<!--        <td>1</td>-->
+<!--        <td ><a href="#" class="pic"><img src="../image/TV.png" alt="" style="width: 200px"></a></td>-->
+<!--        <td ><a href="#">凌美Lamy Safari钢笔/签字笔T52黑色墨水</a></td>-->
+<!--        <td>-->
+<!--          <b >129.00</b>-->
+<!--        </td>-->
+<!--      </tr>-->
+<!--      <tr >-->
+<!--        <td>1</td>-->
+<!--        <td ><a href="#" class="pic"><img src="../image/TV.png" alt="" style="width: 200px"></a></td>-->
+<!--        <td ><a href="#">凌美Lamy Safari钢笔/签字笔T52黑色墨水</a></td>-->
+<!--        <td>-->
+<!--          <b >129.00</b>-->
+<!--        </td>-->
+<!--      </tr>-->
+
+    </table>
+  </div>
+  <div id="shumadianzi" class="content-area">
+    <!-- 数码电子 -->
+    <table width="100%" id="table2" class="cartTable" cellspacing="0" cellpadding="10px">
+    <h1 class='fas fas fa-desktop' style="margin-left: 380px">  数码电子</h1>
+    <tr class="title">
+      <td width="150">商品编号</td>
+      <td width="300">商品图片</td>
+      <td width="400">商品名称</td>
+      <td width="150">单价（元）</td>
+    </tr>
+    <!-- 下方加商品 -->
+    </table>
+  </div>
+  <div id="xiefupeishi" class="content-area">
+    <!-- 鞋服配饰 -->
+    <table width="100%" id="table3" class="cartTable" cellspacing="0" cellpadding="10px">
+    <h1 class='fas fa-tshirt' style="margin-left: 380px">  鞋服配饰</h1>
+    <tr class="title">
+      <td width="150">商品编号</td>
+      <td width="300">商品图片</td>
+      <td width="400">商品名称</td>
+      <td width="150">单价（元）</td>
+    </tr>
+    <!-- 下方加商品 -->
+    </table>
+  </div>
+  <div id="shuiguolingshi" class="content-area">
+    <!-- 水果零食 -->
+    <table width="100%" id="table4" class="cartTable" cellspacing="0" cellpadding="10px">
+    <h1 class='fas fa-hamburger' style="margin-left: 380px">  水果零食</h1>
+    <tr class="title">
+      <td width="150">商品编号</td>
+      <td width="300">商品图片</td>
+      <td width="400">商品名称</td>
+      <td width="150">单价（元）</td>
+    </tr>
+    <!-- 下方加商品 -->
+    </table>
+
+  </div>
+  <div id="chuxingjiaotong" class="content-area">
+    <!-- 出行交通 -->
+    <table width="100%" id="table5" class="cartTable" cellspacing="0" cellpadding="10px">
+    <h1 class='fas fa-car' style="margin-left: 380px">  出行交通</h1>
+    <tr class="title">
+      <td width="150">商品编号</td>
+      <td width="300">商品图片</td>
+      <td width="400">商品名称</td>
+      <td width="150">单价（元）</td>
+    </tr>
+    <!-- 下方加商品 -->
+    </table>
+  </div>
+  <div id="qitaxianzhi" class="content-area">
+    <!-- 其他闲置 -->
+    <table width="100%" id="table6" class="cartTable" cellspacing="0" cellpadding="10px">
+    <h1 class='fas fa-user-alt' style="margin-left: 380px">  其他闲置</h1>
+    <tr class="title">
+      <td width="150">商品编号</td>
+      <td width="300">商品图片</td>
+      <td width="400">商品名称</td>
+      <td width="150">单价（元）</td>
+    </tr>
+    <!-- 下方加商品 -->
+    </table>
+  </div>
+</div>
+<script>
+  window.onload=allCommodity;
+
+  // 获取所有的按钮元素
+  var buttons = document.querySelectorAll('ul li a');
+
+  // 显示第一个内容区域
+  var firstContent = document.querySelector('.content-area');
+  firstContent.style.display = 'block';
+
+  // 为每个按钮添加点击事件监听器
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      var target = this.getAttribute('href'); // 获取点击按钮的目标链接
+
+      // 隐藏所有内容区域
+      var contentAreas = document.querySelectorAll('.content-area');
+      contentAreas.forEach(function(contentArea) {
+        contentArea.style.display = 'none';
+      });
+
+      // 显示目标内容区域
+      var targetContent = document.querySelector(target);
+      targetContent.style.display = 'block';
+
+      // 移除所有按钮的"active"类
+      buttons.forEach(function(button) {
+        button.classList.remove('active');
+      });
+
+      // 添加"active"类到当前点击的按钮
+      this.classList.add('active');
+    });
+  });
+
+  function allCommodity(){
+    // var xhttp = new XMLHttpRequest();
+    // xhttp.open("POST", "../commodity", true);
+    // xhttp.setRequestHeader('Content-Type', 'application/json');
+    // xhttp.send();
+
+    // xhttp.onreadystatechange = function()
+    // {
+    //   if (this.readyState == 4 && this.status == 200)
+    //   {
+    //     var myObj = JSON.parse(this.responseText);
+    //     var data = myObj.data;
+    //     var tbody = document.getElementById('tableTh');
+    //     tbody.className="table";
+    //
+    //     for(var i = 0;i < data.length; i++)//遍历一下json数据
+    //     {
+    //       var trow = addValue1(data[i]); //定义一个方法,返回tr数据
+    //       tbody.appendChild(trow);
+    //     }
+    //   }
+    // }
+
+
+    var tbody1 = document.getElementById('table1');
+    var tbody2 = document.getElementById('table2');
+    var tbody3 = document.getElementById('table3');
+    var tbody4 = document.getElementById('table4');
+    var tbody5 = document.getElementById('table5');
+    var tbody6 = document.getElementById('table6');
+    var data= [
+      {id:1,pic:'../image/TV.png',de:'学生',price:'123',name:'闲置书籍'},
+      {id:2,pic:'../image/TV.png',de:'学生12333213',price:'123',name:'出行交通'},
+      {id:3,pic:'../image/TV.png',de:'学生',price:'123333',name:'鞋服配饰'},
+      {id:4,pic:'../image/TV.png',de:'学生',price:'123',name:'闲置书籍'},
+      {id:5,pic:'../image/TV.png',de:'学生',price:'123',name:'水果粮食'},
+      {id:6,pic:'../image/TV.png',de:'学生',price:'123',name:'数码电子'},
+      {id:7,pic:'../image/TV.png',de:'学生',price:'123',name:'其他闲置'}]
+    for(var i = 0;i < data.length; i++)//遍历一下json数据
+    {
+      if(data[i].name==='闲置书籍')
+      {
+        var trow1 = addValue1(data[i]); //定义一个方法,返回tr数据
+        tbody1.appendChild(trow1);
+      }
+      else if(data[i].name==='数码电子')
+      {
+        var trow2 = addValue1(data[i]); //定义一个方法,返回tr数据
+        tbody2.appendChild(trow2);
+      }
+      else if(data[i].name==='鞋服配饰')
+      {
+        var trow3 = addValue1(data[i]); //定义一个方法,返回tr数据
+        tbody3.appendChild(trow3);
+      }
+      else if(data[i].name==='水果粮食')
+      {
+        var trow4 = addValue1(data[i]); //定义一个方法,返回tr数据
+        tbody4.appendChild(trow4);
+      }
+      else if(data[i].name==='出行交通')
+      {
+        var trow5 = addValue1(data[i]); //定义一个方法,返回tr数据
+        tbody5.appendChild(trow5);
+      }
+      else
+      {
+        var trow6 = addValue1(data[i]); //定义一个方法,返回tr数据
+        tbody6.appendChild(trow6);
+      }
+    }
+  }
+
+  function addValue1(h)
+  {
+    var row = document.createElement('tr'); //创建行
+
+    //'<input type="checkbox" name="" class="choose">'
+    var idCell = document.createElement('td'); //创建第一列id
+    idCell.innerHTML = h.id; //填充数据
+    row.appendChild(idCell); //加入行  ，下面类似
+
+    var nameCell = document.createElement('td');//创建第二列name
+    nameCell.innerHTML = '<a class="pic"><img src="'+h.pic+'" alt="" style="width: 200px"></a>';
+    row.appendChild(nameCell);
+
+    var jobCell = document.createElement('td');//创建第三列job
+    jobCell.innerHTML = '<a>'+h.de+'</a>'
+    row.appendChild(jobCell);
+
+    var numCell = document.createElement('td');//创建第三列job
+    numCell.innerHTML = '<b >'+h.price+'</b>';
+    row.appendChild(numCell);
+
+    nameCell.addEventListener('click', function(){
+      // 获取需要传递的信息
+      var productId = idCell.innerHTML;
+      var productName = jobCell.querySelector('a').innerHTML;
+      var productPrice = numCell.querySelector('b').innerHTML;
+
+      // 拼接URL参数
+      var params = "?id=" + productId + "&name=" + encodeURIComponent(productName) + "&price=" + encodeURIComponent(productPrice);
+
+      // 跳转到czh.html，并传递URL参数
+      window.location.href = "商品详情(1).html" + params;
+
+    });
+
+    return row; //返回tr数据
+  }
+
+</script>
+</body>
+</html>

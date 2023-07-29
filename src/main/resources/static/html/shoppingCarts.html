@@ -25,7 +25,8 @@
     <tr class="title">
       <td width="50"><input type="checkbox" name="" class="choose_all"></td>
       <td width="100" class=""><span style="margin-left: -10px;">全选</span></td>
-      <td width="400">商品信息</td>
+      <td width="100">商品编号</td>
+      <td width="200">商品信息</td>
       <td width="150">单价（元）</td>
       <td width="150">数量</td>
       <td width="150">金额（元）</td>
@@ -45,7 +46,8 @@
             <p>活动优惠：-￥0.00</p>
             <p>已选商品<span class="red t-number"> 0 </span>件 总价(不含运费、税费)：<span class="red t-price">￥0.00</span></p>
             <!-- <div><a href="#" class="btn pay">结算</a></div> -->
-            <a href="#"  onclick="moveToLastPosition()" class="btn pay fr">结算</a>
+            <a href="#"  onclick="moveToLastPosition()" class="btn pay fr">test</a>
+            <a href="#"  onclick="settlement()" class="btn pay fr">结算</a>
           </div>
         </div>
       </td>
@@ -167,6 +169,32 @@
 
   }
 
+  //连接后端，得到JSON
+  function allShoppingCarts(){
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "../commodity?id=1&name=name", true);
+    //xhttp.setRequestHeader('Content-Type', 'application/json');
+    xhttp.send();
+
+    xhttp.onreadystatechange = function()
+    {
+
+      if (this.readyState == 4 && this.status == 200)
+      {
+        var myObj = JSON.parse(this.responseText);
+        var data = myObj.data;
+        var tbody = document.getElementById('tableTh');
+        tbody.className="table";
+
+        for(var i = 0;i < data.length; i++){ //遍历一下json数据
+          var trow = addValue1(data[i]); //定义一个方法,返回tr数据
+          tbody.appendChild(trow);
+        }
+      }
+    }
+  }
+
+  //解析JSON文件，获得信息，展示信息
   function addCommodity1()
   {
     var danjia=80;
@@ -187,13 +215,18 @@
     thumbCell.innerHTML = '<a href="#" class="pic"><img src="../image/TV.png" alt="" style="width: 200px"></a>';
     newRow.appendChild(thumbCell);
 
+    var idCell = document.createElement('td');
+    idCell.className = 'tal';
+    idCell.innerHTML = '<a href="#" class="czhId">123123</a>';
+    newRow.appendChild(idCell);
+
     var productCell = document.createElement('td');
     productCell.className = 'tal';
-    productCell.innerHTML = '<a href="#">新商品名称</a>';
+    productCell.innerHTML = '<a href="#" class="czhName">新商品名称</a>';
     newRow.appendChild(productCell);
 
     var priceCell = document.createElement('td');
-    priceCell.innerHTML = '<span class="tdl">99.00</span><br><b class="unit">'+danjia+'</b>';
+    priceCell.innerHTML = '<b class="unit">'+danjia+'</b>';
     newRow.appendChild(priceCell);
 
     var quantityCell = document.createElement('td');
@@ -335,6 +368,66 @@
 
   }
 
+  //当打开页面时，连接数据库并显示所有商品信息
+  //window.onload=allShoppingCarts;
+
+
+  function settlement()
+  {
+
+    // 获取表格中的数据
+    var tableData = [];
+    var tableRows = document.querySelectorAll(".choose");
+    var ifHasChecked=0;
+    //alert(tableRows.length);
+    for(var i=0; i<tableRows.length; i++)
+    {
+      if(tableRows[i].checked){
+        ifHasChecked=1;
+        var rowData = {};
+
+        var smallTr = tableRows[i].parentNode.parentNode;
+
+        rowData.id = smallTr.querySelector('.czhId').innerHTML;
+        //alert(rowData.id);
+
+        rowData.name=smallTr.querySelector('.czhName').innerHTML;
+        //alert(rowData.name);
+
+        rowData.thumbImage = smallTr.querySelector('img').getAttribute('src');
+        //alert(rowData.thumbImage);
+
+        rowData.price = smallTr.querySelector(".unit").innerHTML;
+        //alert(rowData.price);
+
+        rowData.quantity = smallTr.querySelector(".unum").value;
+        //alert(rowData.quantity);
+
+        rowData.subTotal = smallTr.querySelector(".u-price").innerHTML;
+        //alert(rowData.subTotal);
+
+        rowData.totalPrice = document.querySelector(".t-price").innerHTML;
+        //alert(rowData.totalPrice);
+
+        rowData.totalNumber = document.querySelector(".t-number").innerHTML;
+        alert(rowData.totalNumber);
+
+        tableData.push(rowData);
+      }
+    }
+
+    if(ifHasChecked!==0)
+    {
+      // 将数据作为URL参数添加到链接中
+      var url = '购买.html?data=' + encodeURIComponent(JSON.stringify(tableData));
+      url += '&source=' + encodeURIComponent("B");
+      document.location.href = url;
+      alert("ok");
+    }
+    else{
+      alert("请选择正确的购买商品！");
+    }
+  }
 
 </script>
 </body>
