@@ -22,7 +22,7 @@ public class UserService {
     }
     public User getUserById(Integer id) {
         User user = userMapper.getUserById(id);
-        user.setPassword(null);
+        if(user != null) user.setPassword(null);
         return user;
     }
 }

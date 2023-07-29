@@ -3,7 +3,6 @@ package com.mymarket.controller;
 import com.mymarket.pojo.Offer;
 import com.mymarket.pojo.Result;
 import com.mymarket.service.OfferService;
-import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,9 +18,10 @@ public class OfferController {
         try{
             offerService.put(offer);
         }
-        catch (DataAccessException e){
+        catch (Exception e){
             return Result.error("添加订单失败！");
         }
         return Result.success();
     }
+
 }

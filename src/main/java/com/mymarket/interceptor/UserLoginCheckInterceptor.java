@@ -6,32 +6,18 @@ import com.mymarket.utils.JwtUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 
 @Component
-public class LoginCheckInterceptor implements HandlerInterceptor {
+public class UserLoginCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String url = request.getRequestURI();
-
-        if(url.contains("login")
-            || url.contains("register")
-            || url.contains("error")) return true;
-        String jwt = request.getHeader("token");
-        System.out.println("token: "+jwt);
-        if(!StringUtils.hasLength(jwt)){
-            Result error =Result.error("NOT_LOGIN");
-            String notLogin = JSONObject.toJSONString(error);
-            response.getWriter().write(notLogin);
-            return false;
-        }
-        try {
-            JwtUtils.parseJwt(jwt);
-        }catch (Exception e){
-            e.printStackTrace();
+        if(url.contains("login") || url.contains("register")) return true;
+        Integer[] type = JwtUtils.checkToken(request);
+        if(type[0] == -1) {
             Result error =Result.error("NOT_LOGIN");
             String notLogin = JSONObject.toJSONString(error);
             response.getWriter().write(notLogin);
@@ -39,7 +25,6 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         }
         return true;
     }
-
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);

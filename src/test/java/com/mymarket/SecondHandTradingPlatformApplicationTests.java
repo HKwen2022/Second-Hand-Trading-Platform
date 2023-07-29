@@ -17,9 +17,7 @@ public class SecondHandTradingPlatformApplicationTests {
 //    private UserMapper userMapper;
     @Test
     public void contextLoads() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("1","a");
-        map.put("2","b" );
-        JwtUtils.parseJwt(JwtUtils.generateJwt(map));
+        String url = "/user/9";
+        System.out.println(url.contains("admin") && !url.contains("login") && !url.contains("register"));
     }
 }

@@ -9,9 +9,11 @@ import java.time.LocalDate;
 @Service
 public class OfferService {
     final OfferMapper offerMapper;
-    public OfferService(OfferMapper offerMapper)
+    final CommodityService commodityService;
+    public OfferService(OfferMapper offerMapper,CommodityService commodityService)
     {
         this.offerMapper = offerMapper;
+        this.commodityService = commodityService;
     }
     public void put(Offer offer) {
         offer.orderDate = LocalDate.now();

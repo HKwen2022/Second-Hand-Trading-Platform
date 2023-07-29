@@ -2,7 +2,6 @@ package com.mymarket.service;
 
 import com.mymarket.mapper.CommodityMapper;
 import com.mymarket.pojo.Commodity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +31,10 @@ public class CommodityService {
     }
     public Commodity get(Integer id) {
         return commodityMapper.get(id);
+    }
+    public void changeStock(Integer id, Integer delta) throws Exception{
+        Commodity commodity = get(id);
+        if(commodity == null) throw new Exception("商品不存在!");
+        commodity.setStock(commodity.getStock()+delta);
     }
 }
