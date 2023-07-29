@@ -1,10 +1,7 @@
 package com.mymarket.controller;
 
 import com.mymarket.mapper.ShopCarMapper;
-import com.mymarket.pojo.Commodity;
-import com.mymarket.pojo.Offer;
-import com.mymarket.pojo.Result;
-import com.mymarket.pojo.ShopCar;
+import com.mymarket.pojo.*;
 import com.mymarket.service.CommodityService;
 import com.mymarket.service.OfferService;
 import com.mymarket.service.ShopCarService;
@@ -23,7 +20,6 @@ public class ShopCarController {
     public ShopCarController(ShopCarService shopCarService) {
         this.shopCarService = shopCarService;
     }
-
     @PostMapping("/shop_car")
     public Result put(@RequestBody ShopCar shopCar) {
         try {
@@ -33,7 +29,6 @@ public class ShopCarController {
         }
         return Result.success();
     }
-
     @GetMapping("/shop_car/{id}")
     public Result getByUserId(@PathVariable Integer id) {
         List<ShopCar> ret = null;
@@ -44,7 +39,6 @@ public class ShopCarController {
         }
         return Result.success(ret);
     }
-
     @GetMapping("/shop_car/all")
     public Result getAllShopCar() {
         List<ShopCar> ret = null;
@@ -55,7 +49,6 @@ public class ShopCarController {
         }
         return Result.success(ret);
     }
-
     @PostMapping("/shop_car/all")
     public Result get(Integer userId, @RequestBody Commodity commodity) {
         List<ShopCar> ret = null;
@@ -66,7 +59,6 @@ public class ShopCarController {
         }
         return Result.success(ret);
     }
-
     @DeleteMapping("/shop_car/{id}")
     public Result delete(@PathVariable Integer id) {
         try {
@@ -76,36 +68,56 @@ public class ShopCarController {
         }
         return Result.success();
     }
-
+    @DeleteMapping("/shop_car")
+    public Result delete(@RequestBody List<Integer> list) {
+        try {
+            for(Integer id : list) shopCarService.delete(id);
+        } catch (DataAccessException e) {
+            return Result.error("删除购物车失败！");
+        }
+        return Result.success();
+    }
+    @DeleteMapping("/shop_car/all")
+    public Result delete(HttpServletRequest request) {
+        try {
+            Integer userId = JwtUtils.checkToken(request)[1];
+            shopCarService.deleteAll(userId);
+        } catch (DataAccessException e) {
+            return Result.error("删除购物车失败！");
+        }
+        return Result.success();
+    }
     @PutMapping("/shop_car")
     public Result update(@RequestBody ShopCar shopCar) {
         if (shopCar.getId() == null) return Result.error("修改购物车失败！未提供购物车id。");
         try {
             shopCarService.update(shopCar);
         } catch (DataAccessException e) {
-            return Result.error("修改商品失败！");
+            return Result.error("修改购物车失败！");
         }
         return Result.success();
     }
-
     //结算购物车
     @PostMapping("/shop_car/settlement")
-    public Result settlement(@RequestBody List<Integer> list) {
+    public Result settlement(@RequestBody SettlementData data) {
         try {
-            shopCarService.settlement(list);
+            shopCarService.settlement(data);
         }
         catch (Exception e){
+            if(e.getMessage().equals("商品库存不足!")) return Result.error(e.getMessage());
+            e.printStackTrace();
             return Result.error("购物车结算失败!");
         }
         return Result.success();
     }
-    @GetMapping("/shop_car/settlement")
-    public Result settlementAll(HttpServletRequest request){
-        Integer userId = JwtUtils.checkToken(request)[1];
+    @PostMapping("/shop_car/settlement/all")
+    public Result settlementAll(@RequestBody String address, HttpServletRequest request){
         try{
-            shopCarService.settlementAll(userId);
+            Integer userId = JwtUtils.checkToken(request)[1];
+            shopCarService.settlementAll(userId,address);
         }
         catch (Exception e){
+            if(e.getMessage().equals("商品库存不足!")) return Result.error(e.getMessage());
             return Result.error("购物车结算失败!");
         }
         return Result.success();
