@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我发布的商品</title>
+    <link rel="stylesheet" href="../css/我的商品管理（卖家）.css">
+</head>
+
+<body>
+<ul >
+    <li><a class="active" href="#home" style="margin-right: 80px"><h1>我的商城</h1></a></li>
+    <li><a href="#news" style="margin-top: 40px;margin-right: 30px">首页</a></li>
+    <li><a href="#contact" style="margin-top: 40px;margin-right: 30px">账户设置</a></li>
+    <li><a href="#about" style="margin-top: 40px;margin-right: 150px">关于</a></li>
+    <input  id ="rcorners1" type="search" style="margin-top: 43px;margin-right: 10px;height: 35px">
+    <i class="fa fa-search" style="font-size: 34px"></i>
+</ul>
+<br>
+<br>
+<div class="wrap clearfix">
+    <table width="100%" class="cartTable" cellspacing="0" cellpadding="10px">
+        <!-- 首行 -->
+        <tr class="title">
+            <td width="50"><input type="checkbox" name="" class="choose_all"></td>
+            <td width="100" class=""><span style="margin-left: -10px;">全选</span></td>
+            <td width="400">商品信息</td>
+            <td width="150">单价（元）</td>
+            <td width="150">数量</td>
+            <td width="150">金额（元）</td>
+            <td width="80">操作</td>
+        </tr>
+
+        <tr class="count">
+            <td colspan="7">
+                <div class="jiesuan clearfix">
+                    <div class="left fl">
+                        <p><input type="checkbox" name="" class="choose_all"> 全选&nbsp;&nbsp;&nbsp;<a href="#" class="del_check">删除选中商品</a></p>
+                    </div>
+                    <div class="right fr clearfix">
+                        <p>商品总计：￥465.00</p>
+                        <p>活动优惠：-￥0.00</p>
+                        <p>已选商品<span class="red t-number"> 0 </span>件 总价(不含运费、税费)：<span class="red t-price">￥0.00</span></p>
+                        <!-- <div><a href="#" class="btn pay">结算</a></div> -->
+                        <a href="#" class="btn pay fr">结算</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div style="height: 200px">
+    <button id="addProductButton">添加商品</button>
+</div>
+<!-- 引入JS文件 -->
+<div id="addProductModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>发布商品</h2>
+        <form>
+            <div class="form-field">
+                <label for="productName" class="pName">商品名称</label>
+                <input type="text" id="productName">
+            </div>
+            <div class="form-field">
+                <label for="productPrice" class="pPrice">商品价格</label>
+                <input type="number" id="productPrice">
+            </div>
+            <div class="form-field">
+                <label for="productCategory" class="pCategory">商品分类</label>
+                <input type="text" id="productCategory">
+            </div>
+            <div class="form-field">
+                <label for="productStock" class="pStock">商品库存</label>
+                <input type="number" id="productStock">
+            </div>
+            <!--      <button type="submit">添加</button>-->
+        </form>
+        <p style="font-size: 20px;margin-left: 115px"> 商品图片<button id="selectImageButton" style="margin-left: 50px">选择图片</button></p>
+        <div id="imagePreviewContainer" class="image-container">
+            <div class="image-placeholder" id="productImaUrl1"></div>
+            <div class="image-placeholder" id="productImaUrl2"></div>
+            <div class="image-placeholder" id="productImaUrl3"></div>
+            <div class="image-placeholder" id="productImaUrl4"></div>
+        </div>
+        <button id="addProduct" class="addProduct" onclick="ensureRegister()">添加商品</button>
+    </div>
+</div>
+
+
+<!-- 引入JS文件 -->
+<script >
+    // 获取所有全选按钮
+    var choose_alls = document.querySelectorAll(".choose_all");
+    var table = document.querySelector('.cartTable');
+    var elementToMove = document.querySelector('.count');
+
+    var image1Path = 'null';
+    var image2Path = 'null';
+    var image3Path = 'null';
+    var image4Path = 'null';
+
+
+    //添加商品
+    var addProductButton = document.getElementById("addProductButton");
+    var addProductModal = document.getElementById("addProductModal");
+    var closeButton = document.getElementsByClassName("close")[0];
+
+    addProductButton.onclick = function() {
+        addProductModal.style.display = "block";
+    }
+
+    closeButton.onclick = function() {
+        addProductModal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == addProductModal) {
+            addProductModal.style.display = "none";
+        }
+    }
+    var selectImageButton = document.getElementById("selectImageButton");
+    var imagePreviewContainer = document.getElementById("imagePreviewContainer");
+
+    var placeholders = document.querySelectorAll(".image-placeholder");
+
+    selectImageButton.addEventListener("click", function() {
+        var inputFile = document.createElement("input");
+        inputFile.type = "file";
+
+        inputFile.addEventListener("change", function() {
+            var file = inputFile.files[0];
+
+            if (!file) return;
+
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                var img = document.createElement("img");
+                img.src = e.target.result;
+                img.style.maxWidth = "200px";
+                img.style.maxHeight = "200px";
+                img.style.margin = "10px";
+
+                var index = Array.from(placeholders).findIndex(function(placeholder) {
+                    return !placeholder.querySelector("img");
+                });
+
+                if (index >= 0 && index < placeholders.length) {
+                    placeholders[index].appendChild(img);
+                }
+
+                // 获取图片在文件夹中的地址
+                var folderPath = "../image/"; // 文件夹路径
+
+                if(image1Path==='null')
+                {
+                    image1Path = folderPath + file.name; // 图片在文件夹中的地址
+                }
+                else if(image1Path!=='null'&&image2Path==='null')
+                {
+                    image2Path = folderPath + file.name; // 图片在文件夹中的地址
+                }
+                else if(image1Path!=='null'&&image2Path!=='null'&&image3Path==='null')
+                {
+                    image3Path = folderPath + file.name; // 图片在文件夹中的地址
+                }
+                else
+                    image4Path = folderPath + file.name; // 图片在文件夹中的地址
+
+            };
+
+            reader.readAsDataURL(file);
+        });
+
+        inputFile.click();
+    });
+
+    // 全选框点击事件
+    for(var i=0; i<choose_alls.length; i++){
+        choose_alls[i].onclick = function(){
+            var rows123 = document.querySelectorAll(".choose");
+            // 全选/全不选所有单选框
+            for(var i=0; i<rows123.length; i++){
+                var checkbox = rows123[i].parentNode.parentNode.querySelector(".choose");
+                checkbox.checked = this.checked;
+            }
+            // 与另外一个全选框联动
+            choose_alls[0].checked = this.checked;
+            choose_alls[1].checked = this.checked;
+            // 计算总计
+            setTotal();
+        }
+    }
+
+    // 计算总计价格 & 计算选中的商品总数 & 同时判断是否全选
+    function setTotal(){
+        var total = 0;  // 商品总价
+        var allNum = 0; // 商品总数
+        // 重新获取行
+        var rows123 = document.querySelectorAll(".choose");
+        //alert(rows123.length.toString());
+        // 遍历所有行
+        for(var i=0; i<rows123.length; i++){
+            // 查找被选中的行
+            //var checkbox = rows123[i].querySelector(".choose");
+            if(rows123[i].checked){
+                alert("第"+i+"行");
+
+                // 获取小计价格（得到的是字符串，不是数字，需要转化）
+                var smallTr = rows123[i].parentNode.parentNode;
+                var smallTotal = smallTr.querySelector(".u-price").innerHTML;
+                //alert(smallTotal.toString());
+                // 获取商品数量
+                var num = smallTr.querySelector(".unum").value;
+                alert(num.toString());
+                // 把小计价格转化为数字
+                smallTotal = Number(smallTotal);
+                total += smallTotal;
+                // 计算商品总数
+                num = Number(num);
+                allNum += num;
+                //total=num*smallTotal
+            }
+        }
+
+        // 把总计放在它应在的位置
+        var totalPrice = document.querySelector(".t-price");
+        totalPrice.innerHTML = total.toFixed(2);
+        // 设置商品总数
+        document.querySelector(".t-number").innerHTML = allNum;
+
+        // var isCheckAll = true;
+        //
+        // for(var i=0; i<rows123.length; i++){
+        //     var checkbox = rows123[i].querySelector(".choose");
+        //     if(!checkbox.checked){
+        //         isCheckAll = false;
+        //         break;
+        //     }
+        // }
+        // if(rows123.length<=0){
+        //     isCheckAll = false;
+        // }
+        // 将两个全选框设置为和全选变量相同的值
+
+        // choose_alls[0].checked = isCheckAll;
+        // choose_alls[1].checked = isCheckAll;
+    }
+
+    //展示所有已经发布商品信息
+    function allShoppingCarts(){
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "../commodity?id=1&name=name", true);
+        //xhttp.setRequestHeader('Content-Type', 'application/json');
+        xhttp.send();
+
+        xhttp.onreadystatechange = function()
+        {
+
+            if (this.readyState == 4 && this.status == 200)
+            {
+                var myObj = JSON.parse(this.responseText);
+                var data = myObj.data;
+                // var tbody = document.getElementById('tableTh');
+                // tbody.className="table";
+
+                for(var i = 0;i < data.length; i++){ //遍历一下json数据
+                    if (elementToMove.parentNode) {
+                        elementToMove.parentNode.removeChild(elementToMove);
+                    }
+                    var trow = addCommodity1(data[i]); //定义一个方法,返回tr数据
+                    table.appendChild(trow);
+                    table.appendChild(elementToMove);
+                }
+            }
+        }
+    }
+
+    function addCommodity1(h)
+    {
+        // var danjia=80;
+        // var count=100;
+
+        //var table = document.querySelector('.cartTable');
+
+// 创建新行
+        var newRow = document.createElement('tr');
+
+// 创建并添加单元格元素
+        var checkboxCell = document.createElement('td');
+        checkboxCell.innerHTML = '<input type="checkbox" name="" class="choose">';
+        newRow.appendChild(checkboxCell);
+
+        var thumbCell = document.createElement('td');
+        thumbCell.className = 'tal';
+        thumbCell.innerHTML = '<a href="#" class="pic"><img src="'+h.imageUrl+'" alt="" style="width: 200px"></a>';
+        newRow.appendChild(thumbCell);
+        alert(h.imageUrl);
+
+        var productCell = document.createElement('td');
+        productCell.className = 'tal';
+        productCell.innerHTML = '<a href="#">'+h.name+'</a>';
+        newRow.appendChild(productCell);
+
+        var priceCell = document.createElement('td');
+        priceCell.innerHTML = '<span class="tdl">99.00</span><br><b class="unit">'+h.price+'</b>';
+        newRow.appendChild(priceCell);
+
+        var quantityCell = document.createElement('td');
+        quantityCell.innerHTML = '<div class="amount"><input type="text" value="'+h.stock+'" class="unum"></div>';
+        newRow.appendChild(quantityCell);
+
+        var subTotalCell = document.createElement('td');
+        subTotalCell.innerHTML = '<b class="u-price">'+(h.stock*h.price)+'</b>';
+        newRow.appendChild(subTotalCell);
+
+        var deleteCell = document.createElement('td');
+        deleteCell.innerHTML = '<a href="#" class="btn-del">删除</a>';
+        newRow.appendChild(deleteCell);
+
+        checkboxCell.addEventListener('click', function () {
+            setTotal();
+        });
+
+        deleteCell.addEventListener('click', function() {
+            var currentRow = this.parentNode;
+            currentRow.parentNode.removeChild(currentRow);
+            setTotal();
+        });
+
+// 将新行添加到表格中
+        //table.appendChild(newRow);
+        return newRow;
+
+    }
+
+    //确认发布商品
+    function ensureRegister(){
+        var xhttp = new XMLHttpRequest();
+
+        var nameV = document.getElementById("productName");
+        var priceV=document.getElementById("productPrice");
+        var categoryV=document.getElementById("productCategory");
+        var stockV = document.getElementById("productStock");
+        //var image1V=document.getElementById("productImaUrl1");
+
+        var obj = JSON.stringify({"name":nameV.value,"price":priceV.value,"type":categoryV.value,"stock":stockV.value,"imageUrl":image1Path,"description":image1Path,"publisher":1});
+        xhttp.open("POST", "../commodity", true);
+        xhttp.setRequestHeader('Content-Type', 'application/json');
+        xhttp.send(obj);
+        addProductModal.style.display = "none";
+        //window.open("/html/register_scuess.html");
+
+        // alert(image1Path);
+        // alert(image2Path);
+        // alert(image3Path);
+        // alert(image4Path);
+
+    }
+
+    //当打开页面时，连接数据库并显示所有已经发布的商品信息
+    window.onload=allShoppingCarts;
+
+</script>
+</body>
+
+</html>

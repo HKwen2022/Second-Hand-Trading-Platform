@@ -1,10 +1,14 @@
 package com.mymarket.service;
 
 import com.mymarket.mapper.OfferMapper;
+import com.mymarket.pojo.Commodity;
 import com.mymarket.pojo.Offer;
+import com.mymarket.pojo.ShopCar;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class OfferService {
@@ -16,13 +20,30 @@ public class OfferService {
         this.commodityService = commodityService;
     }
     public void put(Offer offer) throws Exception {
-        if (commodityService.get(offer.getCid()).getStock() >= offer.getNumber()) {
-            offer.orderDate = LocalDate.now();
-            offer.deliverDate = null;
-            offer.deliveryAddress = null;
-            offer.shippingAddress = null;
+        var commodity =  commodityService.get(offer.getCid());
+        if(commodity.getStock() < offer.getNumber()) throw new Exception("商品库存不足!");
+        commodity.setStock(commodity.getStock()-offer.getNumber());
+        offer.setPrice(commodity.getPrice().multiply(BigDecimal.valueOf(offer.getNumber())));
+        offer.orderDate = LocalDate.now();
+        offer.deliverDate = null;
+        offer.shippingAddress = null;
+        offerMapper.put(offer);
+        commodityService.update(commodity);
+    }
+    public void delete(Integer id) {
+        offerMapper.delete(id);
+    }
+    public void deleteAll(Integer userId) {
+        offerMapper.deleteAll(userId);
+    }
 
-            offerMapper.put(offer);
-        } else throw new Exception();
+    public List<ShopCar> getByUserId(Integer id) {
+        return offerMapper.getByUserId(id);
+    }
+    public List<ShopCar> getAll() {
+        return offerMapper.getAll();
+    }
+    public List<ShopCar> get(Integer userId, Commodity commodity) {
+        return offerMapper.get(userId,commodity);
     }
 }

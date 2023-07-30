@@ -124,7 +124,7 @@
                 }
                 else
                 {
-                    window.open("/html/Commodity.html");
+                    window.open("/html/myListedProduct.html");
                 }
 
                 //window.open("Commodity.html");
@@ -135,9 +135,9 @@
         };
         var usernameV = document.getElementById("username");
         var passwordV = document.getElementById('password');
-        var params = 'username=' + usernameV.value + '&password=' + passwordV.value;
+        var params = JSON.stringify({"name": usernameV.value,"password": passwordV.value});
         xhttp.open("POST", "../user/login", true);
-        xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhttp.setRequestHeader('Content-Type', 'application/json');
         xhttp.send(params);
     }
 

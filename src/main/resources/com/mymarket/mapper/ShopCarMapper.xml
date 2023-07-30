@@ -24,6 +24,9 @@
     <delete id="delete">
         delete from shop_car where id = #{id}
     </delete>
+    <delete id="deleteAll">
+        delete from shop_car where uid = #{userId}
+    </delete>
     <select id="getByUserId" resultType="com.mymarket.pojo.ShopCar">
         select * from shop_car where uid = #{userId};
     </select>

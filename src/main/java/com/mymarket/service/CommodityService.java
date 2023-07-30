@@ -32,4 +32,9 @@ public class CommodityService {
     public Commodity get(Integer id) {
         return commodityMapper.get(id);
     }
+    public void changeStock(Integer id, Integer delta) throws Exception{
+        Commodity commodity = get(id);
+        if(commodity == null) throw new Exception("商品不存在!");
+        commodity.setStock(commodity.getStock()+delta);
+    }
 }

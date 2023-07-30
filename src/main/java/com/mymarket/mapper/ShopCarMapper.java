@@ -12,6 +12,7 @@ import java.util.List;
 public interface ShopCarMapper {
     void put(ShopCar shopCar);
     void delete(Integer id) throws DataAccessException;
+    void deleteAll(Integer userId) throws DataAccessException;
     List<ShopCar> getByUserId(Integer userId);
     List<ShopCar> get(Integer userId, Commodity commodity);
     @Select("select * from shop_car")
