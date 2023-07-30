@@ -3,8 +3,9 @@ package com.mymarket.exception;
 import com.mymarket.pojo.Result;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestController
+@RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Result ex(Exception ex){
