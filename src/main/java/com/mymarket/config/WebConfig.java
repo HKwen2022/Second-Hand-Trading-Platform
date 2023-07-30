@@ -21,6 +21,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/admin/**",
                         "/shop_car/**",
                         "/html/index.html",
+                        "/error",
                         "/");
         registry.addInterceptor(adminLoginCheckInterceptor).addPathPatterns("/admin/**");
     }
