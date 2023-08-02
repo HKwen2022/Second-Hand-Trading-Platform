@@ -47,6 +47,8 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+    if(localStorage.token) location.href = '/html/commodity.html'
+
     let transfer1 = document.getElementById('manager_button');
     transfer1.addEventListener('click', function () {
         window.location.href = "/html/manager_login.html";
@@ -99,6 +101,7 @@
 
     function successOrDefeat()
     {
+        check()
         var usernameV = document.getElementById("username")
         var passwordV = document.getElementById('password')
         var params = JSON.stringify({"name": usernameV.value,"password": passwordV.value})

@@ -10,11 +10,11 @@ service.interceptors.request.use(
     config => {
         config.headers.token = localStorage.token
         if (!localStorage.token){
-            location.href="/html/index.html"
+            location.href="/html/123.html"
         }
         return config
     }
 )
 
 const token = localStorage.token
-if(!token) location.href = '/html/index.html'
+if(!token) location.href = '/html/123.html'
