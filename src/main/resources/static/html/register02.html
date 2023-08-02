@@ -9,37 +9,39 @@
 </head>
 <body>
 <div class="container">
-    <form action="#" method="post">
+    <form action="javascript:;" class="reg-form">
         <div class="box">
             <div class="transtion-box">
                 <div class="reg-box" style="display: flex">
                     <h1>注册为用户</h1>
                     <section>
-                        <label for="username">用户名</label>
-                        <input type="text" id="username" name="username"/>
+                        <label for="name">用户名</label>
+                        <input type="text" id="name" name="name" class="form-control name"/>
                     </section>
                     <section>
                         <label for="email">邮箱</label>
                         <input type="text" id="email" name="email"/>
                     </section>
                     <section>
-                        <label for="email">电话</label>
-                        <input type="text" id="telephone" name="telephone"/>
+                        <label for="phone">电话</label>
+                        <input type="text" id="phone" name="phone"/>
                     </section>
                     <section>
                         <label for="password">密码</label>
-                        <input type="password" id="password" name="password"/>
+                        <input type="password" id="password" name="password" class="form-control password"/>
                     </section>
-
                     <section>
-                        <label for="password">确认密码</label>
-                        <input type="password" id="ensurePassword" name="ensurePassword"/>
+                        <label for="ensurePassword">确认密码</label>
+                        <input type="password" id="ensurePassword" name="ensurePassword" class="form-control ensurePassword"/>
                     </section>
-                    <button type="button" onmouseover="this.style.backgroundColor='#FF8D00'" onmouseout="this.style.backgroundColor='#d4af7a'" onclick="ensureRegister()">注册</button>
-                    <button type="button" id="manager_button" onmouseover="this.style.backgroundColor='#FF8D00'" onmouseout="this.style.backgroundColor='#fff'" class="other">
-                        注册<span style="font-weight: 900; color: #455a81">管理员</span
-                    >账号
-                    </button>
+                    <button type="button"
+                            onmouseover="this.style.backgroundColor='#FF8D00'"
+                            onmouseout="this.style.backgroundColor='#d4af7a'"
+                            class="btn">注册</button>
+                    <button type="button" id="manager_button"
+                            onmouseover="this.style.backgroundColor='#FF8D00'"
+                            onmouseout="this.style.backgroundColor='#fff'"
+                            class="other">注册<span style="font-weight: 900; color: #455a81">管理员</span>账号</button>
                 </div>
             </div>
             <div class="transferToReg">
@@ -51,7 +53,8 @@
     </form>
 </div>
 </body>
-
+<script src="../js/form-serialize.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     // 获取注册按钮1元素
     // var registerButton1 = document.querySelector('button[type="button"]');
@@ -70,27 +73,62 @@
         window.location.href = "/html/index.html";
     });
 
-    function ensureRegister(){
-        var xhttp = new XMLHttpRequest();
-
-        var usernameV = document.getElementById("username");
-        var emailV=document.getElementById("email");
-        var telephoneV=document.getElementById("telephone");
-        var passwordV = document.getElementById("password");
-        var ensurePasswordV=document.getElementById("ensurePassword");
-        if(passwordV.value!=ensurePasswordV.value)
-        {
-            alert("请输入正确的密码（两次的密码必须相同）");
-            return;
+    document.querySelector('.btn').addEventListener('click', () => {
+        const name = document.querySelector('.name').value;
+        const password = document.querySelector('.password').value;
+        const ensurePassword = document.querySelector('.ensurePassword').value;
+        if(password != ensurePassword) {
+            alert("密码不一致！")
+            return
         }
-        //var params = 'username=' + usernameV.value + '&email=' + emailV.value + '&telephone=' + telephoneV.value + '&password=' + passwordV.value;
-        var obj = JSON.stringify({"name":usernameV.value,"email":emailV.value,"phone":telephoneV.value,"password":passwordV.value,"imageUrl":"null"});
-        xhttp.open("POST", "../user/register", true);
-        xhttp.setRequestHeader('Content-Type', 'application/json');
-        xhttp.send(obj);
-        //window.open("/html/register_scuess.html");
+        if(name == '' || password == '') {
+            alert('用户名或密码不能为空！')
+            return
+        }
+        const form = document.querySelector('.reg-form')
+        const data = serialize(form, {hash: true, empty: true});
+        console.log(data)
+        axios({
+            url: '/user/register',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'post',
+            data: data
+        }).then(result => {
+            if(result.data.code != 1) alert(result.data.msg)
+            else location.href = '/html/register_scuess.html'
+        }).catch(error => {
+            alert(error.response.data.message)
+        })
+    })
 
-    }
+    // function ensureRegister(){
+        // const form = document.querySelector('.reg-box')
+        // const data = serialize(form, {hash: true, empty: true})
+        // console.log(form)
+        // console.log(data)
+
+        // var xhttp = new XMLHttpRequest();
+        //
+        // var usernameV = document.getElementById("username");
+        // var emailV=document.getElementById("email");
+        // var telephoneV=document.getElementById("telephone");
+        // var passwordV = document.getElementById("password");
+        // var ensurePasswordV=document.getElementById("ensurePassword");
+        // if(passwordV.value!=ensurePasswordV.value)
+        // {
+        //     alert("请输入正确的密码（两次的密码必须相同）");
+        //     return;
+        // }
+        // //var params = 'username=' + usernameV.value + '&email=' + emailV.value + '&telephone=' + telephoneV.value + '&password=' + passwordV.value;
+        // var obj = JSON.stringify({"name":usernameV.value,"email":emailV.value,"phone":telephoneV.value,"password":passwordV.value,"imageUrl":"null"});
+        // xhttp.open("POST", "../user/register", true);
+        // xhttp.setRequestHeader('Content-Type', 'application/json');
+        // xhttp.send(obj);
+        // //window.open("/html/register_scuess.html");
+
+    // }
 
 </script>
 
