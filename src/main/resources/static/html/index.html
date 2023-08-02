@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>登录</title>
     <link rel="stylesheet" href="../css/logintest02.css" />
 </head>
 <body  onload="changeImg()">
@@ -45,8 +45,10 @@
 
 </div>
 </body>
-
+<script src="../js/axios.js"></script>
 <script>
+    if(localStorage.token) location.href = '/html/commodity.html'
+
     let transfer1 = document.getElementById('manager_button');
     transfer1.addEventListener('click', function () {
         window.location.href = "/html/manager_login.html";
@@ -62,15 +64,13 @@
     var code; //声明一个变量用于存储生成的验证码
     document.getElementById("code").onclick = changeImg;
     function changeImg() {
-        var arrays = new Array(
-            '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+        var arrays = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
             'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
             'u', 'v', 'w', 'x', 'y', 'z',
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
             'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
-            'U', 'V', 'W', 'X', 'Y', 'Z'
-        );
+            'U', 'V', 'W', 'X', 'Y', 'Z'];
         code = ''; //重新初始化验证码
         //alert(arrays.length);
         //随机从数组中获取四个元素组成验证码
@@ -88,13 +88,12 @@
 
         //获取用户输入的验证码
         var input_code = document.getElementById('vcode').value;
-        if(input_code.toLowerCase() == code.toLowerCase()) {
+        if(input_code.toLowerCase() === code.toLowerCase()) {
             //验证码正确(表单提交)
             return true;
         }
         alert("请输入正确的验证码!");
         //验证码不正确,表单不允许提交
-
         return false;
 
     }
@@ -102,43 +101,28 @@
 
     function successOrDefeat()
     {
-        var xhttp = new XMLHttpRequest();
+        check()
+        var usernameV = document.getElementById("username")
+        var passwordV = document.getElementById('password')
+        var params = JSON.stringify({"name": usernameV.value,"password": passwordV.value})
 
-        xhttp.onreadystatechange = function()
-        {
-
-            if (this.readyState == 4 && this.status == 200)
-            {
-
-                var myObj = JSON.parse(this.responseText);
-
-                if(!check())
-                {
-
-                }
-
-                // if(xhttp.responseText.toString().)
-                else if(myObj.code==0)
-                {
-                    alert("请输入正确的账户名或密码！");
-                }
-                else
-                {
-                    window.open("/html/myListedProduct.html");
-                }
-
-                //window.open("Commodity.html");
-                // alert(xhttp.responseText);
-
+        axios({
+            url: '/user/login',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'post',
+            data: params,
+        }).then(result => {
+            if(result.data.code != 1) {
+                alert(result.data.msg)
+                return
             }
-
-        };
-        var usernameV = document.getElementById("username");
-        var passwordV = document.getElementById('password');
-        var params = 'username=' + usernameV.value + '&password=' + passwordV.value;
-        xhttp.open("POST", "../user/login", true);
-        xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhttp.send(params);
+            localStorage.setItem("token", result.data.data)
+            location.href = '/html/commodity.html'
+        }).catch(error => {
+            alert(error)
+        })
     }
 
 </script>

@@ -64,7 +64,7 @@
     </form>
 </div>
 </body>
-
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     let transfer1 = document.getElementById('manager_button');
     transfer1.addEventListener('click', function () {
@@ -118,43 +118,28 @@
 
     function successOrDefeat()
     {
-        var xhttp = new XMLHttpRequest();
+        check()
+        var usernameV = document.getElementById("username")
+        var passwordV = document.getElementById('password')
+        var params = JSON.stringify({"name": usernameV.value,"password": passwordV.value})
 
-        xhttp.onreadystatechange = function()
-        {
-
-            if (this.readyState == 4 && this.status == 200)
-            {
-
-                var myObj = JSON.parse(this.responseText);
-
-                if(!check())
-                {
-
-                }
-
-                // if(xhttp.responseText.toString().)
-                else if(myObj.code==0)
-                {
-                    alert("请输入正确的账户名或密码！");
-                }
-                else
-                {
-                    window.open("/html/Commodity.html");
-                }
-
-                //window.open("Commodity.html");
-                // alert(xhttp.responseText);
-
+        axios({
+            url: '/admin/login',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'post',
+            data: params,
+        }).then(result => {
+            if(result.data.code != 1) {
+                alert(result.data.msg)
+                return
             }
-
-        };
-        var usernameV = document.getElementById("username");
-        var passwordV = document.getElementById('password');
-        var params = 'name=' + usernameV.value + '&password=' + passwordV.value;
-        xhttp.open("POST", "../admin/login", true);
-        xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhttp.send(params);
+            localStorage.setItem("token", result.data.data)
+            location.href = '/html/commodity.html'
+        }).catch(error => {
+            alert(error)
+        })
     }
 
 </script>
