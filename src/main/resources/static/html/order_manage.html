@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>校园二手交易平台管理系统</title>
     <!--    <link rel="stylesheet" th:href="@{css/allUser.css}">-->
-    <link rel="stylesheet" href="../css/Commodity.css">
+    <link rel="stylesheet" href="../css/order_manage.css">
     <!--    <script th:src="@{js/allUser.js}"></script>-->
 </head>
-<body>
+<body style="overflow: auto">
 <div class="nav-box">
     <h2>校园二手交易平台管理系统</h2>
     <ul>
@@ -16,7 +16,7 @@
         <li><img src="../image/用户.png" alt=""><a href="Commodity.html">商品信息管理</a></li>
         <li><img src="../image/用户.png" alt=""><a href="order_manage.html">订单信息管理</a></li>
         <li><img src="../image/用户.png" alt=""><a href="manager_login.html">切换管理员</a></li>
-        <li><img src="../image/退出系统ico.png" alt=""><a href="123.html">退出系统</a></li>
+        <li><img src="../image/退出系统ico.png" alt=""><a href="首页.html">退出系统</a></li>
     </ul>
 </div>
 <div class="container-box">
@@ -37,54 +37,45 @@
         <button>-</button>
         <button>修改</button>
         <button>+</button>
-        <button><a th:href="adminAndUser">查看全部订单</a></button>
+        <button type="button" onclick="allCommodity()">查看全部订单</button>
         <span th:text="${msg}"></span>
     </div>
-    <table class="table-th">
+    <table class="table-th" id="Commodity" data-name="Commodity" style="width: 1170px">
         <tr>
-            <th>订单ID</th>
-            <th>买家ID</th>
-            <th>商品ID</th>
+            <th>订单编号</th>
+            <th>商品编号</th>
+            <th>买家编号</th>
             <th>订购数量</th>
+            <th>订购单价</th>
             <th>订购日期</th>
-            <th>发货地址</th>
             <th>发货日期</th>
-            <th>订购总价</th>
+            <th>收货日期</th>
+            <th>收货地址</th>
+            <th>发货地址</th>
+            <th>删除？修改</th>
+            <!--            <th>电话</th>-->
         </tr>
     </table>
-    <table class="table">
-        <tr th:each="alluser:${alluser}">
-            <td th:text="${alluser.id}"></td>
-            <td th:text="${alluser.username}"></td>
-            <td th:text="${alluser.password}"></td>
-            <td th:text="${alluser.status}"></td>
-            <td th:text="${#dates.format(alluser.create_time,'yyyy-MM-dd')}"></td>
-            <td th:text="${alluser.email}"></td>
-            <td th:text="${alluser.tel}"></td>
-            <td th:text="${alluser.tel}"></td>
-        </tr>
-    </table>
+    <div style="margin-top:35px;overflow: auto;max-height: 480px">
+        <table class="table" id="tableTh" >
+
+        </table>
+    </div>
     <form class="delect_form"  method="post" th:action="@{/delectUser}">
         <input type="text" name="username">
     </form>
-    <form class="add_form" method="post" th:action="@{/register}">
-        <h1>注册账号</h1>
-        <input type="text" placeholder="用户名" name="username" required>
-        <input type="password" placeholder="密码" name="password" required>
-        <input type="password" placeholder="确认密码" name="repassword" required>
-        <input type="email" placeholder="邮箱" name="email"   required>
-        <input type="text" placeholder="手机号码" name="tel"  pattern="\d{11}" required>
-        <button type="submit">添加商品</button>
-        <button type="button">取消</button>
-    </form>
-    <form method="post" th:action="@{/updateUser}" class="add_form alter_form" >
+    <form method="post" action="#" class="add_form alter_form" >
         <h1>修改账号</h1>
-        <input type="text" name="username" readonly >
-        <input type="text" placeholder="是否设置管理员?1是0否" name="status" th:value="0" pattern="[0-1]" required  >
-        <input type="password" placeholder="密码" name="password"  required>
-        <input type="repassword" placeholder="确认密码" name="repassword" required>
-        <input type="email" placeholder="邮箱" name="email" required >
-        <input type="text" placeholder="手机号码" name="tel" required  pattern="\d{11}">
+        <input type="text" placeholder="订单编号" id="id" name="id" required>
+        <input type="text" placeholder="商品编号" id="cid" name="cid" required>
+        <input type="text" placeholder="买家编号" id="uid" name="uid" required>
+        <input type="text" placeholder="订购数量" id="count" name="count"   required>
+        <input type="text" placeholder="订购单价" id="price" name="price"  required>
+        <input type="text" placeholder="订购日期" id="orderDate" name="orderDate"  required>
+        <input type="text" placeholder="发货日期" id="deliveryDate" name="deliveryDate"  required>
+        <input type="text" placeholder="收货日期" id="shippingDate" name="shippingDate"  required>
+        <input type="text" placeholder="收货地址" id="shippingAddress" name="shippingAddress"  required>
+        <input type="text" placeholder="发货地址" id="deliveryAddress" name="deliveryAddress"  required>
         <button type="submit">修改</button>
         <button>取消</button>
     </form>
@@ -92,126 +83,313 @@
 </body>
 
 <script>
-    window.onload=function (){
-        const table = document.getElementsByClassName("table")[0];
-        const funtionsInput = document.querySelectorAll(".funtions-box input")[0];
-        const funtionsButtonSearch = document.querySelectorAll(".funtions-box button")[0];
-        const funtionsButtonDelect = document.querySelectorAll(".funtions-box button")[1];
-        const funtionsButtonUpdata = document.querySelectorAll(".funtions-box button")[2];
-        const funtionsButtonAdd = document.querySelectorAll(".funtions-box button")[3];
+    const table = document.getElementsByClassName("table")[0];
+    const funtionsInput = document.querySelectorAll(".funtions-box input")[0];
+    const funtionsButtonSearch = document.querySelectorAll(".funtions-box button")[0];
+    const funtionsButtonDelect = document.querySelectorAll(".funtions-box button")[1];
+    const funtionsButtonUpdata = document.querySelectorAll(".funtions-box button")[2];
+    const funtionsButtonAdd = document.querySelectorAll(".funtions-box button")[3];
 
-        const formDelect = document.getElementsByClassName("delect_form")[0];
-        const formAdd = document.getElementsByClassName("add_form")[0];
-        const formAlter = document.getElementsByClassName("alter_form")[0];
+    const formDelect = document.getElementsByClassName("delect_form")[0];
+    const formAdd = document.getElementsByClassName("add_form")[0];
+    const formAlter = document.getElementsByClassName("alter_form")[0];
 
-        const formAddAllButton = document.querySelectorAll(".add_form button");
-        const formAlterAllButton = document.querySelectorAll(".alter_form button");
-        const nameTd = [];
+    const formAddAllButton = document.querySelectorAll(".add_form button");
+    const formAlterAllButton = document.querySelectorAll(".alter_form button");
+    const nameTd = [];
+    var highlightedRow = null; // 用于跟踪当前高亮显示的行
 
-        addButtonSearch()
-        delectUser()
-        addUser()
-        alterUser()
-
-        function addButtonSearch()//点击查找按钮时
-        {
-            funtionsButtonSearch.addEventListener('click',()=>{
-                if(funtionsInput.value!=='')
-                {
-                    getNameAllTd()
-                    let i;
-                    for(i = 0; i<nameTd.length; i++)
-                    {
-                        if(funtionsInput.value===nameTd[i].innerText){
-                            table.innerHTML='';
-                            table.appendChild(nameTd[i].parentNode);
-                            document.querySelector(".funtions-box span").innerText="查找成功!再次查找请先显示所有用户"
-                            break
-                        }
-                    }
-                    if(i===nameTd.length)
-                    {
-                        alert("没有找到该用户")
-                    }
-                }
-                else
-                {
-                    alert("用户名为空!")
-                }
-
-            })
-        }
-
-        function getNameAllTd()//获取表格每一行的名字
-        {
-            for(let i=0;i<table.rows.length;i++)
-            {
-                nameTd[i]=table.rows[i].cells[1]
+    addButtonSearch()
+    function addButtonSearch()//点击查找按钮时
+    {
+        funtionsButtonSearch.addEventListener('click',()=>{
+            // 恢复上一个高亮行的背景颜色
+            if (highlightedRow !== null) {
+                highlightedRow.style.backgroundColor = '';
             }
-        }
 
-        function delectUser()//点击删除按钮
+            if(funtionsInput.value!=='')
+            {
+                getNameAllTd()
+                let i;
+                var rows = table.getElementsByTagName('tr');
+
+                let if_have=0;
+                alert(table.rows.length);
+                for(i = 0; i<table.rows.length; i++)
+                {
+                    var idCell = rows[i].getElementsByTagName('td')[0]; // 第一列是 ID 列
+                    if (idCell.textContent === funtionsInput.value) {
+
+                        rows[i].style.backgroundColor = 'red'; // 将匹配的行背景色设置为红色
+                        rows[i].scrollIntoView({ block: 'center' }); // 将匹配的行滚动到屏幕中间
+                        highlightedRow = rows[i]; // 更新当前高亮行
+                        if_have=1;
+                        break; // 操作完成后退出循环
+                    }
+                    //alert(idCell.textContent);
+                }
+                //alert("发生了");
+                if(if_have===0)
+                {
+                    alert("没有找到该用户")
+                }
+            }
+            else
+            {
+                alert("用户名为空!")
+            }
+
+        })
+    }
+
+    function getNameAllTd()//获取表格每一行的名字
+    {
+        for(let i=0;i<table.rows.length;i++)
         {
-            funtionsButtonDelect.addEventListener('click',()=>{
-                //输入框不为空继续
-                //不为空后如果找到输入框与表格一致的姓名则可删除用户
-                if(funtionsInput.value!=='') {
-                    getNameAllTd()
-                    for(let i=0;i<nameTd.length;i++){
-                        if(funtionsInput.value===nameTd[i].innerText){
-                            let remiderDelect=window.confirm("你确定要删除"+funtionsInput.value+"用户吗?")
-                            if(remiderDelect===true)
-                            {
-                                formDelect.firstElementChild.value=funtionsInput.value
-                                formDelect.submit()//表单提交至后端，用后端处理删除用户
-                            }
-                            break;
-                        }
-                    }
-                    if(i===nameTd.length){ //如果i==所有名字的长度，证明没有找到用户
-                        alert("没有找到该用户")
-                    }
-                }
-                else{
-                    alert("用户名为空!")
-                }
-            })
-        }
-
-        function addUser(){ //点击+按钮
-            funtionsButtonAdd.addEventListener('click',()=>{
-                formAdd.style.visibility="visible" //添加用户表单显示
-            })
-            formAddAllButton[1].addEventListener('click',()=>{
-                formAdd.style.visibility="hidden" //添加用户表单点击取消隐藏表单
-            })
-        }
-
-        function alterUser(){
-            funtionsButtonUpdata.addEventListener('click',()=>{
-                if(funtionsInput.value!=='') {
-                    let i;
-                    getNameAllTd()
-                    for(i = 0; i<nameTd.length; i++){
-                        if(funtionsInput.value===nameTd[i].innerText){
-                            document.querySelectorAll(".alter_form input")[0].value=funtionsInput.value
-                            formAlter.style.visibility="visible"
-                            break;
-                        }
-                    }
-                    if(i===nameTd.length){
-                        alert("没有找到该用户")
-                    }
-                }
-                else{
-                    alert("用户名为空!")
-                }
-            })
-            formAlterAllButton[1].addEventListener('click',()=>{
-                formAlter.style.visibility="hidden"
-            })
+            nameTd[i]=table.rows[i].cells[0]
+            //alert(nameTd[i].toString());
         }
     }
+
+    function addValue1(h)
+    {
+        var row = document.createElement('tr'); //创建行
+
+        var idCell = document.createElement('td'); //创建第一列id
+        //idCell.className="add-form";
+        idCell.innerHTML = h.id; //填充数据
+        row.appendChild(idCell); //加入行  ，下面类似
+
+        var cidCell = document.createElement('td');//创建第二列name
+        //nameCell.className="table-th";
+        cidCell.innerHTML = h.cid;
+        row.appendChild(cidCell);
+
+        var uidCell = document.createElement('td');//创建第三列job
+        //jobCell.className="table-th";
+        uidCell.innerHTML = h.uid;
+        row.appendChild(uidCell);
+
+        var numberCell = document.createElement('td');//创建第三列job
+        //emailCell.className="table-th";
+        numberCell.innerHTML = h.number;
+        row.appendChild(numberCell);
+
+        var priceCell = document.createElement('td');//创建第三列job
+        //telCell.className="table-th";
+        priceCell.innerHTML = h.price;
+        row.appendChild(priceCell);
+
+        var orderDateCell = document.createElement('td');//创建第三列job
+        //telCell.className="table-th";
+        orderDateCell.innerHTML = h.orderDate;
+        row.appendChild(orderDateCell);
+
+        var shippingDateCell = document.createElement('td');//创建第三列job
+        //telCell.className="table-th";
+        shippingDateCell.innerHTML = h.orderDate;
+        row.appendChild(shippingDateCell);
+
+        var deliveryDateCell = document.createElement('td');//创建第三列job
+        //telCell.className="table-th";
+        deliveryDateCell.innerHTML = h.orderDate;
+        row.appendChild(deliveryDateCell);
+
+        var shippingAddressCell = document.createElement('td');//创建第三列job
+        //telCell.className="table-th";
+        shippingAddressCell.innerHTML = h.orderDate;
+        row.appendChild(shippingAddressCell);
+
+        var deliveryAddressCell = document.createElement('td');//创建第三列job
+        //telCell.className="table-th";
+        deliveryAddressCell.innerHTML = h.orderDate;
+        row.appendChild(deliveryAddressCell);
+
+        var delCell = document.createElement('td');//创建第四列，操作列
+        row.appendChild(delCell);
+        var btnDel = document.createElement('input'); //创建一个input控件
+        btnDel.setAttribute('type','button'); //type="button"
+        btnDel.setAttribute('value','删除');
+
+        var btnAlt = document.createElement('input'); //创建一个input控件
+        btnAlt.setAttribute('type','button'); //type="button"
+        btnAlt.setAttribute('value','修改');
+        btnDel.style.marginRight=10+"px";
+        btnDel.style.width=40+"px";
+        btnAlt.style.width=40+"px";
+
+        btnDel.addEventListener('click', function() {
+            var currentRow = this.parentNode.parentNode;
+            currentRow.parentNode.removeChild(currentRow);
+        });
+
+        btnAlt.addEventListener('click', function() {
+            var currentRow = this.parentNode.parentNode;
+            //currentRow.parentNode.removeChild(currentRow);
+            alterUser(currentRow);
+            //alert(currentRow.cells[3].toString());
+        });
+
+
+        delCell.appendChild(btnDel);  //把删除按钮加入td，别忘了
+        delCell.appendChild(btnAlt);
+
+        row.appendChild(delCell); //将删除按钮所在的单元格添加到行中
+
+        row.addEventListener('mouseover', function() {
+            showInfo(this);
+        });
+
+        return row; //返回tr数据
+    }
+
+    function allCommodity(){
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "../commodity?id=1&name=name", true);
+        //xhttp.setRequestHeader('Content-Type', 'application/json');
+        xhttp.send();
+
+        // xhttp.onreadystatechange = function()
+        // {
+        //     if (this.readyState == 4 && this.status == 200)
+        //     {
+        //         var myObj = JSON.parse(this.responseText);
+        //         var data = myObj.data;
+        //         var tbody = document.getElementById('tableTh');
+        //         tbody.className="table";
+        //
+        //         //alert("45456");
+        //         for(var i = 0;i < data.length; i++){ //遍历一下json数据
+        //             var trow = addValue1(data[i]); //定义一个方法,返回tr数据
+        //             tbody.appendChild(trow);
+        //             //var Id=per[i].id;
+        //             //tbody.innerHTML += "<tr>   <td>"+Id+"</td>  <td>1</td>   <td>1</td>    <td>1</td>    <td>1</td>     <td>1</td> </tr>";
+        //         }
+        //     }
+        // }
+
+        var tbody = document.getElementById('tableTh');
+        tbody.className="table";
+        var data= [
+            {id:1,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+            {id:11,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+            {id:10,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+            {id:101,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+            {id:125,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+            {id:41,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+            {id:251,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+            {id:871,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+            {id:761,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+            {id:691,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+            {id:761,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+            {id:771,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+            {id:961,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'}]
+            for(var i = 0;i < data.length; i++){ //遍历一下json数据
+            var trow = addValue1(data[i]); //定义一个方法,返回tr数据
+            tbody.appendChild(trow);
+            // var Id=per[i].id;
+            // tbody.innerHTML += "<tr>   <td>"+Id+"</td>  <td>1</td>   <td>1</td>    <td>1</td>    <td>1</td>     <td>1</td> </tr>";
+        }
+
+
+    }
+
+    function alterUser(obj){
+        formAlter.style.visibility="visible"
+        document.querySelectorAll(".alter_form input")[0].value=obj.cells[0].textContent;
+        formAlterAllButton[0].addEventListener('click',()=>{
+            var xhttp = new XMLHttpRequest();
+
+            var idV = document.getElementById("id");
+            var cidV=document.getElementById("cid");
+            var uidV=document.getElementById("uid");
+            var numberV = document.getElementById("count");
+            var priceV=document.getElementById("price");
+            var orderDateV=document.getElementById("orderDate");
+            var deliveryDateV=document.getElementById("deliveryDate");
+            var shippingDateV=document.getElementById("shippingDate");
+            var deliveryAddressV=document.getElementById("deliveryAddress");
+            var shippingAddressV=document.getElementById("shippingAddress");
+
+            //var obj = JSON.stringify({"id":idV,"cid":cidV,"uid":uidV,"price":priceV,"number":numberV,"orderDate":orderDateV,"deliverDate":deliveryDateV,"shippingDate":shippingDateV,"deliveryAddress":deliveryAddressV,"shippingAddress":shippingAddressV});
+            //var obj = JSON.stringify({"name":commodityIDV.value,"email":userIDV.value,"phone":nameV.value,"password":priceV.value,"imageUrl":"null"});
+            // xhttp.open("POST", "../admin/register", true);
+            // xhttp.setRequestHeader('Content-Type', 'application/json');
+            // xhttp.send(obj);
+            //window.open("/html/register_scuess.html");
+            formAdd.style.visibility="hidden" //添加用户表单点击取消隐藏表单
+
+            var idCell = obj.cells[0];
+            var cidCell = obj.cells[1];
+            var uidCell = obj.cells[2];
+            var numberCell = obj.cells[3];
+            var priceCell = obj.cells[4];
+            var orderDateCell = obj.cells[5];
+            var deliveryDateCell = obj.cells[6];
+            var shippingDateCell = obj.cells[7];
+            var shippingAddressCell = obj.cells[8];
+            var deliveryAddressCell = obj.cells[9];
+
+            // 修改单元格的内容
+            idCell.innerHTML=idV.value;
+            cidCell.innerHTML=cidV.value;
+            uidCell.innerHTML=uidV.value;
+            numberCell.innerHTML=numberV.value;
+            priceCell.innerHTML=priceV.value;
+            orderDateCell.innerHTML=orderDateV.value;
+            deliveryAddressCell.innerHTML=deliveryAddressV.value;
+            deliveryDateCell.innerHTML=deliveryDateV.value;
+            shippingAddressCell.innerHTML=shippingAddressV.value;
+            shippingDateCell.innerHTML=shippingDateV.value;
+
+
+            formAlter.style.visibility="hidden"
+            alert("修改成功！");
+
+        })
+
+        formAlterAllButton[1].addEventListener('click',()=>{
+            formAlter.style.visibility="hidden"
+        })
+    }
+
+    //window.onload=allCommodity;
+    function showInfo(row) {
+        // 创建一个空白框元素
+        var infoBox = document.createElement('div');
+        infoBox.className = 'info-box';
+
+        // 获取当前行所包含的单元格元素
+        var cells = row.getElementsByTagName('td');
+
+        // 遍历每个单元格，并将其中的文本内容添加到空白框中
+        for (var i = 0; i < cells.length; i++) {
+            var cellText = cells[i].textContent;
+            var infoItem = document.createElement('p');
+            infoItem.textContent = cellText;
+            infoBox.appendChild(infoItem);
+        }
+
+        // 将空白框添加到body元素中
+        document.body.appendChild(infoBox);
+
+        // 计算空白框的位置并设置样式
+        var rowRect = row.getBoundingClientRect();
+        var infoBoxStyle = infoBox.style;
+        infoBoxStyle.left = rowRect.left + 'px';
+        infoBoxStyle.top = (rowRect.bottom + window.pageYOffset) + 'px';
+
+        // 添加鼠标移出事件监听器，移出时移除空白框
+        row.addEventListener('mouseout', function() {
+            infoBox.parentNode.removeChild(infoBox);
+        });
+
+        row.addEventListener('click',function (){
+            infoBox.parentNode.removeChild(infoBox);
+        });
+    }
+
 </script>
 
 </html>
