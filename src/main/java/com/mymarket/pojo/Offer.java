@@ -26,5 +26,7 @@ public class Offer {
     @JsonProperty("address2")
     public String shippingAddress;
     @JsonProperty("date2")
+    public LocalDate shippingDate;
+    @JsonProperty("date3")
     public LocalDate deliverDate;
 }
