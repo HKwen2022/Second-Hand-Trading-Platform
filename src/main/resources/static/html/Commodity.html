@@ -84,8 +84,10 @@
     </form>
 </div>
 </body>
-
-<script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="module" src="../js/auth.js"></script>
+<script type="module">
+    import {service} from '../js/auth.js'
     const table = document.getElementsByClassName("table")[0];
     const funtionsInput = document.querySelectorAll(".funtions-box input")[0];
     const funtionsButtonSearch = document.querySelectorAll(".funtions-box button")[0];
@@ -101,6 +103,18 @@
     const formAlterAllButton = document.querySelectorAll(".alter_form button");
     const nameTd = [];
     var highlightedRow = null; // 用于跟踪当前高亮显示的行
+
+    service({
+        url: '/commodity/all',
+        method: 'get',
+    }).then(result =>{
+        if(result.data.code != 1) {
+            alert(result.data.msg)
+            location.href = '/html/index.html'
+        }
+    }).catch(error => {
+        alert(error)
+    })
 
     addButtonSearch()
     addValue()

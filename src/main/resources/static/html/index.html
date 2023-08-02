@@ -9,7 +9,7 @@
 </head>
 <body  onload="changeImg()">
 <div class="container">
-<!--    onsubmit="return check()"-->
+    <!--    onsubmit="return check()"-->
     <form action="#" method="post">
         <div class="box">
             <div class="transtion-box">
@@ -45,7 +45,7 @@
 
 </div>
 </body>
-
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     let transfer1 = document.getElementById('manager_button');
     transfer1.addEventListener('click', function () {
@@ -85,7 +85,6 @@
 
     //效验验证码(表单被提交时触发)
     function check() {
-
         //获取用户输入的验证码
         var input_code = document.getElementById('vcode').value;
         if(input_code.toLowerCase() == code.toLowerCase()) {
@@ -94,52 +93,33 @@
         }
         alert("请输入正确的验证码!");
         //验证码不正确,表单不允许提交
-
         return false;
-
     }
 
 
     function successOrDefeat()
     {
-        var xhttp = new XMLHttpRequest();
+        var usernameV = document.getElementById("username")
+        var passwordV = document.getElementById('password')
+        var params = JSON.stringify({"name": usernameV.value,"password": passwordV.value})
 
-        xhttp.onreadystatechange = function()
-        {
-
-            if (this.readyState == 4 && this.status == 200)
-            {
-
-                var myObj = JSON.parse(this.responseText);
-
-                if(!check())
-                {
-
-                }
-
-                // if(xhttp.responseText.toString().)
-                else if(myObj.code==0)
-                {
-                    alert("请输入正确的账户名或密码！");
-                }
-                else
-                {
-                    window.open("/html/myListedProduct.html");
-                }
-
-                //window.open("Commodity.html");
-                // alert(xhttp.responseText);
-
+        axios({
+            url: '/user/login',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'post',
+            data: params,
+        }).then(result => {
+            if(result.data.code != 1) {
+                alert(result.data.msg)
+                return
             }
-
-        };
-        var usernameV = document.getElementById("username");
-        var passwordV = document.getElementById('password');
-        var params = JSON.stringify({"name": usernameV.value,"password": passwordV.value});
-        xhttp.open("POST", "../user/login", true);
-        xhttp.setRequestHeader('Content-Type', 'application/json');
-        xhttp.send(params);
+            localStorage.setItem("token", result.data.data)
+            location.href = '/html/commodity.html'
+        }).catch(error => {
+            alert(error)
+        })
     }
-
 </script>
 </html>
