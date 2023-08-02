@@ -3,6 +3,7 @@ package com.mymarket.service;
 import com.mymarket.mapper.ShopCarMapper;
 import com.mymarket.pojo.Commodity;
 import com.mymarket.pojo.Offer;
+import com.mymarket.pojo.SettlementData;
 import com.mymarket.pojo.ShopCar;
 import org.springframework.stereotype.Service;
 
@@ -40,27 +41,29 @@ public class ShopCarService {
     public void update(ShopCar shopCar) {
         shopCarMapper.update(shopCar);
     }
-    public void settlement(List<Integer> list) throws Exception {
-        for (Integer id : list) {
+    public void settlement(SettlementData data) throws Exception {
+        for (Integer id : data.getList()) {
             ShopCar shopCar = get(id);
-            settlement(shopCar);
+            settlement(shopCar,data.getDeliveryAddress());
         }
     }
-    public void settlementAll(Integer userId) throws Exception {
+    public void settlementAll(Integer userId, String address) throws Exception {
         List<ShopCar> list = getByUserId(userId);
         for(ShopCar shopCar : list){
-            settlement(shopCar);
+            settlement(shopCar,address);
         }
     }
-    private void settlement(ShopCar shopCar) throws Exception {
-        Commodity commodity = commodityService.get(shopCar.getCid());
-        if(commodity.getStock() < shopCar.getCNumber()) throw new Exception("商品库存不足!");
+    private void settlement(ShopCar shopCar, String address) throws Exception {
         Offer offer = new Offer();
         offer.setCid(shopCar.getCid());
         offer.setUid(shopCar.getUid());
         offer.setNumber(shopCar.getCNumber());
-        offer.setPrice(commodity.getPrice().multiply(BigDecimal.valueOf(shopCar.getCNumber())));
+        offer.setDeliveryAddress(address);
         offerService.put(offer);
         delete(shopCar.getId());
+    }
+
+    public void deleteAll(Integer userId) {
+        shopCarMapper.deleteAll(userId);
     }
 }

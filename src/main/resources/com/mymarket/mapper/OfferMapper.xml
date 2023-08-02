@@ -6,4 +6,37 @@
     <insert id="put">
         insert into offer(uid, cid, price, number, order_date, delivery_address, shipping_address, delivery_date) values (#{uid},#{cid},#{price},#{number},#{orderDate},#{deliveryAddress},#{shippingAddress},#{deliverDate});
     </insert>
+    <delete id="deleteAll">
+        delete from offer where uid = #{userId}
+    </delete>
+    <delete id="delete">
+        delete from offer where id = #{id}
+    </delete>
+    <select id="get" resultType="com.mymarket.pojo.ShopCar">
+        select * from offer o, commodity c
+        <where>
+            o.cid = c.id
+            <if test="userId != null">
+                and o.uid = #{userId}
+            </if>
+            <if test="commodity.id != null">
+                and o.cid = #{commodity.id}
+            </if>
+            <if test="commodity.name != null and commodity.name != ''">
+                and o.name like concat('%',#{commodity.name},'%')
+            </if>
+            <if test="commodity.description != null and commodity.description != ''">
+                and o.description like concat('%',#{commodity.description},'%')
+            </if>
+            <if test="commodity.publisher != null">
+                and o.publisher = #{commodity.publisher}
+            </if>
+            <if test="commodity.type != null">
+                and o.type = #{commodity.type}
+            </if>
+            <if test="commodity.price != null">
+                and o.price = #{commodity.price}
+            </if>
+        </where>
+    </select>
 </mapper>

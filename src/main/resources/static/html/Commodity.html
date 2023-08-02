@@ -16,7 +16,7 @@
         <li><img src="../image/用户.png" alt=""><a href="Commodity.html">商品信息管理</a></li>
         <li><img src="../image/用户.png" alt=""><a href="order_manage.html">订单信息管理</a></li>
         <li><img src="../image/用户.png" alt=""><a href="manager_login.html">切换管理员</a></li>
-        <li><img src="../image/退出系统ico.png" alt=""><a href="首页.html">退出系统</a></li>
+        <li onclick="exit()"><img src="../image/退出系统ico.png"  alt=""><a href="123.html">退出系统</a></li>
     </ul>
 </div>
 <div class="container-box">
@@ -84,8 +84,15 @@
     </form>
 </div>
 </body>
-
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="module" src="../js/auth.js"></script>
 <script>
+    function exit(){
+        localStorage.clear()
+    }
+</script>
+<script type="module">
+    import {service} from '../js/auth.js'
     const table = document.getElementsByClassName("table")[0];
     const funtionsInput = document.querySelectorAll(".funtions-box input")[0];
     const funtionsButtonSearch = document.querySelectorAll(".funtions-box button")[0];
@@ -101,6 +108,18 @@
     const formAlterAllButton = document.querySelectorAll(".alter_form button");
     const nameTd = [];
     var highlightedRow = null; // 用于跟踪当前高亮显示的行
+
+    service({
+        url: '/commodity/all',
+        method: 'get',
+    }).then(result =>{
+        if(result.data.code != 1) {
+            alert(result.data.msg)
+            location.href = '/html/index.html'
+        }
+    }).catch(error => {
+        alert(error)
+    })
 
     addButtonSearch()
     addValue()
@@ -269,58 +288,58 @@
         //xhttp.setRequestHeader('Content-Type', 'application/json');
         xhttp.send();
 
-        // xhttp.onreadystatechange = function()
-        // {
-        //     if (this.readyState == 4 && this.status == 200)
-        //     {
-        //         var myObj = JSON.parse(this.responseText);
-        //         var data = myObj.data;
-        //         var tbody = document.getElementById('tableTh');
-        //         tbody.className="table";
-        //
-        //         //alert("45456");
-        //         for(var i = 0;i < data.length; i++){ //遍历一下json数据
-        //             var trow = addValue1(data[i]); //定义一个方法,返回tr数据
-        //             tbody.appendChild(trow);
-        //             //var Id=per[i].id;
-        //             //tbody.innerHTML += "<tr>   <td>"+Id+"</td>  <td>1</td>   <td>1</td>    <td>1</td>    <td>1</td>     <td>1</td> </tr>";
-        //         }
-        //     }
-        // }
+        xhttp.onreadystatechange = function()
+        {
+            if (this.readyState == 4 && this.status == 200)
+            {
+                var myObj = JSON.parse(this.responseText);
+                var data = myObj.data;
+                var tbody = document.getElementById('tableTh');
+                tbody.className="table";
 
-        var tbody = document.getElementById('tableTh');
-        tbody.className="table";
-        var data= [
-            {id:1,name:'张珊',job:'学生',publisher:'厦门大学',type:'book',price:123},
-            {id:2,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-            {id:3,name:'王武',job:'经理',publisher:'厦门大学',type:'book',price:123},
-            {id:4,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-            {id:5,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-            {id:12,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-            {id:122,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-            {id:24,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-            {id:27,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-            {id:28,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-            {id:29,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-            {id:26,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-            {id:22,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-            {id:12,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-            {id:72,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-            {id:82,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-            {id:92,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-            {id:212,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-            {id:278,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-            {id:296,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-            {id:245,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-            {id:236,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-            {id:2757,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123}]
-            for(var i = 0;i < data.length; i++){ //遍历一下json数据
-            var trow = addValue1(data[i]); //定义一个方法,返回tr数据
-            tbody.appendChild(trow);
-            // var Id=per[i].id;
-            // tbody.innerHTML += "<tr>   <td>"+Id+"</td>  <td>1</td>   <td>1</td>    <td>1</td>    <td>1</td>     <td>1</td> </tr>";
+                //alert("45456");
+                for(var i = 0;i < data.length; i++){ //遍历一下json数据
+                    var trow = addValue1(data[i]); //定义一个方法,返回tr数据
+                    tbody.appendChild(trow);
+                    //var Id=per[i].id;
+                    //tbody.innerHTML += "<tr>   <td>"+Id+"</td>  <td>1</td>   <td>1</td>    <td>1</td>    <td>1</td>     <td>1</td> </tr>";
+                }
+            }
         }
 
+        // var tbody = document.getElementById('tableTh');
+        // tbody.className="table";
+        // var data= [
+        //     {id:1,name:'张珊',job:'学生',publisher:'厦门大学',type:'book',price:123},
+        //     {id:2,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
+        //     {id:3,name:'王武',job:'经理',publisher:'厦门大学',type:'book',price:123},
+        //     {id:4,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
+        //     {id:5,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
+        //     {id:12,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
+        //     {id:122,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
+        //     {id:24,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
+        //     {id:27,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
+        //     {id:28,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
+        //     {id:29,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
+        //     {id:26,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
+        //     {id:22,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
+        //     {id:12,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
+        //     {id:72,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
+        //     {id:82,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
+        //     {id:92,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
+        //     {id:212,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
+        //     {id:278,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
+        //     {id:296,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
+        //     {id:245,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
+        //     {id:236,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
+        //     {id:2757,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123}]
+        //     for(var i = 0;i < data.length; i++){ //遍历一下json数据
+        //     var trow = addValue1(data[i]); //定义一个方法,返回tr数据
+        //     tbody.appendChild(trow);
+        //     // var Id=per[i].id;
+        //     // tbody.innerHTML += "<tr>   <td>"+Id+"</td>  <td>1</td>   <td>1</td>    <td>1</td>    <td>1</td>     <td>1</td> </tr>";
+        // }
+        //
 
     }
 
