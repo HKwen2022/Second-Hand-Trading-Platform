@@ -45,16 +45,16 @@ public class UploadController {
             case 0 ->{  //上传用户图片
                 User user = new User();
                 user.setId(id);
-                user.setImageUrl(path + filename);
+                user.setImageUrl(filename);
                 userService.update(user);
-                return Result.success(path + filename);
+                return Result.success(filename);
             }
             case 1 ->{  //上传管理员图片
                 Admin admin = new Admin();
                 admin.setId(id);
-                admin.setImageUrl(path + filename);
+                admin.setImageUrl(filename);
                 adminService.update(admin);
-                return Result.success(path + filename);
+                return Result.success(filename);
             }
             default -> {
                 return Result.error("用户类型错误！");

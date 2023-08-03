@@ -55,23 +55,20 @@
         <b style="padding-left:10px;font-size: 35px;">个人信息    <a href="#" style="font-size: 20px" class="modify-btn">修改</a></b>
         <div style="display: flex;margin-top: 20px;margin-left: 10px">
             <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;">我的账号:
-            <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;">1234567</p>
+                <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;">123</p>
             </p>
             <p style="margin-left: 50px;margin-right: 10px;font-size: 20px; flex-grow: 0;">用户名:
-            <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;" id="usernameElement">Tom</p>
+                <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;" id="usernameElement"></p>
             </p>
         </div>
         <div style="display: flex;margin-top: 20px;margin-left: 10px">
             <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;">我的邮箱:
-            <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;" id="emailElement">123456@email.com
-            </p>
+                <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;" id="emailElement"></p>
             </p>
             <p style="margin-left: 50px;margin-right: 10px;font-size: 20px; flex-grow: 0;">我的电话:
-            <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;" id="phoneElement">123456
-            </p>
+                <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;" id="phoneElement"></p>
             </p>
         </div>
-
     </div>
 </div>
 
@@ -86,15 +83,15 @@
         <br>
         <br>
         <label for="username">用户名: </label>
-        <input type="text" id="username" value="Tom" name="name">
+        <input type="text" id="username" name="name">
         <br>
         <br>
         <label for="email">我的邮箱: </label>
-        <input type="email" id="email" value="123" name="email">
+        <input type="email" id="email" name="email">
         <br>
         <br>
         <label for="phone">我的电话: </label>
-        <input type="text" id="phone" value="123" name="phone">
+        <input type="text" id="phone" name="phone">
         <br>
         <br>
         <button class="confirm-btn" style="margin-left: 70px">保存</button>
@@ -226,15 +223,35 @@
     import {service} from '../js/auth.js'
     var avatarElement = document.getElementById("selected-avatar");
     var avatarElement1 = document.getElementById("selected-avatar1");
-    var username = document.getElementById("username").value;
-    var email = document.getElementById("email").value;
-    var phone = document.getElementById("phone").value;
+    var username = document.getElementById("username");
+    var email = document.getElementById("email");
+    var phone = document.getElementById("phone");
     var usernameElement = document.getElementById("usernameElement");
     var emailElement = document.getElementById("emailElement");
     var phoneElement = document.getElementById("phoneElement");
-    var imagePath;
+    var changedImage;
     var fd = new FormData()
     var imageNotNull = false
+    service({
+        url: '/user',
+        method: 'get'
+    }).then(result =>{
+        if(result.data.code != 1) {
+            alert(result.data.msg)
+        }
+        //渲染获取的个人信息
+        usernameElement.innerText = result.data.data.name
+        emailElement.innerText = (result.data.data.email != null) ? result.data.data.email : '未设置'
+        phoneElement.innerText = (result.data.data.phone != null) ? result.data.data.phone : '未设置'
+        avatarElement1.src = (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
+        // //修改弹窗中的个人信息
+        // username = usernameElement.innerText
+        // email = emailElement.innerText
+        // phone = phoneElement.innerText
+        // avatarElement.src = avatarElement1.src
+    }).catch(error => {
+        alert(error)
+    })
     function displaySelectedAvatar(event) {
         var selectedAvatar = document.getElementById("selected-avatar");
         var file = event.target.files[0];
@@ -250,9 +267,17 @@
 
     document.querySelector('.upload').addEventListener('change', e => {
         imageNotNull = true
-        fd.append('image', e.target.files[0])
+        changedImage = e.target.files[0]
+        avatarElement.innerHTML = changedImage
+        fd.append('image', changedImage)
     })
     document.querySelector('.confirm-btn').addEventListener('click', e => {
+        if(username.value == '' && email.value == '' && phone.value == '') {
+            // 隐藏修改页面
+            var modifyInfo = document.getElementById("modifyInfo");
+            modifyInfo.style.display = "none";
+            return
+        }
         const form = document.querySelector('.modify-info-content')
         const data = serialize(form, {hash: true, empty: true});
         console.log(data)
@@ -263,7 +288,11 @@
         }).then(result =>{
             if(result.data.code != 1) {
                 alert(result.data.msg)
+                return
             }
+            usernameElement.innerText = result.data.data.name
+            emailElement.innerText = (result.data.data.email !== null) ? result.data.data.email : '未设置'
+            phoneElement.innerText = (result.data.data.phone !== null) ? result.data.data.phone : '未设置'
         }).catch(error => {
             alert(error)
         })
@@ -277,7 +306,10 @@
                 fd = new FormData()
                 if(result.data.code != 1) {
                     alert(result.data.msg)
+                    return
                 }
+                avatarElement1.src = '/localImages/' + result.data.data
+                avatarElement.src = avatarElement1.src
             }).catch(error => {
                 alert(error)
             })
@@ -286,6 +318,7 @@
         modifyInfo.style.display = "none";
     })
     document.querySelector('.cancel-btn').addEventListener('click', e => {
+        imageNotNull = false
         var modifyInfo = document.getElementById("modifyInfo");
         modifyInfo.style.display = "none";
     })

@@ -30,7 +30,11 @@ public class UserController {
             return Result.error("修改失败！");}
         return Result.success();
     }
-
+    @GetMapping("/user")
+    public Result getUserInfo(HttpServletRequest request){
+        Integer id = JwtUtils.checkToken(request)[1];
+        return Result.success(userService.getUserById(id));
+    }
     @PostMapping("/user/register")
     public Result register(@RequestBody User user){
         userService.register(user);
