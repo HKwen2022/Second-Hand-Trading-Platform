@@ -44,4 +44,13 @@ public class UserController {
     public Result getUserById(@PathVariable Integer id){
         return Result.success(userService.getUserById(id));
     }
+    @GetMapping("/user/profile")
+    public Result getUserProfile(HttpServletRequest request){
+        var ret = JwtUtils.checkToken(request);
+        if(ret[0] == 1) return Result.error("请前往管理员网页查看用户信息！");
+        System.out.println("UserId:" + ret[1]);
+        User data = userService.getUserById(ret[1]);
+        if(data == null) return Result.error("用户不存在！");
+        return Result.success(data);
+    }
 }
