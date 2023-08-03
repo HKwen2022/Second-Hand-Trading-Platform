@@ -217,10 +217,10 @@
     </div>
 </div>
 <script src="../js/form-serialize.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="../js/axios.js"></script>
 <script type="module" src="../js/auth.js"></script>
 <script type="module">
-    import {service} from '../js/auth.js'
+    import {service} from '../js/requestInterceptor.js'
     var avatarElement = document.getElementById("selected-avatar");
     var avatarElement1 = document.getElementById("selected-avatar1");
     var accountElement = document.getElementById('accountElement')
