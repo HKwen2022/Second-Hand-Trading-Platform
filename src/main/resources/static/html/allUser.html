@@ -86,10 +86,10 @@
     </form>
 </div>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="../js/axios.js"></script>
 <script type="module" src="../js/auth.js"></script>
 <script type="module">
-    import {service} from "../js/auth.js";
+    import {service} from "../js/requestInterceptor.js"
     var uid = document.querySelector('.uid')
     service({
         url: '/admin',
@@ -102,18 +102,16 @@
             alert(result.data.msg)
         }
         const userList = result.data.data
-        console.log(userList)
+        ((user.id != null) ? user.id : '')
         const htmlStr = userList.map(user => {
-            console.log(user.id)
             return '<tr>\n' +
-                '<td th:text="${user.id}">' + user.id + '</td>\n' +
-                '<td th:text="${user.name}">' + user.name + '</td>\n' +
-                '<td th:text="${user.password}">' + user.password + '</td>\n' +
-                '<td th:text="${user.email}">' + user.email + '</td>\n' +
-                '<td th:text="${user.phone}">' + user.phone + '</td>\n' +
+                '<td th:text="${user.id}">' + ((user.id != null) ? user.id : '') + '</td>\n' +
+                '<td th:text="${user.name}">' + ((user.name != null) ? user.name : '') + '</td>\n' +
+                '<td th:text="${user.password}">' + ((user.password != null) ? user.password : '') + '</td>\n' +
+                '<td th:text="${user.email}">' + ((user.email != null) ? user.email : '') + '</td>\n' +
+                '<td th:text="${user.phone}">' + ((user.phone != null) ? user.phone : '') + '</td>\n' +
                 '</tr>'
         }).join('')
-        console.log(htmlStr)
         document.querySelector('.table').innerHTML = htmlStr
     }).catch(error => {
         alert(error)
