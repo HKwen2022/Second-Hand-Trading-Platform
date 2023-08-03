@@ -19,16 +19,22 @@ public class UserController {
     }
     @PutMapping("/user")
     public Result update(HttpServletRequest request, @RequestBody User user){
-        Integer type = JwtUtils.checkToken(request)[0];
-        if(type == 1) return Result.error("请前往管理员网页修改用户信息！");
-        if(JwtUtils.check(user.getId(), request)) return Result.error("id不匹配！");
+//        Integer type = JwtUtils.checkToken(request)[0];
+//        if(type == 1) return Result.error("请前往管理员网页修改用户信息！");
+//        if(JwtUtils.check(user.getId(), request)) return Result.error("id不匹配！");
+        Integer id = JwtUtils.checkToken(request)[1];
+        user.setId(id);
         try{userService.update(user);}
         catch (DataAccessException e){
             e.printStackTrace();
             return Result.error("修改失败！");}
         return Result.success();
     }
-
+    @GetMapping("/user")
+    public Result getUserInfo(HttpServletRequest request){
+        Integer id = JwtUtils.checkToken(request)[1];
+        return Result.success(userService.getUserById(id));
+    }
     @PostMapping("/user/register")
     public Result register(@RequestBody User user){
         userService.register(user);

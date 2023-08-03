@@ -28,14 +28,14 @@ public class AdminController {
         adminService.addUser(user);
         return Result.success();
     }
-    @PutMapping("/admin/update")
+    @PutMapping("/admin")
     public Result update(HttpServletRequest request, @RequestBody Admin admin){
-        Claims claims = JwtUtils.parseJwt(request.getHeader("token"));
-        if(!Objects.equals(admin.getId(), claims.get("id", Integer.class))) return Result.error("id不匹配！");
+        Integer id = JwtUtils.checkToken(request)[1];
+        admin.setId(id);
         adminService.update(admin);
         return Result.success();
     }
-    @PutMapping("/admin")
+    @PutMapping("/admin/alterUser")
     public Result alterUser(@RequestBody User user){
         try{adminService.alterUser(user);}
         catch (DataAccessException e){return Result.error("修改失败！");}

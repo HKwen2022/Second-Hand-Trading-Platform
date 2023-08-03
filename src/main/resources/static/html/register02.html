@@ -87,6 +87,7 @@
         }
         const form = document.querySelector('.reg-form')
         const data = serialize(form, {hash: true, empty: true});
+        console.log(form)
         console.log(data)
         axios({
             url: '/user/register',

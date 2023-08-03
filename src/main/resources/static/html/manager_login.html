@@ -118,6 +118,7 @@
 
     function successOrDefeat()
     {
+        if(localStorage.token) location.href = '/html/commodity.html'
         check()
         var usernameV = document.getElementById("username")
         var passwordV = document.getElementById('password')
