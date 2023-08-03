@@ -239,6 +239,8 @@
     }).then(result =>{
         if(result.data.code != 1) {
             alert(result.data.msg)
+            localStorage.clear()
+            location.href = '/html/123.html'
         }
         //渲染获取的个人信息
         accountElement.innerText = result.data.data.id

@@ -32,8 +32,8 @@
 <!--    <div class="reminder-box"><h3>&nbsp;&nbsp;操作面板&nbsp;&nbsp;</h3></div>-->
     <div class="title-box"><h1>用户信息管理界面</h1></div>
     <div class="funtions-box">
-        <input type="text" placeholder="请输入查找的用户编号" >
-        <button type="button" onclick="successOrDefeat()">搜索</button>
+        <input type="text" placeholder="请输入查找的用户编号" class="uid">
+        <button type="button" class="btn">搜索</button>
         <button>-</button>
         <button>修改</button>
         <button>+</button>
@@ -52,14 +52,12 @@
         </tr>
     </table>
     <table class="table">
-        <tr th:each="alluser:${alluser}">
+        <tr>
             <td th:text="${alluser.id}"></td>
-            <td th:text="${alluser.username}"></td>
+            <td th:text="${alluser.name}"></td>
             <td th:text="${alluser.password}"></td>
-<!--            <td th:text="${alluser.status}"></td>-->
-<!--            <td th:text="${#dates.format(alluser.create_time,'yyyy-MM-dd')}"></td>-->
             <td th:text="${alluser.email}"></td>
-            <td th:text="${alluser.tel}"></td>
+            <td th:text="${alluser.phone}"></td>
         </tr>
     </table>
     <form class="delect_form"  method="post" th:action="@{/delectUser}">
@@ -88,45 +86,88 @@
     </form>
 </div>
 </body>
-
-<script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="module" src="../js/auth.js"></script>
+<script type="module">
+    import {service} from "../js/auth.js";
+    var uid = document.querySelector('.uid')
+    service({
+        url: '/admin',
+        method: 'get',
+        params: {
+            // name: 'tom'
+        }
+    }).then(result =>{
+        if(result.data.code != 1) {
+            alert(result.data.msg)
+        }
+        const userList = result.data.data
+        console.log(userList)
+        const htmlStr = userList.map(user => {
+            console.log(user.id)
+            return '<tr>\n' +
+                '<td th:text="${user.id}">' + user.id + '</td>\n' +
+                '<td th:text="${user.name}">' + user.name + '</td>\n' +
+                '<td th:text="${user.password}">' + user.password + '</td>\n' +
+                '<td th:text="${user.email}">' + user.email + '</td>\n' +
+                '<td th:text="${user.phone}">' + user.phone + '</td>\n' +
+                '</tr>'
+        }).join('')
+        console.log(htmlStr)
+        document.querySelector('.table').innerHTML = htmlStr
+    }).catch(error => {
+        alert(error)
+    })
     document.querySelector('.exit').addEventListener('click', e => {
-        console.log('111')
         localStorage.clear()
         location.href = '123.html'
     })
-    function successOrDefeat() {
-        var xhttp = new XMLHttpRequest();
-
-        xhttp.onreadystatechange = function () {
-
-            if (this.readyState == 4 && this.status == 200) {
-
-                var myObj = JSON.parse(this.responseText);
-
-                // if(xhttp.responseText.toString().)
-                // if(myObj.code==0)
-                // {
-                //     alert("请输入正确的账户名或密码！");
-                // }
-                // else
-                // {
-                //     window.open("/html/Commodity.html");
-                // }
-
-                //window.open("Commodity.html");
-                alert(xhttp.responseText);
-
+    document.querySelector('.btn').addEventListener('click', e => {
+        console.log(uid.value)
+        service({
+            url: '/user/{uid}',
+            method: 'get'
+        }).then(result =>{
+            if(result.data.code != 1) {
+                alert(result.data.msg)
+                return
             }
-
-        };
-        var usernameV = document.getElementById("username");
-        var passwordV = document.getElementById('password');
-        var params = 'username=' + usernameV.value + '&password=' + passwordV.value;
-        xhttp.open("POST", "../user/login", true);
-        xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhttp.send(params);
-    }
+        }).catch(error => {
+            alert(error)
+        })
+    })
+    // function successOrDefeat() {
+    //     var xhttp = new XMLHttpRequest();
+    //
+    //     xhttp.onreadystatechange = function () {
+    //
+    //         if (this.readyState == 4 && this.status == 200) {
+    //
+    //             var myObj = JSON.parse(this.responseText);
+    //
+    //             // if(xhttp.responseText.toString().)
+    //             // if(myObj.code==0)
+    //             // {
+    //             //     alert("请输入正确的账户名或密码！");
+    //             // }
+    //             // else
+    //             // {
+    //             //     window.open("/html/Commodity.html");
+    //             // }
+    //
+    //             //window.open("Commodity.html");
+    //             alert(xhttp.responseText);
+    //
+    //         }
+    //
+    //     };
+    //     var usernameV = document.getElementById("username");
+    //     var passwordV = document.getElementById('password');
+    //     var params = 'username=' + usernameV.value + '&password=' + passwordV.value;
+    //     xhttp.open("POST", "../user/login", true);
+    //     xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    //     xhttp.send(params);
+    // }
 </script>
 
 </html>

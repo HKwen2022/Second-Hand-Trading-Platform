@@ -104,7 +104,6 @@
     const nameTd = [];
     var highlightedRow = null; // 用于跟踪当前高亮显示的行
     document.querySelector('.exit').addEventListener('click', e => {
-        console.log('111')
         localStorage.clear()
         location.href = '123.html'
     })
@@ -114,6 +113,7 @@
     }).then(result =>{
         if(result.data.code != 1) {
             alert(result.data.msg)
+            localStorage.clear()
             location.href = '/html/index.html'
         }
     }).catch(error => {
