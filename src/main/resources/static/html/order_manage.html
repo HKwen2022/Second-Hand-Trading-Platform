@@ -364,12 +364,57 @@
         var cells = row.getElementsByTagName('td');
 
         // 遍历每个单元格，并将其中的文本内容添加到空白框中
-        for (var i = 0; i < cells.length; i++) {
-            var cellText = cells[i].textContent;
-            var infoItem = document.createElement('p');
-            infoItem.textContent = cellText;
-            infoBox.appendChild(infoItem);
-        }
+        //for (var i = 0; i < cells.length; i++) {
+            var cellText1 = '订单编号：' + cells[0].textContent;
+            var infoItem1 = document.createElement('p');
+            infoItem1.textContent = cellText1;
+            infoBox.appendChild(infoItem1);
+        //}
+
+        var cellText2 = '商品编号：' + cells[1].textContent;
+        var infoItem2 = document.createElement('p');
+        infoItem2.textContent = cellText2;
+        infoBox.appendChild(infoItem2);
+
+        var cellText3 = '买家编号：' + cells[2].textContent;
+        var infoItem3 = document.createElement('p');
+        infoItem3.textContent = cellText3;
+        infoBox.appendChild(infoItem3);
+
+        var cellText4 = '订购数量：' + cells[3].textContent;
+        var infoItem4 = document.createElement('p');
+        infoItem4.textContent = cellText4;
+        infoBox.appendChild(infoItem4);
+
+        var cellText5 = '订购单价：' + cells[4].textContent;
+        var infoItem5 = document.createElement('p');
+        infoItem5.textContent = cellText5;
+        infoBox.appendChild(infoItem5);
+
+        var cellText6 = '订购日期：' + cells[5].textContent;
+        var infoItem6 = document.createElement('p');
+        infoItem6.textContent = cellText6;
+        infoBox.appendChild(infoItem6);
+
+        var cellText7 = '发货日期：' + cells[6].textContent;
+        var infoItem7 = document.createElement('p');
+        infoItem7.textContent = cellText7;
+        infoBox.appendChild(infoItem7);
+
+        var cellText8 = '收货日期：' + cells[7].textContent;
+        var infoItem8 = document.createElement('p');
+        infoItem8.textContent = cellText8;
+        infoBox.appendChild(infoItem8);
+
+        var cellText9 = '收货地址：' + cells[8].textContent;
+        var infoItem9 = document.createElement('p');
+        infoItem9.textContent = cellText9;
+        infoBox.appendChild(infoItem9);
+
+        var cellText0 = '发货地址：' + cells[9].textContent;
+        var infoItem0 = document.createElement('p');
+        infoItem0.textContent = cellText0;
+        infoBox.appendChild(infoItem0);
 
         // 将空白框添加到body元素中
         document.body.appendChild(infoBox);
