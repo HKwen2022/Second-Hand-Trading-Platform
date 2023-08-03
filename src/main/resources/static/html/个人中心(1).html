@@ -55,7 +55,7 @@
         <b style="padding-left:10px;font-size: 35px;">个人信息    <a href="#" style="font-size: 20px" class="modify-btn">修改</a></b>
         <div style="display: flex;margin-top: 20px;margin-left: 10px">
             <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;">我的账号:
-                <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;">123</p>
+                <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;" id="accountElement"></p>
             </p>
             <p style="margin-left: 50px;margin-right: 10px;font-size: 20px; flex-grow: 0;">用户名:
                 <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;" id="usernameElement"></p>
@@ -223,6 +223,7 @@
     import {service} from '../js/auth.js'
     var avatarElement = document.getElementById("selected-avatar");
     var avatarElement1 = document.getElementById("selected-avatar1");
+    var accountElement = document.getElementById('accountElement')
     var username = document.getElementById("username");
     var email = document.getElementById("email");
     var phone = document.getElementById("phone");
@@ -238,8 +239,11 @@
     }).then(result =>{
         if(result.data.code != 1) {
             alert(result.data.msg)
+            localStorage.clear()
+            location.href = '/html/123.html'
         }
         //渲染获取的个人信息
+        accountElement.innerText = result.data.data.id
         usernameElement.innerText = result.data.data.name
         emailElement.innerText = (result.data.data.email != null) ? result.data.data.email : '未设置'
         phoneElement.innerText = (result.data.data.phone != null) ? result.data.data.phone : '未设置'
