@@ -47,14 +47,14 @@ public class UploadController {
                 user.setId(id);
                 user.setImageUrl(path + filename);
                 userService.update(user);
-                return Result.success();
+                return Result.success(path + filename);
             }
             case 1 ->{  //上传管理员图片
                 Admin admin = new Admin();
                 admin.setId(id);
                 admin.setImageUrl(path + filename);
                 adminService.update(admin);
-                return Result.success();
+                return Result.success(path + filename);
             }
             default -> {
                 return Result.error("用户类型错误！");

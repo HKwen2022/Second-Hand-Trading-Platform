@@ -52,7 +52,7 @@
 <div class="rightcolumn" style="height: 250px; background-color: white; margin-left: 20px; display: flex; align-items: flex-start;">
     <img id="selected-avatar1" style="width: 25%; height: 100%;margin: 0" src="../image/用户头像.jpg">
     <div style="display: flex; flex-direction: column; justify-content: flex-start; margin-left: 10px;">
-        <b style="padding-left:10px;font-size: 35px;">个人信息    <a href="#" style="font-size: 20px" onclick="toggleModifyInfo()">修改</a></b>
+        <b style="padding-left:10px;font-size: 35px;">个人信息    <a href="#" style="font-size: 20px" class="modify-btn">修改</a></b>
         <div style="display: flex;margin-top: 20px;margin-left: 10px">
             <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;">我的账号:
             <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;">1234567</p>
@@ -76,30 +76,30 @@
 </div>
 
 <div class="modify-info" id="modifyInfo">
-    <div class="modify-info-content">
+    <form action="javascript:;" class="modify-info-content">
         <!-- 填充个人信息的表单 -->
         <h2 style="text-align: center">个人信息修改</h2>
         <img id="selected-avatar" style="height: 160px;width: 120px;margin-left: 110px" src="../image/用户头像.jpg">
         <br>
         <label for="avatar-input">选择新头像: </label>
-        <input type="file" id="avatar-input" onchange="displaySelectedAvatar(event)">
+        <input type="file" id="avatar-input" class="upload">
         <br>
         <br>
         <label for="username">用户名: </label>
-        <input type="text" id="username" value="Tom" >
+        <input type="text" id="username" value="Tom" name="name">
         <br>
         <br>
         <label for="email">我的邮箱: </label>
-        <input type="email" id="email" value="123456@email.com">
+        <input type="email" id="email" value="123" name="email">
         <br>
         <br>
         <label for="phone">我的电话: </label>
-        <input type="text" id="phone" value="123456">
+        <input type="text" id="phone" value="123" name="phone">
         <br>
         <br>
-        <button onclick="saveChanges()" style="margin-left: 70px">保存</button>
-        <button onclick="cancelChanges()" style="margin-left: 100px">取消</button>
-    </div>
+        <button class="confirm-btn" style="margin-left: 70px">保存</button>
+        <button class="cancel-btn" style="margin-left: 100px">取消</button>
+    </form>
 </div>
 <div class="rightcolumn" style="margin-top: 20px;height: 250px; background-color: #eee; margin-left: 20px; display: flex; align-items: flex-start;">
     <div style="margin-right: 10px; width: 70%; height: 100%; background-color: white">
@@ -219,7 +219,11 @@
 
     </div>
 </div>
-<script>
+<script src="../js/form-serialize.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="module" src="../js/auth.js"></script>
+<script type="module">
+    import {service} from '../js/auth.js'
     var avatarElement = document.getElementById("selected-avatar");
     var avatarElement1 = document.getElementById("selected-avatar1");
     var username = document.getElementById("username").value;
@@ -229,7 +233,8 @@
     var emailElement = document.getElementById("emailElement");
     var phoneElement = document.getElementById("phoneElement");
     var imagePath;
-
+    var fd = new FormData()
+    var imageNotNull = false
     function displaySelectedAvatar(event) {
         var selectedAvatar = document.getElementById("selected-avatar");
         var file = event.target.files[0];
@@ -243,57 +248,55 @@
         }
     }
 
-    function saveChanges() {
-        // 获取表单中的个人信息数据
-        // 获取表单中的个人信息数据
-        var username = document.getElementById("username").value;
-        var email = document.getElementById("email").value;
-        var phone = document.getElementById("phone").value;
-        // 更新用户名
-        usernameElement.innerText = username;
-        // 更新邮箱
-        emailElement.innerText = email;
-        // 更新电话
-        phoneElement.innerText = phone;
-
-        if(imagePath!=="undefined")
-        {
-            avatarElement1.src=imagePath;
-        }
-
-        //alert(imagePath);
-
-        var xhttp = new XMLHttpRequest();
-
-        var obj = JSON.stringify({"name":username,"email":email,"phone":phone,"imageUrl":imagePath});
-        //alert(obj);
-        xhttp.open("POST", "../admin/register", true);
-        xhttp.setRequestHeader('Content-Type', 'application/json');
-        xhttp.send(obj);
-
-
+    document.querySelector('.upload').addEventListener('change', e => {
+        imageNotNull = true
+        fd.append('image', e.target.files[0])
+    })
+    document.querySelector('.confirm-btn').addEventListener('click', e => {
+        const form = document.querySelector('.modify-info-content')
+        const data = serialize(form, {hash: true, empty: true});
+        console.log(data)
+        service({
+            url: '/user',
+            method: 'put',
+            data: data
+        }).then(result =>{
+            if(result.data.code != 1) {
+                alert(result.data.msg)
+            }
+        }).catch(error => {
+            alert(error)
+        })
+        if(imageNotNull)
+            service({
+                url: '/upload',
+                method: 'post',
+                data: fd
+            }).then(result =>{
+                imageNotNull = false
+                fd = new FormData()
+                if(result.data.code != 1) {
+                    alert(result.data.msg)
+                }
+            }).catch(error => {
+                alert(error)
+            })
         // 隐藏修改页面
         var modifyInfo = document.getElementById("modifyInfo");
         modifyInfo.style.display = "none";
-    }
-
-    toggleModifyInfo()
-    function cancelChanges() {
-        // 取消修改，不保存
-
-        // 隐藏修改页面
+    })
+    document.querySelector('.cancel-btn').addEventListener('click', e => {
         var modifyInfo = document.getElementById("modifyInfo");
         modifyInfo.style.display = "none";
-    }
-    function toggleModifyInfo() {
+    })
+    document.querySelector('.modify-btn').addEventListener('click', e => {
         var modifyInfo = document.getElementById("modifyInfo");
         if (modifyInfo.style.display === "none") {
             modifyInfo.style.display = "block";
         } else {
             modifyInfo.style.display = "none";
         }
-    }
-
+    })
 </script>
 </body>
 </html>
