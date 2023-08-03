@@ -16,7 +16,7 @@
         <li><img src="../image/用户.png" alt=""><a href="Commodity.html">商品信息管理</a></li>
         <li><img src="../image/用户.png" alt=""><a href="order_manage.html">订单信息管理</a></li>
         <li><img src="../image/用户.png" alt=""><a href="manager_login.html">切换管理员</a></li>
-        <li onclick="exit()"><img src="../image/退出系统ico.png"  alt=""><a href="123.html">退出系统</a></li>
+        <li class="exit"><img src="../image/退出系统ico.png" alt="" ><a>退出系统</a></li>
     </ul>
 </div>
 <div class="container-box">
@@ -86,11 +86,6 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script type="module" src="../js/auth.js"></script>
-<script>
-    function exit(){
-        localStorage.clear()
-    }
-</script>
 <script type="module">
     import {service} from '../js/auth.js'
     const table = document.getElementsByClassName("table")[0];
@@ -108,7 +103,11 @@
     const formAlterAllButton = document.querySelectorAll(".alter_form button");
     const nameTd = [];
     var highlightedRow = null; // 用于跟踪当前高亮显示的行
-
+    document.querySelector('.exit').addEventListener('click', e => {
+        console.log('111')
+        localStorage.clear()
+        location.href = '123.html'
+    })
     service({
         url: '/commodity/all',
         method: 'get',
