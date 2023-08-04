@@ -6,6 +6,12 @@ body{
     background-image: url("../image/船.jpg");
     background-size: cover;
 }
+.info-box {
+     position: absolute;
+     background-color: #0e92eb;
+     border: 1px solid #000000;
+     padding: 10px;
+}
 .nav-box{
     position: absolute;
     width: 15%;
@@ -212,7 +218,7 @@ form{
     top: 20%;
     left: 35%;
     width: 30%;
-    height: 70%;
+    height: 100%;
     border-radius: 20px;
     background-color: white;
     display: flex;
