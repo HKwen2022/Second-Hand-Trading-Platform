@@ -12,7 +12,37 @@ ul {
     position: fixed;
     height: 100%;
     overflow: auto;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+#ul1 {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #07b4f9;
+    height: 110px;
 
+}
+
+
+#li1,#li2,#li3,#li4 {
+
+    float: left;
+}
+#li1 a,#li2 a,#li3 a,#li4 a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+#li1 a:hover,#li2 a:hover,#li3 a:hover,#li4 a:hover {
+    background-color: #1A8BE8;
+}
+#li1 a.active,#li2 a.active,#li3 a.active,#li4 a.active {
+    background-color: #1A8BE8;
 }
 
 li a {

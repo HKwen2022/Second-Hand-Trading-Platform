@@ -50,6 +50,7 @@
     <p id="orderDate">下单日期：2020-01-01 10:00:00</p>
     <p id="deliverDate">发货日期：2020-01-01 10:00:00</p>
     <p id="totalPrice">总金额：129.00元</p>
+    <p id="getDate">收货日期：2023.08.09</p>
   </div>
 </div>
 
@@ -134,6 +135,7 @@
       var orderDateV = document.getElementById("orderDate");
       var deliverDateV = document.getElementById("deliverDate");
       var totalPriceV = document.getElementById("totalPrice");
+      var getDateV = document.getElementById("getDate");
 
 
       var xhttp = new XMLHttpRequest();
@@ -156,11 +158,12 @@
             cidV.innerHTML="商品编号：" + data[i].cid;
             numberV.innerHTML="商品数量：" + data[i].number;
             priceV.innerHTML="商品单价：" + data[i].price;
-            deliveringAddressV.innerHTML="发货地址：" + data[i].deliveringAddress;
+            deliveringAddressV.innerHTML="发货地址：" + data[i].deliveryAddress;
             shippingAddressV.innerHTML="收货地址：" + data[i].shippingAddress;
             orderDateV.innerHTML="下单日期：" + data[i].orderDate;
             deliverDateV.innerHTML="发货日期：" + data[i].deliverDate;
-            totalPriceV.innerHTML="总金额：" + data[i].totalPrice;
+            getDateV.innerHTML = "收货日期：" + data[i].shippingdate;
+            totalPriceV.innerHTML="总金额：" + data[i].number * data[i].price;
           }
         }
       }

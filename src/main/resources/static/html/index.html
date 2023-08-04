@@ -46,6 +46,7 @@
 </div>
 </body>
 <script src="../js/axios.js"></script>
+
 <script type="module">
     import {service} from "../js/axiosInterceptor.js";
     if(localStorage.token) {
@@ -59,6 +60,9 @@
             console.log('existed token invalid!')
         })
     }
+</script>
+<script>
+
 
     let transfer1 = document.getElementById('manager_button');
     transfer1.addEventListener('click', function () {
@@ -126,7 +130,7 @@
             }
             localStorage.clear()
             localStorage.setItem("token", result.data.data)
-            location.href = '/html/commodity.html'
+            location.href = '/html/首页.html'
         }).catch(error => {
             alert(error)
         })
