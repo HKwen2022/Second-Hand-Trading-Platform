@@ -384,7 +384,7 @@
             url: '/user',
             method: 'get'
         }).then(result =>{
-            if(result.data.date !== undefined){
+            if(result.data.date !== null){
                 console.log('is user')
                 console.log(result.data)
                 console.log(result.date.data + 'data')
