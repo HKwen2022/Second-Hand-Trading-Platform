@@ -7,7 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="../css/manager_login.css" />
 </head>
-<body  onload="changeImg()">
+<body>
 <div class="container">
     <form action="#" method="post">
         <div class="box">
@@ -48,7 +48,7 @@
 
 
 
-                    <button type="button" onmouseover="this.style.backgroundColor='#FF8D00'" onmouseout="this.style.backgroundColor='#d4af7a'" onclick="successOrDefeat()">登录</button>
+                    <button type="button" onmouseover="this.style.backgroundColor='#FF8D00'" onmouseout="this.style.backgroundColor='#d4af7a'" class="login-btn">登录</button>
                     <button type="button" id="manager_button" onmouseover="this.style.backgroundColor='#FF8D00'" onmouseout="this.style.backgroundColor='#fff'" class="other">
                         使用<span style="font-weight: 900; color: #455a81">用户</span
                     >账户登录
@@ -64,8 +64,17 @@
     </form>
 </div>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
+<script src="../js/axios.js"></script>
+<script type="module">
+    import {service} from "../js/axiosInterceptor.js";
+    if(localStorage.token) {
+        service({
+            url: '/admin',
+            method: 'get'
+        }).then(() => {
+            location.href = '/html/commodity.html'
+        })
+    }
     let transfer1 = document.getElementById('manager_button');
     transfer1.addEventListener('click', function () {
         window.location.href = "/html/index.html";
@@ -75,7 +84,6 @@
     transfer.addEventListener('click', function () {
         window.location.href = "/html/manager_register.html";
     });
-
 
     // 验证码
     var code; //声明一个变量用于存储生成的验证码
@@ -98,7 +106,7 @@
         }
         document.getElementById('code').innerHTML = code; //将验证码写入指定区域
     }
-
+    changeImg()
 
     //效验验证码(表单被提交时触发)
     function check() {
@@ -116,13 +124,12 @@
 
     }
 
-    function successOrDefeat()
-    {
-        check()
+    document.querySelector('.login-btn').addEventListener('click', e => {
+        //if(localStorage.token) location.href = '/html/commodity.html'
+        if(!check()) return
         var usernameV = document.getElementById("username")
         var passwordV = document.getElementById('password')
         var params = JSON.stringify({"name": usernameV.value,"password": passwordV.value})
-
         axios({
             url: '/admin/login',
             headers: {
@@ -135,12 +142,17 @@
                 alert(result.data.msg)
                 return
             }
+            localStorage.clear()
             localStorage.setItem("token", result.data.data)
             location.href = '/html/commodity.html'
         }).catch(error => {
             alert(error)
         })
-    }
+    })
+    // function successOrDefeat()
+    // {
+    //
+    // }
 
 </script>
 </html>

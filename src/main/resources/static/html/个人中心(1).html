@@ -52,54 +52,51 @@
 <div class="rightcolumn" style="height: 250px; background-color: white; margin-left: 20px; display: flex; align-items: flex-start;">
     <img id="selected-avatar1" style="width: 25%; height: 100%;margin: 0" src="../image/用户头像.jpg">
     <div style="display: flex; flex-direction: column; justify-content: flex-start; margin-left: 10px;">
-        <b style="padding-left:10px;font-size: 35px;">个人信息    <a href="#" style="font-size: 20px" onclick="toggleModifyInfo()">修改</a></b>
+        <b style="padding-left:10px;font-size: 35px;">个人信息    <a href="#" style="font-size: 20px" class="modify-btn">修改</a></b>
         <div style="display: flex;margin-top: 20px;margin-left: 10px">
             <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;">我的账号:
-            <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;">1234567</p>
+                <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;" id="accountElement"></p>
             </p>
             <p style="margin-left: 50px;margin-right: 10px;font-size: 20px; flex-grow: 0;">用户名:
-            <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;" id="usernameElement">Tom</p>
+                <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;" id="usernameElement"></p>
             </p>
         </div>
         <div style="display: flex;margin-top: 20px;margin-left: 10px">
             <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;">我的邮箱:
-            <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;" id="emailElement">123456@email.com
-            </p>
+                <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;" id="emailElement"></p>
             </p>
             <p style="margin-left: 50px;margin-right: 10px;font-size: 20px; flex-grow: 0;">我的电话:
-            <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;" id="phoneElement">123456
-            </p>
+                <p style="margin-right: 10px;font-size: 20px; flex-grow: 0;" id="phoneElement"></p>
             </p>
         </div>
-
     </div>
 </div>
 
 <div class="modify-info" id="modifyInfo">
-    <div class="modify-info-content">
+    <form action="javascript:;" class="modify-info-content">
         <!-- 填充个人信息的表单 -->
         <h2 style="text-align: center">个人信息修改</h2>
         <img id="selected-avatar" style="height: 160px;width: 120px;margin-left: 110px" src="../image/用户头像.jpg">
         <br>
         <label for="avatar-input">选择新头像: </label>
-        <input type="file" id="avatar-input" onchange="displaySelectedAvatar(event)">
+        <input type="file" id="avatar-input" class="upload" onchange="displaySelectedAvatar(this)">
         <br>
         <br>
         <label for="username">用户名: </label>
-        <input type="text" id="username" value="Tom" >
+        <input type="text" id="username" name="name">
         <br>
         <br>
         <label for="email">我的邮箱: </label>
-        <input type="email" id="email" value="123456@email.com">
+        <input type="email" id="email" name="email">
         <br>
         <br>
         <label for="phone">我的电话: </label>
-        <input type="text" id="phone" value="123456">
+        <input type="text" id="phone" name="phone">
         <br>
         <br>
-        <button onclick="saveChanges()" style="margin-left: 70px">保存</button>
-        <button onclick="cancelChanges()" style="margin-left: 100px">取消</button>
-    </div>
+        <button class="confirm-btn" style="margin-left: 70px">保存</button>
+        <button class="cancel-btn" style="margin-left: 100px">取消</button>
+    </form>
 </div>
 <div class="rightcolumn" style="margin-top: 20px;height: 250px; background-color: #eee; margin-left: 20px; display: flex; align-items: flex-start;">
     <div style="margin-right: 10px; width: 70%; height: 100%; background-color: white">
@@ -219,81 +216,163 @@
 
     </div>
 </div>
+<script src="../js/form-serialize.js"></script>
+<script src="../js/axios.js"></script>
+<script type="module" src="../js/auth.js"></script>
 <script>
+    function displaySelectedAvatar(file)
+    {
+        if (file.files && file.files[0])
+        {
+            var reader = new FileReader();
+            reader.onload = function(evt){
+                document.querySelector(".modify-info-content img").setAttribute("src",evt.target.result)
+                // console.log(evt.target.result)
+            }
+            reader.readAsDataURL(file.files[0]);
+        }
+        else
+            document.querySelector(".modify-info-content img").setAttribute("src",evt.target.result)
+    }
+</script>
+<script type="module">
+    import {service} from '../js/axiosInterceptor.js'
     var avatarElement = document.getElementById("selected-avatar");
     var avatarElement1 = document.getElementById("selected-avatar1");
-    var username = document.getElementById("username").value;
-    var email = document.getElementById("email").value;
-    var phone = document.getElementById("phone").value;
+    var accountElement = document.getElementById('accountElement')
+    var username = document.getElementById("username");
+    var email = document.getElementById("email");
+    var phone = document.getElementById("phone");
     var usernameElement = document.getElementById("usernameElement");
     var emailElement = document.getElementById("emailElement");
     var phoneElement = document.getElementById("phoneElement");
-    var imagePath;
-
-    function displaySelectedAvatar(event) {
-        var selectedAvatar = document.getElementById("selected-avatar");
-        var file = event.target.files[0];
-        if (file) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                selectedAvatar.src = e.target.result;
-                imagePath="../image/"+file.name;
-            }
-            reader.readAsDataURL(file);
+    var changedImage;
+    var fd = new FormData()
+    var imageNotNull = false
+    var isUser = true
+    service({
+        url: '/user',
+        method: 'get'
+    }).then(result =>{
+        //渲染获取的个人信息
+        // console.log(result.data.data)
+        if(result.data.data !== null){
+            accountElement.innerText = result.data.data.id
+            usernameElement.innerText = result.data.data.name
+            emailElement.innerText = (result.data.data.email != null) ? result.data.data.email : '未设置'
+            phoneElement.innerText = (result.data.data.phone != null) ? result.data.data.phone : '未设置'
+            avatarElement1.src =
+                (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
+            //修改框
+            username.value = result.data.data.name
+            email.value = (result.data.data.name !== null) ? result.data.data.email : ''
+            phone.value = (result.data.data.email != null) ? result.data.data.phone : ''
+            avatarElement.src =
+                (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
         }
-    }
-
-    function saveChanges() {
-        // 获取表单中的个人信息数据
-        // 获取表单中的个人信息数据
-        var username = document.getElementById("username").value;
-        var email = document.getElementById("email").value;
-        var phone = document.getElementById("phone").value;
-        // 更新用户名
-        usernameElement.innerText = username;
-        // 更新邮箱
-        emailElement.innerText = email;
-        // 更新电话
-        phoneElement.innerText = phone;
-
-        if(imagePath!=="undefined")
-        {
-            avatarElement1.src=imagePath;
+        //token有效，非用户，即管理员
+        else {
+            // console.log('try admin login')
+            service({
+                url: '/admin',
+                method: 'get'
+            }).then(result => {
+                isUser = false
+                //渲染获取的个人信息
+                accountElement.innerText = result.data.data.id
+                usernameElement.innerText = result.data.data.name
+                emailElement.innerText = (result.data.data.email != null) ? result.data.data.email : '未设置'
+                phoneElement.innerText = (result.data.data.phone != null) ? result.data.data.phone : '未设置'
+                avatarElement1.src =
+                    (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
+                //修改框
+                username.value = result.data.data.name
+                email.value = (result.data.data.name !== null) ? result.data.data.email : ''
+                phone.value = (result.data.data.email != null) ? result.data.data.phone : ''
+                avatarElement.src =
+                    (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
+            }).catch(error => {
+                alert(error)
+            })
         }
+    }).catch(error => {
+        alert(error)
+    })
+    // function displaySelectedAvatar(event) {
+    //     var selectedAvatar = document.getElementById("selected-avatar");
+    //     var file = event.target.files[0];
+    //     if (file) {
+    //         var reader = new FileReader();
+    //         reader.onload = function(e) {
+    //             selectedAvatar.src = e.target.result;
+    //             imagePath="../image/"+file.name;
+    //         }
+    //         reader.readAsDataURL(file);
+    //     }
+    // }
 
-        //alert(imagePath);
-
-        var xhttp = new XMLHttpRequest();
-
-        var obj = JSON.stringify({"name":username,"email":email,"phone":phone,"imageUrl":imagePath});
-        //alert(obj);
-        xhttp.open("POST", "../admin/register", true);
-        xhttp.setRequestHeader('Content-Type', 'application/json');
-        xhttp.send(obj);
-
-
+    document.querySelector('.upload').addEventListener('change', e => {
+        imageNotNull = true
+        changedImage = e.target.files[0]
+        fd.append('image', changedImage)
+    })
+    document.querySelector('.confirm-btn').addEventListener('click', e => {
+        if(username.value == '' && email.value == '' && phone.value == '') {
+            // 隐藏修改页面
+            var modifyInfo = document.getElementById("modifyInfo");
+            modifyInfo.style.display = "none";
+            return
+        }
+        const form = document.querySelector('.modify-info-content')
+        const data = serialize(form, {hash: true, empty: true});
+        console.log(data)
+        service({
+            url: isUser ? '/user' : '/admin',
+            method: 'put',
+            data: data
+        }).then(result =>{
+            usernameElement.innerText = (username.value !== '') ? username.value : usernameElement.innerText
+            emailElement.innerText = (email.value !== '') ? email.value : emailElement.innerText
+            phoneElement.innerText = (phone.value !== '') ? phone.value : phoneElement.innerText
+        }).catch(error => {
+            alert(error)
+        })
+        if(imageNotNull)
+            service({
+                url: '/upload',
+                method: 'post',
+                data: fd
+            }).then(result =>{
+                imageNotNull = false
+                fd = new FormData()
+                avatarElement1.src = '/localImages/' + result.data.data
+                avatarElement.src = avatarElement1.src
+            }).catch(error => {
+                alert(error)
+            })
         // 隐藏修改页面
         var modifyInfo = document.getElementById("modifyInfo");
         modifyInfo.style.display = "none";
-    }
+    })
+    document.querySelector('.cancel-btn').addEventListener('click', e => {
+        // 取消修改，复原修改框
+        imageNotNull = false
+        username.value = usernameElement.innerText
+        email.value = emailElement.innerText
+        phone.value = phoneElement.innerText
+        avatarElement.src = avatarElement1.src
 
-    toggleModifyInfo()
-    function cancelChanges() {
-        // 取消修改，不保存
-
-        // 隐藏修改页面
         var modifyInfo = document.getElementById("modifyInfo");
         modifyInfo.style.display = "none";
-    }
-    function toggleModifyInfo() {
+    })
+    document.querySelector('.modify-btn').addEventListener('click', e => {
         var modifyInfo = document.getElementById("modifyInfo");
         if (modifyInfo.style.display === "none") {
             modifyInfo.style.display = "block";
         } else {
             modifyInfo.style.display = "none";
         }
-    }
-
+    })
 </script>
 </body>
 </html>

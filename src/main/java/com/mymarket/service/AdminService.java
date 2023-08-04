@@ -3,7 +3,6 @@ package com.mymarket.service;
 import com.mymarket.mapper.AdminMapper;
 import com.mymarket.pojo.Admin;
 import com.mymarket.pojo.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +36,9 @@ public class AdminService {
     public List<User> getUserById(String name, String phone, String email){
         List<User> userlist = adminMapper.getUsers(name, phone, email);
         return userlist;
+    }
+
+    public Admin getAdminById(Integer id) {
+        return adminMapper.getAdminById(id);
     }
 }

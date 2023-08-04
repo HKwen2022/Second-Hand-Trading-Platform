@@ -4,15 +4,12 @@ import com.mymarket.pojo.Admin;
 import com.mymarket.pojo.Result;
 import com.mymarket.pojo.User;
 import com.mymarket.service.AdminService;
-import com.mymarket.service.UserService;
 import com.mymarket.utils.JwtUtils;
-import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 public class AdminController {
@@ -23,19 +20,24 @@ public class AdminController {
         adminService.register(admin);
         return Result.success(admin);
     }
-    @PostMapping("/admin")
+    @PostMapping("/admin/addUser")
     public Result addUser(@RequestBody User user){
         adminService.addUser(user);
         return Result.success();
     }
-    @PutMapping("/admin/update")
+    @PutMapping("/admin")
     public Result update(HttpServletRequest request, @RequestBody Admin admin){
-        Claims claims = JwtUtils.parseJwt(request.getHeader("token"));
-        if(!Objects.equals(admin.getId(), claims.get("id", Integer.class))) return Result.error("id不匹配！");
+        Integer id = JwtUtils.checkToken(request)[1];
+        admin.setId(id);
         adminService.update(admin);
         return Result.success();
     }
-    @PutMapping("/admin")
+    @GetMapping("/admin")
+    public Result getAdmin(HttpServletRequest request){
+        Integer id = JwtUtils.checkToken(request)[1];
+        return Result.success(adminService.getAdminById(id));
+    }
+    @PutMapping("/admin/alterUser")
     public Result alterUser(@RequestBody User user){
         try{adminService.alterUser(user);}
         catch (DataAccessException e){return Result.error("修改失败！");}
@@ -46,7 +48,7 @@ public class AdminController {
         adminService.delUser(ids);
         return Result.success();
     }
-    @GetMapping("/admin")
+    @GetMapping("/admin/getUsers")
     public Result getUserById(String name, String phone, String email){
         return Result.success(adminService.getUserById(name, phone, email));
     }

@@ -16,10 +16,10 @@
         from user
         <where>
             <if test="name != null and name != ''">
-                name like concat('%',#{name},'%'),
+                name like concat('%',#{name},'%')
             </if>
             <if test="phone != null and phone != ''">
-                and phone = #{phone},
+                and phone = #{phone}
             </if>
             <if test="email != null and phone != ''">
                 and email = #{email}

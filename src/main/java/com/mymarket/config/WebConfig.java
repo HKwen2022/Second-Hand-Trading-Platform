@@ -20,6 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(userLoginCheckInterceptor).addPathPatterns("/**")
                 .excludePathPatterns("/admin/**",
                         "/html/index.html",
+                        "/localImages/**",
                         "/favicon.ico",
                         "/image/**",
                         "/html/**",
