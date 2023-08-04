@@ -79,7 +79,7 @@
         <img id="selected-avatar" style="height: 160px;width: 120px;margin-left: 110px" src="../image/用户头像.jpg">
         <br>
         <label for="avatar-input">选择新头像: </label>
-        <input type="file" id="avatar-input" class="upload">
+        <input type="file" id="avatar-input" class="upload" onchange="displaySelectedAvatar(this)">
         <br>
         <br>
         <label for="username">用户名: </label>
@@ -219,8 +219,24 @@
 <script src="../js/form-serialize.js"></script>
 <script src="../js/axios.js"></script>
 <script type="module" src="../js/auth.js"></script>
+<script>
+    function displaySelectedAvatar(file)
+    {
+        if (file.files && file.files[0])
+        {
+            var reader = new FileReader();
+            reader.onload = function(evt){
+                document.querySelector(".modify-info-content img").setAttribute("src",evt.target.result)
+                // console.log(evt.target.result)
+            }
+            reader.readAsDataURL(file.files[0]);
+        }
+        else
+            document.querySelector(".modify-info-content img").setAttribute("src",evt.target.result)
+    }
+</script>
 <script type="module">
-    import {service} from '../js/requestInterceptor.js'
+    import {service} from '../js/axiosInterceptor.js'
     var avatarElement = document.getElementById("selected-avatar");
     var avatarElement1 = document.getElementById("selected-avatar1");
     var accountElement = document.getElementById('accountElement')
@@ -233,46 +249,71 @@
     var changedImage;
     var fd = new FormData()
     var imageNotNull = false
+    var isUser = true
     service({
         url: '/user',
         method: 'get'
     }).then(result =>{
-        if(result.data.code != 1) {
-            alert(result.data.msg)
-            localStorage.clear()
-            location.href = '/html/123.html'
-        }
         //渲染获取的个人信息
-        accountElement.innerText = result.data.data.id
-        usernameElement.innerText = result.data.data.name
-        emailElement.innerText = (result.data.data.email != null) ? result.data.data.email : '未设置'
-        phoneElement.innerText = (result.data.data.phone != null) ? result.data.data.phone : '未设置'
-        avatarElement1.src = (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
-        // //修改弹窗中的个人信息
-        // username = usernameElement.innerText
-        // email = emailElement.innerText
-        // phone = phoneElement.innerText
-        // avatarElement.src = avatarElement1.src
+        // console.log(result.data.data)
+        if(result.data.data !== null){
+            accountElement.innerText = result.data.data.id
+            usernameElement.innerText = result.data.data.name
+            emailElement.innerText = (result.data.data.email != null) ? result.data.data.email : '未设置'
+            phoneElement.innerText = (result.data.data.phone != null) ? result.data.data.phone : '未设置'
+            avatarElement1.src =
+                (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
+            //修改框
+            username.value = result.data.data.name
+            email.value = (result.data.data.name !== null) ? result.data.data.email : ''
+            phone.value = (result.data.data.email != null) ? result.data.data.phone : ''
+            avatarElement.src =
+                (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
+        }
+        //token有效，非用户，即管理员
+        else {
+            // console.log('try admin login')
+            service({
+                url: '/admin',
+                method: 'get'
+            }).then(result => {
+                isUser = false
+                //渲染获取的个人信息
+                accountElement.innerText = result.data.data.id
+                usernameElement.innerText = result.data.data.name
+                emailElement.innerText = (result.data.data.email != null) ? result.data.data.email : '未设置'
+                phoneElement.innerText = (result.data.data.phone != null) ? result.data.data.phone : '未设置'
+                avatarElement1.src =
+                    (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
+                //修改框
+                username.value = result.data.data.name
+                email.value = (result.data.data.name !== null) ? result.data.data.email : ''
+                phone.value = (result.data.data.email != null) ? result.data.data.phone : ''
+                avatarElement.src =
+                    (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
+            }).catch(error => {
+                alert(error)
+            })
+        }
     }).catch(error => {
         alert(error)
     })
-    function displaySelectedAvatar(event) {
-        var selectedAvatar = document.getElementById("selected-avatar");
-        var file = event.target.files[0];
-        if (file) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                selectedAvatar.src = e.target.result;
-                imagePath="../image/"+file.name;
-            }
-            reader.readAsDataURL(file);
-        }
-    }
+    // function displaySelectedAvatar(event) {
+    //     var selectedAvatar = document.getElementById("selected-avatar");
+    //     var file = event.target.files[0];
+    //     if (file) {
+    //         var reader = new FileReader();
+    //         reader.onload = function(e) {
+    //             selectedAvatar.src = e.target.result;
+    //             imagePath="../image/"+file.name;
+    //         }
+    //         reader.readAsDataURL(file);
+    //     }
+    // }
 
     document.querySelector('.upload').addEventListener('change', e => {
         imageNotNull = true
         changedImage = e.target.files[0]
-        avatarElement.innerHTML = changedImage
         fd.append('image', changedImage)
     })
     document.querySelector('.confirm-btn').addEventListener('click', e => {
@@ -286,17 +327,13 @@
         const data = serialize(form, {hash: true, empty: true});
         console.log(data)
         service({
-            url: '/user',
+            url: isUser ? '/user' : '/admin',
             method: 'put',
             data: data
         }).then(result =>{
-            if(result.data.code != 1) {
-                alert(result.data.msg)
-                return
-            }
-            usernameElement.innerText = result.data.data.name
-            emailElement.innerText = (result.data.data.email !== null) ? result.data.data.email : '未设置'
-            phoneElement.innerText = (result.data.data.phone !== null) ? result.data.data.phone : '未设置'
+            usernameElement.innerText = (username.value !== '') ? username.value : usernameElement.innerText
+            emailElement.innerText = (email.value !== '') ? email.value : emailElement.innerText
+            phoneElement.innerText = (phone.value !== '') ? phone.value : phoneElement.innerText
         }).catch(error => {
             alert(error)
         })
@@ -308,10 +345,6 @@
             }).then(result =>{
                 imageNotNull = false
                 fd = new FormData()
-                if(result.data.code != 1) {
-                    alert(result.data.msg)
-                    return
-                }
                 avatarElement1.src = '/localImages/' + result.data.data
                 avatarElement.src = avatarElement1.src
             }).catch(error => {
@@ -322,7 +355,13 @@
         modifyInfo.style.display = "none";
     })
     document.querySelector('.cancel-btn').addEventListener('click', e => {
+        // 取消修改，复原修改框
         imageNotNull = false
+        username.value = usernameElement.innerText
+        email.value = emailElement.innerText
+        phone.value = phoneElement.innerText
+        avatarElement.src = avatarElement1.src
+
         var modifyInfo = document.getElementById("modifyInfo");
         modifyInfo.style.display = "none";
     })

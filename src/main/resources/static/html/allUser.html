@@ -89,20 +89,16 @@
 <script src="../js/axios.js"></script>
 <script type="module" src="../js/auth.js"></script>
 <script type="module">
-    import {service} from "../js/requestInterceptor.js"
-    var uid = document.querySelector('.uid')
+    import {service} from "../js/axiosInterceptor.js"
+    var uidElement = document.querySelector('.uid')
     service({
-        url: '/admin',
+        url: '/admin/getUsers',
         method: 'get',
         params: {
             // name: 'tom'
         }
     }).then(result =>{
-        if(result.data.code != 1) {
-            alert(result.data.msg)
-        }
         const userList = result.data.data
-        ((user.id != null) ? user.id : '')
         const htmlStr = userList.map(user => {
             return '<tr>\n' +
                 '<td th:text="${user.id}">' + ((user.id != null) ? user.id : '') + '</td>\n' +
@@ -121,15 +117,23 @@
         location.href = '123.html'
     })
     document.querySelector('.btn').addEventListener('click', e => {
-        console.log(uid.value)
         service({
-            url: '/user/{uid}',
+            url: '/user/' + uidElement.value,
             method: 'get'
         }).then(result =>{
             if(result.data.code != 1) {
                 alert(result.data.msg)
                 return
             }
+            var user = result.data.data
+            const htmlStr = '<tr>\n' +
+                    '<td th:text="${user.id}">' + ((user.id != null) ? user.id : '') + '</td>\n' +
+                    '<td th:text="${user.name}">' + ((user.name != null) ? user.name : '') + '</td>\n' +
+                    '<td th:text="${user.password}">' + ((user.password != null) ? user.password : '') + '</td>\n' +
+                    '<td th:text="${user.email}">' + ((user.email != null) ? user.email : '') + '</td>\n' +
+                    '<td th:text="${user.phone}">' + ((user.phone != null) ? user.phone : '') + '</td>\n' +
+                    '</tr>'
+            document.querySelector('.table').innerHTML = htmlStr
         }).catch(error => {
             alert(error)
         })

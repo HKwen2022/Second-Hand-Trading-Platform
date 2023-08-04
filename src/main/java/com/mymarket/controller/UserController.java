@@ -42,7 +42,9 @@ public class UserController {
     }
     @GetMapping("/user/{id}")
     public Result getUserById(@PathVariable Integer id){
-        return Result.success(userService.getUserById(id));
+        User user = userService.getUserById(id);
+        if(user != null) return Result.success(user);
+        else return Result.error("用户不存在！");
     }
     @GetMapping("/user/profile")
     public Result getUserProfile(HttpServletRequest request){

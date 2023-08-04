@@ -22,4 +22,6 @@ public interface AdminMapper {
     void delUser(List<Integer>ids);
     void alterUser(User user) throws DataAccessException;
     List<User> getUsers(String name, String phone, String email);
+    @Select("select * from admin where id = #{id}")
+    Admin getAdminById(Integer id);
 }
