@@ -84,10 +84,10 @@
     </form>
 </div>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="../js/axios.js"></script>
 <script type="module" src="../js/auth.js"></script>
 <script type="module">
-    import {service} from '../js/auth.js'
+    import {service} from '../js/requestInterceptor.js'
     const table = document.getElementsByClassName("table")[0];
     const funtionsInput = document.querySelectorAll(".funtions-box input")[0];
     const funtionsButtonSearch = document.querySelectorAll(".funtions-box button")[0];
