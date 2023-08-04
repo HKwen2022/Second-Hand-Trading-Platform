@@ -87,7 +87,7 @@
 <script src="../js/axios.js"></script>
 <script type="module" src="../js/auth.js"></script>
 <script type="module">
-    import {service} from '../js/requestInterceptor.js'
+    import {service} from '../js/axiosInterceptor.js'
     const table = document.getElementsByClassName("table")[0];
     const funtionsInput = document.querySelectorAll(".funtions-box input")[0];
     const funtionsButtonSearch = document.querySelectorAll(".funtions-box button")[0];
@@ -111,11 +111,7 @@
         url: '/commodity/all',
         method: 'get',
     }).then(result =>{
-        if(result.data.code != 1) {
-            alert(result.data.msg)
-            localStorage.clear()
-            location.href = '/html/index.html'
-        }
+
     }).catch(error => {
         alert(error)
     })
@@ -203,7 +199,7 @@
         // xhttp.open("POST", "../admin/register", true);
         // xhttp.setRequestHeader('Content-Type', 'application/json');
         // xhttp.send(obj);
-        //window.open("/html/register_scuess.html");
+        //window.open("/html/register_success.html");
         formAdd.style.visibility="hidden" //添加用户表单点击取消隐藏表单
         var tbody = document.getElementById('tableTh');
         tbody.className="table";
@@ -360,7 +356,7 @@
             // xhttp.open("POST", "../admin/register", true);
             // xhttp.setRequestHeader('Content-Type', 'application/json');
             // xhttp.send(obj);
-            //window.open("/html/register_scuess.html");
+            //window.open("/html/register_success.html");
             formAdd.style.visibility="hidden" //添加用户表单点击取消隐藏表单
 
             var idCell = obj.cells[0];

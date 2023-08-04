@@ -84,7 +84,7 @@
 </div>
 <div class="topnav" >
     <div class="top hover-opacity">
-        <i class="fas fa-user-alt white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 25px; margin-top: 0px;"><p style=" padding:5px;text-align: center; font-size: 25px;background-color: white">    个人主页</p></i>
+        <i class="fas fa-user-alt white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 25px; margin-top: 0px;"><p style=" padding:5px;text-align: center; font-size: 25px;background-color: white" class="private-page">    个人主页</p></i>
     </div>
     <div class="top hover-opacity">
         <i class="fas fa-wallet white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 25px; margin-top: 0px;"><p style=" padding:5px;text-align: center; font-size: 25px;background-color: white">    我卖出的</p></i>
@@ -376,23 +376,46 @@
 </div>
 <script src="../js/axios.js"></script>
 <script type="module">
-    import {service} from '../js/requestInterceptor.js'
+    import {service} from '../js/axiosInterceptor.js'
+    var isUser = true
+    var url = isUser ? '/user' : '/admin'
     if(localStorage.token)
         service({
             url: '/user',
             method: 'get'
         }).then(result =>{
-            if(result.data.code != 1) {
-                alert(result.data.msg)
-                return
+            if(result.data.date !== undefined){
+                console.log('is user')
+                console.log(result.data)
+                console.log(result.date.data + 'data')
+                document.querySelector('.login-btn').remove()
+                document.querySelector('.dispalyName').innerText = result.data.data.name
+                document.querySelector('.displayImage').src =
+                    (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
             }
-            document.querySelector('.login-btn').remove()
-            document.querySelector('.dispalyName').innerText = result.data.data.name
-            document.querySelector('.displayImage').src =
-                (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
+            else {
+                console.log('not user, try get admin')
+                isUser = false
+                service({
+                    url: '/admin',
+                    method: 'get'
+                }).then(result =>{
+                    console.log('get admin success')
+                        document.querySelector('.login-btn').remove()
+                        document.querySelector('.dispalyName').innerText = result.data.data.name
+                        document.querySelector('.displayImage').src =
+                            (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
+                }).catch(error => {
+                    alert(error)
+                })
+            }
         }).catch(error => {
             alert(error)
         })
+
+    document.querySelector('.private-page').addEventListener('click', e => {
+        location.href = '/html/个人中心(1).html'
+    })
     function addAll()
     {
 

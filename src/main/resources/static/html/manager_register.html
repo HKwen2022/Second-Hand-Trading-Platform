@@ -55,13 +55,21 @@
 </body>
 <script src="../js/form-serialize.js"></script>
 <script src="../js/axios.js"></script>
-<script>
-    if(localStorage.token) location.href = '/html/commodity.html'
+<script type="module">
+    import {service} from "../js/axiosInterceptor.js";
+    if(localStorage.token) {
+        service({
+            url: '/admin',
+            method: 'get'
+        }).then(() => {
+            location.href = '/html/commodity.html'
+        })
+    }
     // 获取注册按钮1元素
     // var registerButton1 = document.querySelector('button[type="button"]');
     // // 绑定点击事件，跳转到 xxxmu.html 页面
     // registerButton1.addEventListener("click", function() {
-    //     window.location.href = "/html/register_scuess.html";
+    //     window.location.href = "/html/register_success.html";
     // });
 
     let transfer1 = document.getElementById('client_button');
@@ -77,17 +85,16 @@
         const name = document.querySelector('.name').value;
         const password = document.querySelector('.password').value;
         const ensurePassword = document.querySelector('.ensurePassword').value;
-        if(password != ensurePassword) {
+        if(password !== ensurePassword) {
             alert("密码不一致！")
             return
         }
-        if(name == '' || password == '') {
+        if(name === '' || password === '') {
             alert('用户名或密码不能为空！')
             return
         }
         const form = document.querySelector('.reg-form')
         const data = serialize(form, {hash: true, empty: true});
-        console.log(data)
         axios({
             url: '/admin/register',
             headers: {
@@ -96,10 +103,10 @@
             method: 'post',
             data: data
         }).then(result => {
-            if(result.data.code != 1) alert(result.data.msg)
-            else location.href = '/html/register_scuess.html'
+            if(result.data.code !== 1) alert(result.data.msg)
+            else location.href = 'register_success.html'
         }).catch(error => {
-            alert(error.response.data.message)
+            alert(error)
         })
     })
     // function ensureRegister(){
@@ -148,7 +155,7 @@
         // xhttp.open("POST", "../admin/register", true);
         // xhttp.setRequestHeader('Content-Type', 'application/json');
         // xhttp.send(obj);
-        // window.open("/html/register_scuess.html");
+        // window.open("/html/register_success.html");
 
     // }
 

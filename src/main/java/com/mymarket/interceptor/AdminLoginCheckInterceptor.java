@@ -19,7 +19,7 @@ public class AdminLoginCheckInterceptor implements HandlerInterceptor {
         if(url.contains("login") || url.contains("register")) return true;
         Integer[] type = JwtUtils.checkToken(request);
         if(type[0] != 1) {
-            Result error =Result.error("NOT_LOGIN");
+            Result error =Result.error("ADMIN_NOT_LOGIN");
             String notLogin = JSONObject.toJSONString(error);
             response.getWriter().write(notLogin);
             return false;
