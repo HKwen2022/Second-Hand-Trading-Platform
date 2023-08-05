@@ -7,7 +7,7 @@ service.interceptors.request.use(request => {
     //     return request
     request.headers.token = localStorage.token
     if (!localStorage.token){
-        location.href = '/html/首页.html'
+        location.href = '/html/index.html'
     }
     return request
     }
@@ -19,7 +19,7 @@ service.interceptors.response.use(
         else if(response.data.msg !== null && response.data.msg === 'NOT_LOGIN'){
             alert('未登录或登录已失效！')
             localStorage.clear()
-            location.href = '/html/首页.html'
+            location.href = '/html/index.html'
         }
         else if(response.data.msg !== null && response.data.msg === 'ADMIN_NOT_LOGIN'){
             return Promise.reject(new Error('管理员未登录或登录已失效！'))

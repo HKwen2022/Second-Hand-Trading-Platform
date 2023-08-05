@@ -18,7 +18,9 @@ public class CommodityController {
     }
     @PostMapping("/commodity")
     public Result put(@RequestBody Commodity commodity, HttpServletRequest request){
-        if(JwtUtils.check(commodity.getId(),request)) return Result.error("用户id不匹配!");
+        var ret = JwtUtils.checkToken(request);
+        if(ret[0] == 0) commodity.setPublisher(ret[1]);
+        else if(ret[0] == 1 && commodity.getPublisher() == null) return Result.error("未指定发布者id!");
         try {
             commodityService.put(commodity);
         }
@@ -29,11 +31,11 @@ public class CommodityController {
     }
     @DeleteMapping("/commodity/{id}")
     public Result delete(@PathVariable Integer id, HttpServletRequest request){
-        if(JwtUtils.check(commodityService.get(id).getPublisher(),request)) return Result.error("用户id不匹配!");
         try{
+            if(JwtUtils.check(commodityService.get(id).getPublisher(),request)) return Result.error("用户id不匹配!");
             commodityService.delete(id);
         }
-        catch (DataAccessException e){
+        catch (Exception e){
             //实际上不存在对应id的商品也不会返回错误
             return Result.error("删除失败！不存在该商品。");
         }
