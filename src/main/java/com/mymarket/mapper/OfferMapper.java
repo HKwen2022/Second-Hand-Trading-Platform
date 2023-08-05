@@ -17,9 +17,9 @@ public interface OfferMapper {
 
     void delete(Integer id) throws DataAccessException;
     @Select("select * from offer where uid = #{id}")
-    List<ShopCar> getByUserId(Integer id);
+    List<Offer> getByUserId(Integer id);
     @Select("select * from offer")
-    List<ShopCar> getAll();
+    List<Offer> getAll();
 
-    List<ShopCar> get(Integer userId, Commodity commodity);
+    List<Offer> get(Integer userId, Commodity commodity);
 }
