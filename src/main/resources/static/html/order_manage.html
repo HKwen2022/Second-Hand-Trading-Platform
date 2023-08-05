@@ -22,12 +22,12 @@
 <div class="container-box">
     <div class="super_box">
         <span>管理员:</span>
-        <span th:text="${session.loginUser}"></span>
+        <span id="adminName"></span>
         <span>></span>
         <span>邮箱:</span>
-        <span th:text="${session.email}"></span>
+        <span id="email"></span>
         <span>手机号码:</span>
-        <span th:text="${session.tel}"></span>
+        <span id="telephone"></span>
     </div>
     <!--    <div class="reminder-box"><h3>&nbsp;&nbsp;操作面板&nbsp;&nbsp;</h3></div>-->
     <div class="title-box"><h1>订单信息管理界面</h1></div>
@@ -37,7 +37,7 @@
         <button>-</button>
         <button>修改</button>
         <button>+</button>
-        <button type="button" onclick="allCommodity()">查看全部订单</button>
+        <button type="button" class="allCommodity-btn">查看全部订单</button>
         <span th:text="${msg}"></span>
     </div>
     <table class="table-th" id="Commodity" data-name="Commodity" style="width: 1170px">
@@ -76,17 +76,20 @@
         <input type="text" placeholder="收货日期" id="shippingDate" name="shippingDate"  required>
         <input type="text" placeholder="收货地址" id="shippingAddress" name="shippingAddress"  required>
         <input type="text" placeholder="发货地址" id="deliveryAddress" name="deliveryAddress"  required>
-        <button type="submit">修改</button>
-        <button>取消</button>
+        <button type="button">修改</button>
+        <button type="button">取消</button>
     </form>
 </div>
 </body>
-
+<script src="../js/axios.js"></script>
 <script>
-    document.querySelector('.exit').addEventListener('click', e => {
+    function exit(){
         localStorage.clear()
-        location.href = '首页.html'
-    })
+    }
+</script>
+<script type="module" src="../js/auth.js"></script>
+<script type="module">
+    import {service} from '../js/axiosInterceptor.js'
     const table = document.getElementsByClassName("table")[0];
     const funtionsInput = document.querySelectorAll(".funtions-box input")[0];
     const funtionsButtonSearch = document.querySelectorAll(".funtions-box button")[0];
@@ -103,7 +106,27 @@
     const nameTd = [];
     var highlightedRow = null; // 用于跟踪当前高亮显示的行
 
+    if(localStorage.token)
+        service({
+            url: '/admin',
+            method: 'get'
+        }).then(result => {
+            if (result.data.data !== null) {
+                document.querySelector('#adminName').innerText = result.data.data.name;
+                document.querySelector('#email').innerText = result.data.data.email;
+                document.querySelector('#telephone').innerText = result.data.data.phone;
+            }
+        })
+    document.querySelector('.exit').addEventListener('click', e => {
+        localStorage.clear()
+        location.href = '首页.html'
+    })
+    document.querySelector('.allCommodity-btn').addEventListener('click', e => {
+        allCommodity();
+    })
+
     addButtonSearch()
+    allCommodity()
     function addButtonSearch()//点击查找按钮时
     {
         funtionsButtonSearch.addEventListener('click',()=>{
@@ -158,6 +181,8 @@
 
     function addValue1(h)
     {
+        //alert(JSON.stringify(h));
+        console.log(JSON.stringify(h))
         var row = document.createElement('tr'); //创建行
 
         var idCell = document.createElement('td'); //创建第一列id
@@ -187,27 +212,27 @@
 
         var orderDateCell = document.createElement('td');//创建第三列job
         //telCell.className="table-th";
-        orderDateCell.innerHTML = h.orderDate;
+        orderDateCell.innerHTML = h.date;
         row.appendChild(orderDateCell);
 
         var shippingDateCell = document.createElement('td');//创建第三列job
         //telCell.className="table-th";
-        shippingDateCell.innerHTML = h.orderDate;
+        shippingDateCell.innerHTML = h.date1;
         row.appendChild(shippingDateCell);
 
         var deliveryDateCell = document.createElement('td');//创建第三列job
         //telCell.className="table-th";
-        deliveryDateCell.innerHTML = h.orderDate;
+        deliveryDateCell.innerHTML = h.date2;
         row.appendChild(deliveryDateCell);
 
         var shippingAddressCell = document.createElement('td');//创建第三列job
         //telCell.className="table-th";
-        shippingAddressCell.innerHTML = h.orderDate;
+        shippingAddressCell.innerHTML = h.address;
         row.appendChild(shippingAddressCell);
 
         var deliveryAddressCell = document.createElement('td');//创建第三列job
         //telCell.className="table-th";
-        deliveryAddressCell.innerHTML = h.orderDate;
+        deliveryAddressCell.innerHTML = h.address2;
         row.appendChild(deliveryAddressCell);
 
         var delCell = document.createElement('td');//创建第四列，操作列
@@ -225,13 +250,15 @@
 
         btnDel.addEventListener('click', function() {
             var currentRow = this.parentNode.parentNode;
+            if(!confirm("确认删除？")) return;
+            deleteCommodityRequest(currentRow.cells[0].innerHTML); //里面的数字替换为删除的商品id
             currentRow.parentNode.removeChild(currentRow);
         });
 
         btnAlt.addEventListener('click', function() {
             var currentRow = this.parentNode.parentNode;
             //currentRow.parentNode.removeChild(currentRow);
-            alterUser(currentRow);
+            alterCommodity(currentRow);
             //alert(currentRow.cells[3].toString());
         });
 
@@ -249,10 +276,26 @@
     }
 
     function allCommodity(){
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "../commodity?id=1&name=name", true);
-        //xhttp.setRequestHeader('Content-Type', 'application/json');
-        xhttp.send();
+        service({
+            url: '/offer/all',
+            method: 'get',
+        }).then(result =>{
+            console.log(result.data);
+            let data = result.data.data;
+            let tbody = document.getElementById('tableTh');
+            tbody.className="table";
+            tbody.innerHTML = "";
+            for(let i = 0;i < data.length; i++){ //遍历一下json数据
+                let trow = addValue1(data[i]); //定义一个方法,返回tr数据
+                tbody.appendChild(trow);
+            }
+        }).catch(error => {
+            alert(error)
+        })
+        // var xhttp = new XMLHttpRequest();
+        // xhttp.open("GET", "../commodity?id=1&name=name", true);
+        // //xhttp.setRequestHeader('Content-Type', 'application/json');
+        // xhttp.send();
 
         // xhttp.onreadystatechange = function()
         // {
@@ -273,33 +316,33 @@
         //     }
         // }
 
-        var tbody = document.getElementById('tableTh');
-        tbody.className="table";
-        var data= [
-            {id:1,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-            {id:11,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-            {id:10,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-            {id:101,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-            {id:125,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-            {id:41,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-            {id:251,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-            {id:871,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-            {id:761,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-            {id:691,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-            {id:761,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-            {id:771,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-            {id:961,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'}]
-        for(var i = 0;i < data.length; i++){ //遍历一下json数据
-            var trow = addValue1(data[i]); //定义一个方法,返回tr数据
-            tbody.appendChild(trow);
-            // var Id=per[i].id;
-            // tbody.innerHTML += "<tr>   <td>"+Id+"</td>  <td>1</td>   <td>1</td>    <td>1</td>    <td>1</td>     <td>1</td> </tr>";
-        }
+        // var tbody = document.getElementById('tableTh');
+        // tbody.className="table";
+        // var data= [
+        //     {id:1,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+        //     {id:11,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+        //     {id:10,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+        //     {id:101,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+        //     {id:125,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+        //     {id:41,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+        //     {id:251,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+        //     {id:871,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+        //     {id:761,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+        //     {id:691,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+        //     {id:761,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+        //     {id:771,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
+        //     {id:961,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'}]
+        // for(var i = 0;i < data.length; i++){ //遍历一下json数据
+        //     var trow = addValue1(data[i]); //定义一个方法,返回tr数据
+        //     tbody.appendChild(trow);
+        //     // var Id=per[i].id;
+        //     // tbody.innerHTML += "<tr>   <td>"+Id+"</td>  <td>1</td>   <td>1</td>    <td>1</td>    <td>1</td>     <td>1</td> </tr>";
+        // }
 
 
     }
 
-    function alterUser(obj){
+    function alterCommodity(obj){
         formAlter.style.visibility="visible"
         document.querySelectorAll(".alter_form input")[0].value=obj.cells[0].textContent;
         formAlterAllButton[0].addEventListener('click',()=>{
@@ -349,12 +392,36 @@
 
 
             formAlter.style.visibility="hidden"
+            alterCommodityRequest({"id":idV.value,"cid":cidV.value,"uid":uidV.value,"price":priceV.value,"number":numberV.value,"date":orderDateV.value,"date2":deliveryDateV.value,"date3":shippingDateV.value,"address":deliveryAddressV.value,"address2":shippingAddressV.value}) //参数是json
             alert("修改成功！");
 
         })
 
         formAlterAllButton[1].addEventListener('click',()=>{
             formAlter.style.visibility="hidden"
+        })
+    }
+
+    function deleteCommodityRequest(id){
+        service({
+            url: '/offer/' + id,
+            method: 'delete',
+        }).then(result =>{
+            if(result.data.code === 1) alert("删除成功！");
+            else alert("删除失败！"); //实际上code = 0时会被拦截，不会有该弹窗
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function alterCommodityRequest(commodity){
+        service({
+            url: '/offer',
+            method: 'put',
+            data : commodity
+        }).then(result =>{
+            alert("修改成功！");
+        }).catch(error => {
+            alert(error)
         })
     }
 
