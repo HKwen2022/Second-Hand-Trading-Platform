@@ -37,13 +37,13 @@ public class OfferService {
         offerMapper.deleteAll(userId);
     }
 
-    public List<ShopCar> getByUserId(Integer id) {
+    public List<Offer> getByUserId(Integer id) {
         return offerMapper.getByUserId(id);
     }
-    public List<ShopCar> getAll() {
+    public List<Offer> getAll() {
         return offerMapper.getAll();
     }
-    public List<ShopCar> get(Integer userId, Commodity commodity) {
+    public List<Offer> get(Integer userId, Commodity commodity) {
         return offerMapper.get(userId,commodity);
     }
 }

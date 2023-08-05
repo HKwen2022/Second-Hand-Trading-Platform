@@ -33,7 +33,7 @@ public class OfferController {
     }
     @GetMapping("/offer/{id}")
     public Result getByUserId(@PathVariable Integer id) {
-        List<ShopCar> ret = null;
+        List<Offer> ret = null;
         try {
             ret = offerService.getByUserId(id);
         } catch (DataAccessException e) {
@@ -43,7 +43,7 @@ public class OfferController {
     }
     @GetMapping("/offer")
     public Result getByUserId(HttpServletRequest request) {
-        List<ShopCar> ret = null;
+        List<Offer> ret = null;
         try {
             var token = JwtUtils.checkToken(request);
             if(token[0]==1) return Result.error("请前往管理员网页查看用户信息！");
@@ -55,7 +55,7 @@ public class OfferController {
     }
     @GetMapping("/offer/all")
     public Result getAllShopCar() {
-        List<ShopCar> ret = null;
+        List<Offer> ret = null;
         try {
             ret = offerService.getAll();
         } catch (DataAccessException e) {
@@ -65,7 +65,7 @@ public class OfferController {
     }
     @PostMapping("/offer/all")
     public Result get(Integer userId, @RequestBody Commodity commodity) {
-        List<ShopCar> ret = null;
+        List<Offer> ret = null;
         try {
             ret = offerService.get(userId, commodity);
         } catch (DataAccessException e) {
