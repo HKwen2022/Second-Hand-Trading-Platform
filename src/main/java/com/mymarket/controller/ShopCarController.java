@@ -39,6 +39,18 @@ public class ShopCarController {
         }
         return Result.success(ret);
     }
+    @GetMapping("/shop_car")
+    public Result getByUserId(HttpServletRequest request) {
+        List<ShopCar> ret = null;
+        try {
+            var token = JwtUtils.checkToken(request);
+            if(token[0]==1) return Result.error("请前往管理员网页查看用户信息！");
+            ret = shopCarService.getByUserId(token[1]);
+        } catch (DataAccessException e) {
+            return Result.error("请求该用户的购物车信息失败！");
+        }
+        return Result.success(ret);
+    }
     @GetMapping("/shop_car/all")
     public Result getAllShopCar() {
         List<ShopCar> ret = null;

@@ -431,5 +431,19 @@
 
 </script>
 </body>
-
+<script src="../js/axios.js"></script>
+<script type="module">
+  import {service} from '../js/axiosInterceptor.js'
+  //得到当前用户所有购物车的请求方法 | 参数: 无 | 返回值: 购物车JSON列表
+  function allShopCarRequest(){
+    service({
+      url: '/shop_car',
+      method: 'get',
+    }).then(result =>{
+      return result.data.data;
+    }).catch(error => {
+      alert(error)
+    })
+  }
+</script>
 </html>

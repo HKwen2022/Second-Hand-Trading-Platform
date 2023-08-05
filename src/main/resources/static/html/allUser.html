@@ -51,17 +51,17 @@
             <!--            <th>电话</th>-->
         </tr>
     </table>
-<div style="margin-top:35px;overflow: auto;max-height: 480px">
-    <table class="table" id="tableTh">
-        <tr>
-            <td th:text="${alluser.id}"></td>
-            <td th:text="${alluser.name}"></td>
-            <td th:text="${alluser.password}"></td>
-            <td th:text="${alluser.email}"></td>
-            <td th:text="${alluser.phone}"></td>
-        </tr>
-    </table>
-</div>
+    <div style="margin-top:35px;overflow: auto;max-height: 480px">
+        <table class="table" id="tableTh">
+            <tr>
+                <td th:text="${alluser.id}"></td>
+                <td th:text="${alluser.name}"></td>
+                <td th:text="${alluser.password}"></td>
+                <td th:text="${alluser.email}"></td>
+                <td th:text="${alluser.phone}"></td>
+            </tr>
+        </table>
+    </div>
     <form class="delect_form"  method="post" th:action="@{/delectUser}">
         <input type="text" name="username">
     </form>
@@ -134,12 +134,12 @@
             }
             var user = result.data.data
             const htmlStr = '<tr>\n' +
-                    '<td th:text="${user.id}">' + ((user.id != null) ? user.id : '') + '</td>\n' +
-                    '<td th:text="${user.name}">' + ((user.name != null) ? user.name : '') + '</td>\n' +
-                    '<td th:text="${user.password}">' + ((user.password != null) ? user.password : '') + '</td>\n' +
-                    '<td th:text="${user.email}">' + ((user.email != null) ? user.email : '') + '</td>\n' +
-                    '<td th:text="${user.phone}">' + ((user.phone != null) ? user.phone : '') + '</td>\n' +
-                    '</tr>'
+                '<td th:text="${user.id}">' + ((user.id != null) ? user.id : '') + '</td>\n' +
+                '<td th:text="${user.name}">' + ((user.name != null) ? user.name : '') + '</td>\n' +
+                '<td th:text="${user.password}">' + ((user.password != null) ? user.password : '') + '</td>\n' +
+                '<td th:text="${user.email}">' + ((user.email != null) ? user.email : '') + '</td>\n' +
+                '<td th:text="${user.phone}">' + ((user.phone != null) ? user.phone : '') + '</td>\n' +
+                '</tr>'
             document.querySelector('.table').innerHTML = htmlStr
         }).catch(error => {
             alert(error)

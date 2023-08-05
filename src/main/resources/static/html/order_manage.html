@@ -289,7 +289,7 @@
             {id:761,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
             {id:771,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
             {id:961,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'}]
-            for(var i = 0;i < data.length; i++){ //遍历一下json数据
+        for(var i = 0;i < data.length; i++){ //遍历一下json数据
             var trow = addValue1(data[i]); //定义一个方法,返回tr数据
             tbody.appendChild(trow);
             // var Id=per[i].id;
@@ -369,10 +369,10 @@
 
         // 遍历每个单元格，并将其中的文本内容添加到空白框中
         //for (var i = 0; i < cells.length; i++) {
-            var cellText1 = '订单编号：' + cells[0].textContent;
-            var infoItem1 = document.createElement('p');
-            infoItem1.textContent = cellText1;
-            infoBox.appendChild(infoItem1);
+        var cellText1 = '订单编号：' + cells[0].textContent;
+        var infoItem1 = document.createElement('p');
+        infoItem1.textContent = cellText1;
+        infoBox.appendChild(infoItem1);
         //}
 
         var cellText2 = '商品编号：' + cells[1].textContent;

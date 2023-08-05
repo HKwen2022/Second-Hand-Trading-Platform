@@ -19,8 +19,11 @@ public class OfferController {
         this.offerService = offerService;
     }
     @PostMapping("/offer")
-    public Result put(@RequestBody Offer offer){
+    public Result put(@RequestBody Offer offer, HttpServletRequest request){
         try{
+            var ret = JwtUtils.checkToken(request);
+            if(ret[0] == 0) offer.setUid(ret[1]);
+            else if(ret[0] == 1 && offer.getUid() == null) return Result.error("未指定发布者id!");
             offerService.put(offer);
         }
         catch (Exception e){
@@ -35,6 +38,18 @@ public class OfferController {
             ret = offerService.getByUserId(id);
         } catch (DataAccessException e) {
             return Result.error("请求该用户的订单信息失败！");
+        }
+        return Result.success(ret);
+    }
+    @GetMapping("/offer")
+    public Result getByUserId(HttpServletRequest request) {
+        List<ShopCar> ret = null;
+        try {
+            var token = JwtUtils.checkToken(request);
+            if(token[0]==1) return Result.error("请前往管理员网页查看用户信息！");
+            ret = offerService.getByUserId(token[1]);
+        } catch (DataAccessException e) {
+            return Result.error("请求该用户的所有订单信息失败！");
         }
         return Result.success(ret);
     }

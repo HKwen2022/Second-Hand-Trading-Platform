@@ -235,5 +235,21 @@
         alert("添加购物车成功！");
     }
 </script>
+<script src="../js/axios.js"></script>
+<script type="module">
+    import {service} from '../js/axiosInterceptor.js'
+    //添加到购物车请求方法 | 参数: 商品id,购买数量 | 返回值: boolean(操作成功与否)
+    function addShopCarRequest(cid,number){
+        service({
+            url: '/shop_car',
+            method: 'post',
+            data: {cid:cid,number:number}
+        }).then(result =>{
+            return result.data.code;
+        }).catch(error => {
+            alert(error)
+        })
+    }
+</script>
 </body>
 </html>
