@@ -50,12 +50,12 @@
 <script type="module">
     import {service} from "../js/axiosInterceptor.js";
     if(localStorage.token) {
-        login('token exist!')
+        //login('token exist!')
         service({
             url: '/user',
             method: 'get'
         }).then(() => {
-            location.href = '/html/commodity.html'
+            location.href = '/html/首页.html'
         }).catch(error => {
             console.log('existed token invalid!')
         })

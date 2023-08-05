@@ -16,7 +16,7 @@
         <li><img src="../image/用户.png" alt=""><a href="Commodity.html">商品信息管理</a></li>
         <li><img src="../image/用户.png" alt=""><a href="order_manage.html">订单信息管理</a></li>
         <li><img src="../image/用户.png" alt=""><a href="manager_login.html">切换管理员</a></li>
-        <li onclick="exit()" class="exit"><img src="../image/退出系统ico.png"  alt=""><a href="首页.html">退出系统</a></li>
+        <li class="exit"><img src="../image/退出系统ico.png"  alt=""><a href="首页.html">退出系统</a></li>
     </ul>
 </div>
 <div class="container-box">
@@ -72,7 +72,7 @@
         <input type="text" placeholder="密码" id="password" name="password" required>
         <input type="text" placeholder="电话" id="phone" name="phone"   required>
         <input type="email" placeholder="邮箱" id="email" name="email"  required>
-        <button type="button" onclick="ensureAddCommodity()">添加商品</button>
+        <button type="button">添加商品</button>
         <button type="button">取消</button>
     </form>
     <form method="post" action="#" class="add_form alter_form" >
@@ -121,7 +121,7 @@
     })
     document.querySelector('.exit').addEventListener('click', e => {
         localStorage.clear()
-        location.href = '123.html'
+        location.href = '首页.html'
     })
     document.querySelector('.btn').addEventListener('click', e => {
         service({
@@ -163,17 +163,17 @@
     const nameTd = [];
     var highlightedRow = null; // 用于跟踪当前高亮显示的行
 
-    service({
-        url: '/commodity/all',
-        method: 'get',
-    }).then(result =>{
-        if(result.data.code != 1) {
-            alert(result.data.msg)
-            location.href = '/html/index.html'
-        }
-    }).catch(error => {
-        alert(error)
-    })
+    // service({
+    //     url: '/commodity/all',
+    //     method: 'get',
+    // }).then(result =>{
+    //     if(result.data.code != 1) {
+    //         alert(result.data.msg)
+    //         location.href = '/html/index.html'
+    //     }
+    // }).catch(error => {
+    //     alert(error)
+    // })
 
     addButtonSearch()
     addValue()
@@ -239,7 +239,10 @@
         formAddAllButton[1].addEventListener('click',()=>{
             formAdd.style.visibility="hidden" //添加用户表单点击取消隐藏表单
         })
-
+        formAddAllButton[0].addEventListener('click',()=>{
+            ensureAddCommodity();
+            formAdd.style.visibility="hidden" //添加用户表单点击取消隐藏表单
+        })
     }
 
     function ensureAddCommodity()
