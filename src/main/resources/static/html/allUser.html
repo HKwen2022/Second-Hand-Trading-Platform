@@ -16,7 +16,7 @@
         <li><img src="../image/用户.png" alt=""><a href="Commodity.html">商品信息管理</a></li>
         <li><img src="../image/用户.png" alt=""><a href="order_manage.html">订单信息管理</a></li>
         <li><img src="../image/用户.png" alt=""><a href="manager_login.html">切换管理员</a></li>
-        <li onclick="exit()"><img src="../image/退出系统ico.png"  alt=""><a href="首页.html">退出系统</a></li>
+        <li class="exit"><img src="../image/退出系统ico.png"  alt=""><a href="首页.html">退出系统</a></li>
     </ul>
 </div>
 <div class="container-box">
@@ -32,8 +32,8 @@
     <!--    <div class="reminder-box"><h3>&nbsp;&nbsp;操作面板&nbsp;&nbsp;</h3></div>-->
     <div class="title-box"><h1>用户信息管理界面</h1></div>
     <div class="funtions-box">
-        <input type="text" placeholder="请输入需要查找的用户ID" >
-        <button>搜索</button>
+        <input type="text" placeholder="请输入查找的用户编号" class="uid">
+        <button type="button" class="btn">搜索</button>
         <button>-</button>
         <button>修改</button>
         <button>+</button>
@@ -52,8 +52,14 @@
         </tr>
     </table>
     <div style="margin-top:35px;overflow: auto;max-height: 480px">
-        <table class="table" id="tableTh" >
-
+        <table class="table" id="tableTh">
+            <tr>
+                <td th:text="${alluser.id}"></td>
+                <td th:text="${alluser.name}"></td>
+                <td th:text="${alluser.password}"></td>
+                <td th:text="${alluser.email}"></td>
+                <td th:text="${alluser.phone}"></td>
+            </tr>
         </table>
     </div>
     <form class="delect_form"  method="post" th:action="@{/delectUser}">
@@ -81,16 +87,66 @@
     </form>
 </div>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script type="module" src="../js/auth.js"></script>
+
 <script>
     function exit(){
         localStorage.clear()
     }
 </script>
+<script src="../js/axios.js"></script>
+<script type="module" src="../js/auth.js"></script>
 <script type="module">
-    import {service} from '../js/auth.js'
-    window.onload=test;
+    import {service} from "../js/axiosInterceptor.js"
+    var uidElement = document.querySelector('.uid')
+    service({
+        url: '/admin/getUsers',
+        method: 'get',
+        params: {
+            // name: 'tom'
+        }
+    }).then(result =>{
+        const userList = result.data.data
+        const htmlStr = userList.map(user => {
+            return '<tr>\n' +
+                '<td th:text="${user.id}">' + ((user.id != null) ? user.id : '') + '</td>\n' +
+                '<td th:text="${user.name}">' + ((user.name != null) ? user.name : '') + '</td>\n' +
+                '<td th:text="${user.password}">' + ((user.password != null) ? user.password : '') + '</td>\n' +
+                '<td th:text="${user.email}">' + ((user.email != null) ? user.email : '') + '</td>\n' +
+                '<td th:text="${user.phone}">' + ((user.phone != null) ? user.phone : '') + '</td>\n' +
+                '</tr>'
+        }).join('')
+        document.querySelector('.table').innerHTML = htmlStr
+    }).catch(error => {
+        alert(error)
+    })
+    document.querySelector('.exit').addEventListener('click', e => {
+        localStorage.clear()
+        location.href = '首页.html'
+    })
+    document.querySelector('.btn').addEventListener('click', e => {
+        service({
+            url: '/user/' + uidElement.value,
+            method: 'get'
+        }).then(result =>{
+            if(result.data.code != 1) {
+                alert(result.data.msg)
+                return
+            }
+            var user = result.data.data
+            const htmlStr = '<tr>\n' +
+                '<td th:text="${user.id}">' + ((user.id != null) ? user.id : '') + '</td>\n' +
+                '<td th:text="${user.name}">' + ((user.name != null) ? user.name : '') + '</td>\n' +
+                '<td th:text="${user.password}">' + ((user.password != null) ? user.password : '') + '</td>\n' +
+                '<td th:text="${user.email}">' + ((user.email != null) ? user.email : '') + '</td>\n' +
+                '<td th:text="${user.phone}">' + ((user.phone != null) ? user.phone : '') + '</td>\n' +
+                '</tr>'
+            document.querySelector('.table').innerHTML = htmlStr
+        }).catch(error => {
+            alert(error)
+        })
+    })
+</script>
+<script>
     const table = document.getElementsByClassName("table")[0];
     const funtionsInput = document.querySelectorAll(".funtions-box input")[0];
     const funtionsButtonSearch = document.querySelectorAll(".funtions-box button")[0];
@@ -107,23 +163,18 @@
     const nameTd = [];
     var highlightedRow = null; // 用于跟踪当前高亮显示的行
 
+    // service({
+    //     url: '/commodity/all',
+    //     method: 'get',
+    // }).then(result =>{
+    //     if(result.data.code != 1) {
+    //         alert(result.data.msg)
+    //         location.href = '/html/index.html'
+    //     }
+    // }).catch(error => {
+    //     alert(error)
+    // })
 
-
-    service({
-        url: '/commodity/all',
-        method: 'get',
-    }).then(result =>{
-        if(result.data.code != 1) {
-            alert(result.data.msg)
-            location.href = '/html/index.html'
-        }
-    }).catch(error => {
-        alert(error)
-    })
-
-    function test(){
-        alert("0");
-    }
     addButtonSearch()
     addValue()
     //alterUser()
@@ -306,43 +357,7 @@
                 }
             }
         }
-
-        // var tbody = document.getElementById('tableTh');
-        // tbody.className="table";
-        // var data= [
-        //     {id:1,name:'张珊',job:'学生',publisher:'厦门大学',type:'book',price:123},
-        //     {id:2,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:3,name:'王武',job:'经理',publisher:'厦门大学',type:'book',price:123},
-        //     {id:4,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:5,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:12,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:122,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:24,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:27,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:28,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:29,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:26,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:22,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:12,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:72,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:82,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:92,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:212,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:278,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:296,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:245,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:236,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123},
-        //     {id:2757,name:'李斯',job:'教师',publisher:'厦门大学',type:'book',price:123}]
-        //     for(var i = 0;i < data.length; i++){ //遍历一下json数据
-        //     var trow = addValue1(data[i]); //定义一个方法,返回tr数据
-        //     tbody.appendChild(trow);
-        //     // var Id=per[i].id;
-        //     // tbody.innerHTML += "<tr>   <td>"+Id+"</td>  <td>1</td>   <td>1</td>    <td>1</td>    <td>1</td>     <td>1</td> </tr>";
-        // }
-        //
-
     }
-
     function alterUser(obj){
         formAlter.style.visibility="visible"
         document.querySelectorAll(".alter_form input")[0].value=obj.cells[0].textContent;
@@ -355,12 +370,6 @@
             var AphoneV = document.getElementById("Aphone");
             var AemailV=document.getElementById("Aemail");
 
-            //var obj = JSON.stringify({"id":commodityIDV.value,"name":userIDV.value,"job":nameV.value,"publisher":stockV.value,"type":typeV.value,"price":priceV.value});
-            //var obj = JSON.stringify({"name":commodityIDV.value,"email":userIDV.value,"phone":nameV.value,"password":priceV.value,"imageUrl":"null"});
-            // xhttp.open("POST", "../admin/register", true);
-            // xhttp.setRequestHeader('Content-Type', 'application/json');
-            // xhttp.send(obj);
-            //window.open("/html/register_scuess.html");
             formAdd.style.visibility="hidden" //添加用户表单点击取消隐藏表单
 
             var idCell = obj.cells[0];
@@ -385,9 +394,6 @@
             formAlter.style.visibility="hidden"
         })
     }
-
-    //window.onload=allCommodity;
-
 
 </script>
 
