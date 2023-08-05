@@ -384,10 +384,8 @@
             url: '/user',
             method: 'get'
         }).then(result =>{
-            if(result.data.date !== undefined){
+            if(result.data.data !== null){
                 console.log('is user')
-                console.log(result.data)
-                console.log(result.date.data + 'data')
                 document.querySelector('.login-btn').remove()
                 document.querySelector('.dispalyName').innerText = result.data.data.name
                 document.querySelector('.displayImage').src =
