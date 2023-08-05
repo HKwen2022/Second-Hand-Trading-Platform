@@ -108,9 +108,9 @@
         </a>
     </div>
     <div class="top hover-opacity" style="display: flex; align-items: center;">
-        <a style="color: inherit; display: inline-block; background-color: white" href="../html/index.html" target="_top">
+        <a style="color: inherit; display: inline-block; background-color: white" href="../html/index.html" target="_top" id="a-login">
             <i class="fas fa-book white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 25px; margin-top: 10px;margin-bottom: 10px">
-                <p style="padding: 5px; text-align: center; font-size: 25px; background-color: white; margin: 0;">登录注册</p></i>
+                <p style="padding: 5px; text-align: center; font-size: 25px; background-color: white; margin: 0;" id="p-login">登录注册</p></i>
         </a>
     </div>
 </div>
@@ -198,8 +198,8 @@
     <div class="rightcolumn" style="background-color: #eee">
         <div class="card" style="height: 680px" >
             <h2 style="text-align: center;margin-top: -10px;font-size: 35px;background-color: white">个人中心</h2>
-            <div  style="height:250px; margin-top: -30px"><img src="../image/用户头像.jpg" style="height: 250px"></div>
-            <p style="font-size: 25px;background-color: white;text-align: center">您还未登录，请先<a style="background-color: white" href="../html/index.html" target="_blank">登录</a></p>
+            <div  style="height:250px; margin-top: -30px"><img src="../image/用户头像.jpg" style="height: 250px" class="displayImage"></div>
+            <p style="font-size: 25px;background-color: white;text-align: center" class="dispalyName">您还未登录，请先<a style="background-color: white" href="../html/index.html" class="login-btn">登录</a></p>
             <div class="gerenzhongxin hover-opacity">
                 <i class="far fa-star white-bg" style="justify-content: center; align-items: center; display: flex; font-size: 35px; margin-top: 20px;"></i>
                 <p style=" text-align: center; font-size: 25px;background-color: white">我的收藏</p>
@@ -696,7 +696,6 @@
             tabs[index].classList.add('active');
         };
     });
-
 </script>
 <div class="footer">
         <div class="bottom-box" style="background-color: #eee">
@@ -704,5 +703,62 @@
         </div>
 </div>
 </div>
+<script src="../js/axios.js"></script>
+<script type="module">
+    import {service} from '../js/axiosInterceptor.js'
+    var isUser = true
+    var url = isUser ? '/user' : '/admin'
+    if(localStorage.token)
+        service({
+            url: '/user',
+            method: 'get'
+        }).then(result =>{
+            if(result.data.data !== null){
+                console.log('is user')
+                console.log(result.data)
+                console.log(result.data.data + 'data')
+                document.querySelector('.login-btn').remove()
+                document.querySelector('.dispalyName').innerText = result.data.data.name
+                document.querySelector('.displayImage').src =
+                    (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
+                document.querySelector('#a-login').addEventListener('click',e=>{
+                    localStorage.clear()
+                });
+                document.querySelector('#p-login').innerHTML = '退出登录'
+            }
+            else {
+                console.log('not user, try get admin')
+                isUser = false
+                service({
+                    url: '/admin',
+                    method: 'get'
+                }).then(result =>{
+                    console.log('get admin success')
+                        document.querySelector('.login-btn').remove()
+                        document.querySelector('.dispalyName').innerText = result.data.data.name
+                        document.querySelector('.displayImage').src =
+                            (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
+                    document.querySelector('#a-login').addEventListener('click',e=>{
+                        localStorage.clear()
+                    });
+                    document.querySelector('#p-login').innerHTML = '退出登录'
+                }).catch(error => {
+                    alert(error)
+                })
+            }
+        }).catch(error => {
+            alert(error)
+        })
+
+    // document.querySelector('.private-page').addEventListener('click', e => {
+    //     location.href = '/html/个人中心(1).html'
+    // })
+    function addAll()
+    {
+
+    }
+    window.onload=addAll;
+
+</script>
 </body>
 </html>
