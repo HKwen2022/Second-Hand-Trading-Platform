@@ -16,18 +16,18 @@
         <li><img src="../image/用户.png" alt=""><a href="Commodity.html">商品信息管理</a></li>
         <li><img src="../image/用户.png" alt=""><a href="order_manage.html">订单信息管理</a></li>
         <li><img src="../image/用户.png" alt=""><a href="manager_login.html">切换管理员</a></li>
-        <li onclick="exit()" class="exit"><img src="../image/退出系统ico.png"  alt=""><a>退出系统</a></li>
+        <li class="exit"><img src="../image/退出系统ico.png"  alt=""><a>退出系统</a></li>
     </ul>
 </div>
 <div class="container-box">
     <div class="super_box">
         <span>管理员:</span>
-        <span th:text="${session.loginUser}"></span>
+        <span id="adminName"></span>
         <span>></span>
         <span>邮箱:</span>
-        <span th:text="${session.email}"></span>
+        <span id="email"></span>
         <span>手机号码:</span>
-        <span th:text="${session.tel}"></span>
+        <span id="telephone"></span>
     </div>
     <!--    <div class="reminder-box"><h3>&nbsp;&nbsp;操作面板&nbsp;&nbsp;</h3></div>-->
     <div class="title-box"><h1>商品信息管理界面</h1></div>
@@ -37,7 +37,7 @@
         <button>-</button>
         <button>修改</button>
         <button>+</button>
-        <button type="button" onclick="allCommodity()">查看全部商品</button>
+        <button type="button" class="allCommodity-btn">查看全部商品</button>
         <span th:text="${msg}"></span>
     </div>
     <table class="table-th" id="Commodity" data-name="Commodity" style="width: 1180px">
@@ -60,7 +60,7 @@
     <form class="delect_form"  method="post" th:action="@{/delectUser}">
         <input type="text" name="username">
     </form>
-    <form class="add_form" method="post" action="#">
+    <form class="add_form">
         <h1>添加账号</h1>
         <input type="text" placeholder="商品ID" id="commodityID" name="commodityID" required>
         <input type="password" placeholder="发布者ID" id="userID" name="userID" required>
@@ -71,20 +71,25 @@
         <button type="button">添加商品</button>
         <button type="button">取消</button>
     </form>
-    <form method="post" action="#" class="add_form alter_form" >
+    <form class="add_form alter_form" >
         <h1>修改账号</h1>
-        <input type="text" placeholder="商品ID" id="ALcommodityID" name="commodityID" readonly>
-        <input type="password" placeholder="发布者ID" id="ALuserID" name="userID" required>
-        <input type="password" placeholder="名称" id="ALname" name="name" required>
-        <input type="email" placeholder="定价" id="ALprice" name="price"   required>
-        <input type="text" placeholder="库存量" id="ALstock" name="stock"  required>
+        <input type="number" placeholder="商品ID" id="ALcommodityID" name="commodityID" readonly>
+        <input type="number" placeholder="发布者ID" id="ALuserID" name="userID" required>
+        <input type="text" placeholder="名称" id="ALname" name="name" required>
+        <input type="number" placeholder="定价" id="ALprice" name="price"   required>
+        <input type="number" placeholder="库存量" id="ALstock" name="stock"  required>
         <input type="text" placeholder="类型" id="ALtype" name="type"  required>
-        <button type="submit">修改</button>
-        <button>取消</button>
+        <button type="button">修改</button>
+        <button type="button">取消</button>
     </form>
 </div>
 </body>
 <script src="../js/axios.js"></script>
+<script>
+    function exit(){
+        localStorage.clear()
+    }
+</script>
 <script type="module" src="../js/auth.js"></script>
 <script type="module">
     import {service} from '../js/axiosInterceptor.js'
@@ -103,19 +108,26 @@
     const formAlterAllButton = document.querySelectorAll(".alter_form button");
     const nameTd = [];
     var highlightedRow = null; // 用于跟踪当前高亮显示的行
+
+    if(localStorage.token)
+        service({
+            url: '/admin',
+            method: 'get'
+        }).then(result => {
+            if (result.data.data !== null) {
+                document.querySelector('#adminName').innerText = result.data.data.name;
+                document.querySelector('#email').innerText = result.data.data.email;
+                document.querySelector('#telephone').innerText = result.data.data.phone;
+            }
+        })
     document.querySelector('.exit').addEventListener('click', e => {
         localStorage.clear()
-        location.href = '123.html'
+        location.href = '首页.html'
     })
-    service({
-        url: '/commodity/all',
-        method: 'get',
-    }).then(result =>{
-
-    }).catch(error => {
-        alert(error)
+    document.querySelector('.allCommodity-btn').addEventListener('click', e => {
+        allCommodity();
     })
-
+    allCommodity()
     addButtonSearch()
     addValue()
     //alterUser()
@@ -222,30 +234,25 @@
         idCell.innerHTML = h.id; //填充数据
         row.appendChild(idCell); //加入行  ，下面类似
 
-        var nameCell = document.createElement('td');//创建第二列name
-        //nameCell.className="table-th";
+        var publisherCell = document.createElement('td');//创建第二列publisherID
+        publisherCell.innerHTML = h.publisher;
+        row.appendChild(publisherCell);
+
+        var nameCell = document.createElement('td');//创建第三列name
         nameCell.innerHTML = h.name;
         row.appendChild(nameCell);
 
-        var jobCell = document.createElement('td');//创建第三列job
-        //jobCell.className="table-th";
-        jobCell.innerHTML = h.job;
-        row.appendChild(jobCell);
+        var priceCell = document.createElement('td');//创建第三列price
+        priceCell.innerHTML = h.price;
+        row.appendChild(priceCell);
 
-        var emailCell = document.createElement('td');//创建第三列job
-        //emailCell.className="table-th";
-        emailCell.innerHTML = h.publisher;
-        row.appendChild(emailCell);
+        var stockCell = document.createElement('td');
+        stockCell.innerHTML = h.stock;
+        row.appendChild(stockCell);
 
-        var telCell = document.createElement('td');//创建第三列job
-        //telCell.className="table-th";
-        telCell.innerHTML = h.type;
-        row.appendChild(telCell);
-
-        var numCell = document.createElement('td');//创建第三列job
-        //telCell.className="table-th";
-        numCell.innerHTML = h.price;
-        row.appendChild(numCell);
+        var typeCell = document.createElement('td');
+        typeCell.innerHTML = h.type;
+        row.appendChild(typeCell);
 
         var delCell = document.createElement('td');//创建第四列，操作列
         row.appendChild(delCell);
@@ -262,16 +269,17 @@
 
         btnDel.addEventListener('click', function() {
             var currentRow = this.parentNode.parentNode;
+            if(!confirm("确认删除？")) return;
+            deleteCommodityRequest(1); //里面的数字替换为删除的商品id
             currentRow.parentNode.removeChild(currentRow);
         });
 
         btnAlt.addEventListener('click', function() {
             var currentRow = this.parentNode.parentNode;
             //currentRow.parentNode.removeChild(currentRow);
-            alterUser(currentRow);
+            alterCommodity(currentRow);
             //alert(currentRow.cells[3].toString());
         });
-
 
         delCell.appendChild(btnDel);  //把删除按钮加入td，别忘了
         delCell.appendChild(btnAlt);
@@ -281,29 +289,45 @@
     }
 
     function allCommodity(){
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "../commodity?id=1&name=name", true);
-        //xhttp.setRequestHeader('Content-Type', 'application/json');
-        xhttp.send();
-
-        xhttp.onreadystatechange = function()
-        {
-            if (this.readyState == 4 && this.status == 200)
-            {
-                var myObj = JSON.parse(this.responseText);
-                var data = myObj.data;
-                var tbody = document.getElementById('tableTh');
-                tbody.className="table";
-
-                //alert("45456");
-                for(var i = 0;i < data.length; i++){ //遍历一下json数据
-                    var trow = addValue1(data[i]); //定义一个方法,返回tr数据
-                    tbody.appendChild(trow);
-                    //var Id=per[i].id;
-                    //tbody.innerHTML += "<tr>   <td>"+Id+"</td>  <td>1</td>   <td>1</td>    <td>1</td>    <td>1</td>     <td>1</td> </tr>";
-                }
+        service({
+            url: '/commodity/all',
+            method: 'get',
+        }).then(result =>{
+            console.log(result.data);
+            let data = result.data.data;
+            let tbody = document.getElementById('tableTh');
+            tbody.className="table";
+            tbody.innerHTML = "";
+            for(let i = 0;i < data.length; i++){ //遍历一下json数据
+                let trow = addValue1(data[i]); //定义一个方法,返回tr数据
+                tbody.appendChild(trow);
             }
-        }
+        }).catch(error => {
+            alert(error)
+        })
+        //var xhttp = new XMLHttpRequest();
+        //xhttp.open("GET", "../commodity?id=1&name=name", true);
+        //xhttp.setRequestHeader('Content-Type', 'application/json');
+        //xhttp.send();
+
+        // xhttp.onreadystatechange = function()
+        // {
+        //     if (this.readyState == 4 && this.status == 200)
+        //     {
+        //         var myObj = JSON.parse(this.responseText);
+        //         var data = myObj.data;
+        //         var tbody = document.getElementById('tableTh');
+        //         tbody.className="table";
+        //
+        //         //alert("45456");
+        //         for(var i = 0;i < data.length; i++){ //遍历一下json数据
+        //             var trow = addValue1(data[i]); //定义一个方法,返回tr数据
+        //             tbody.appendChild(trow);
+        //             //var Id=per[i].id;
+        //             //tbody.innerHTML += "<tr>   <td>"+Id+"</td>  <td>1</td>   <td>1</td>    <td>1</td>    <td>1</td>     <td>1</td> </tr>";
+        //         }
+        //     }
+        // }
 
         // var tbody = document.getElementById('tableTh');
         // tbody.className="table";
@@ -340,54 +364,68 @@
         //
 
     }
-
-    function alterUser(obj){
+    function deleteCommodityRequest(id){
+        service({
+            url: '/commodity/' + id,
+            method: 'delete',
+        }).then(result =>{
+            if(result.data.code === 1) alert("删除成功！");
+            else alert("删除失败！"); //实际上code = 0时会被拦截，不会有该弹窗
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function alterCommodityRequest(commodity){
+        service({
+            url: '/commodity',
+            method: 'put',
+            data : commodity
+        }).then(result =>{
+            alert("修改成功！");
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function alterCommodity(obj){
         formAlter.style.visibility="visible"
         document.querySelectorAll(".alter_form input")[0].value=obj.cells[0].textContent;
-        formAlterAllButton[0].addEventListener('click',()=>{
-            var xhttp = new XMLHttpRequest();
-
-            var commodityIDV = document.getElementById("ALcommodityID");
-            var userIDV=document.getElementById("ALuserID");
-            var nameV=document.getElementById("ALname");
-            var priceV = document.getElementById("ALprice");
-            var stockV=document.getElementById("ALstock");
-            var typeV=document.getElementById("ALtype");
-
-            //var obj = JSON.stringify({"id":commodityIDV.value,"name":userIDV.value,"job":nameV.value,"publisher":stockV.value,"type":typeV.value,"price":priceV.value});
-            //var obj = JSON.stringify({"name":commodityIDV.value,"email":userIDV.value,"phone":nameV.value,"password":priceV.value,"imageUrl":"null"});
-            // xhttp.open("POST", "../admin/register", true);
-            // xhttp.setRequestHeader('Content-Type', 'application/json');
-            // xhttp.send(obj);
-            //window.open("/html/register_success.html");
+        let commodityIDV = document.getElementById("ALcommodityID");
+        let userIDV=document.getElementById("ALuserID");
+        let nameV=document.getElementById("ALname");
+        let priceV = document.getElementById("ALprice");
+        let stockV=document.getElementById("ALstock");
+        let typeV=document.getElementById("ALtype");
+        commodityIDV.value = obj.cells[0].innerHTML; //显示修改的值
+        userIDV.value = obj.cells[1].innerHTML;
+        nameV.value = obj.cells[2].innerHTML;
+        priceV.value = obj.cells[3].innerHTML;
+        stockV.value = obj.cells[4].innerHTML;
+        typeV.value = obj.cells[5].innerHTML;
+        formAlterAllButton[0].onclick = ()=>{
             formAdd.style.visibility="hidden" //添加用户表单点击取消隐藏表单
 
-            var idCell = obj.cells[0];
-            var nameCell = obj.cells[1];
-            var jobCell = obj.cells[2];
-            var emailCell = obj.cells[3];
-            var telCell = obj.cells[4];
-            var numCell = obj.cells[5];
+            let idCell = obj.cells[0];
+            let publisherCell = obj.cells[1];
+            let nameCell = obj.cells[2];
+            let priceCell = obj.cells[3];
+            let stockCell = obj.cells[4];
+            let typeCell = obj.cells[5];
 
             // 修改单元格的内容
             idCell.innerHTML = commodityIDV.value;
-            nameCell.innerHTML = userIDV.value;
-            jobCell.innerHTML = nameV.value;
-            emailCell.innerHTML = priceV.value;
-            telCell.innerHTML = stockV.value;
-            numCell.innerHTML = typeV.value;
+            publisherCell.innerHTML = userIDV.value;
+            nameCell.innerHTML = nameV.value;
+            priceCell.innerHTML = priceV.value;
+            stockCell.innerHTML = stockV.value;
+            typeCell.innerHTML = typeV.value;
 
             formAlter.style.visibility="hidden"
-            alert("修改成功！");
-
-        })
+            alterCommodityRequest({id:commodityIDV.value,publisher:userIDV.value,name:nameV.value,price: priceV.value,stock:stockV.value,type:typeV.value}) //参数是json
+        }
 
         formAlterAllButton[1].addEventListener('click',()=>{
             formAlter.style.visibility="hidden"
         })
-    }
-    function exit(){
-        localStorage.clear()
     }
 
 </script>
