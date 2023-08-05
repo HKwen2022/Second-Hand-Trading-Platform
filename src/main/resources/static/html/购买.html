@@ -616,5 +616,21 @@
      }
 
 </script>
+<script src="../js/axios.js"></script>
+<script type="module">
+    import {service} from '../js/axiosInterceptor.js'
+    //购买商品请求方法 | 参数: 商品id,购买数量,收货地址 | 返回值: boolean(操作成功与否)
+    function buyCommodityRequest(cid,number,address){
+        service({
+            url: '/offer',
+            method: 'post',
+            data: {cid:cid,number:number,address:address}
+        }).then(result =>{
+            return result.data.code;
+        }).catch(error => {
+            alert(error)
+        })
+    }
+</script>
 </body>
 </html>

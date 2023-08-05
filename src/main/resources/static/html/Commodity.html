@@ -427,7 +427,18 @@
             formAlter.style.visibility="hidden"
         })
     }
-
+    //添加商品的请求方法 | 参数: 商品JSON格式 | 返回值: boolean(成功与否)
+    function addCommodityRequest(commodity){
+        service({
+            url: '/commodity',
+            method: 'post',
+            data: commodity
+        }).then(result =>{
+            return result.data.code;
+        }).catch(error => {
+            alert(error)
+        })
+    }
 </script>
 
 </html>

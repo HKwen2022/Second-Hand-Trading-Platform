@@ -211,6 +211,21 @@
   }
 </script>
 </body>
-
+<script src="../js/axios.js"></script>
+<script type="module">
+  import {service} from '../js/axiosInterceptor.js'
+  //获得当前用户所有历史订单的请求方法 | 参数: 无 | 返回值: 订单信息JSON格式列表
+  function allOfferRequest(){
+    service({
+      url: '/offer',
+      method: 'get',
+    }).then(result =>{
+      console.log(result.data.data);
+      return result.data.data;
+    }).catch(error => {
+      alert(error)
+    })
+  }
+</script>
 </html>
 
