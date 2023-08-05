@@ -37,7 +37,7 @@
         <button>-</button>
         <button>修改</button>
         <button>+</button>
-        <button type="button" onclick="allCommodity()">查看全部用户</button>
+        <button type="button" class="allUser-btn">查看全部用户</button>
         <span th:text="${msg}"></span>
     </div>
     <table class="table-th" id="Commodity" data-name="Commodity" style="width: 1180px">
@@ -98,13 +98,11 @@
 <script type="module">
     import {service} from "../js/axiosInterceptor.js"
     var uidElement = document.querySelector('.uid')
-    service({
-        url: '/admin/getUsers',
-        method: 'get',
-        params: {
-            // name: 'tom'
-        }
-    }).then(result =>{
+
+    document.querySelector('.allUser-btn').addEventListener('click', e=> {
+        // 实测不行，白写
+        var result = adminGet()
+        console.log(result)     // result === undefined
         const userList = result.data.data
         const htmlStr = userList.map(user => {
             return '<tr>\n' +
@@ -116,9 +114,28 @@
                 '</tr>'
         }).join('')
         document.querySelector('.table').innerHTML = htmlStr
-    }).catch(error => {
-        alert(error)
     })
+    // service({
+    //     url: '/admin/getUsers',
+    //     method: 'get',
+    //     params: {
+    //         // name: 'tom'
+    //     }
+    // }).then(result =>{
+    //     const userList = result.data.data
+    //     const htmlStr = userList.map(user => {
+    //         return '<tr>\n' +
+    //             '<td th:text="${user.id}">' + ((user.id != null) ? user.id : '') + '</td>\n' +
+    //             '<td th:text="${user.name}">' + ((user.name != null) ? user.name : '') + '</td>\n' +
+    //             '<td th:text="${user.password}">' + ((user.password != null) ? user.password : '') + '</td>\n' +
+    //             '<td th:text="${user.email}">' + ((user.email != null) ? user.email : '') + '</td>\n' +
+    //             '<td th:text="${user.phone}">' + ((user.phone != null) ? user.phone : '') + '</td>\n' +
+    //             '</tr>'
+    //     }).join('')
+    //     document.querySelector('.table').innerHTML = htmlStr
+    // }).catch(error => {
+    //     alert(error)
+    // })
     document.querySelector('.exit').addEventListener('click', e => {
         localStorage.clear()
         location.href = '首页.html'
@@ -145,6 +162,92 @@
             alert(error)
         })
     })
+    function adminGet(params){         // 以管理员身份获取多个用户信息，表单参数：name、email、phone，均String类型，姓名支持模糊搜索
+        service({
+            url: '/admin/getUsers',    // 默认使用get方法
+            params: params
+        }).then(result => {            // 返回List<User>result
+            return result
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function adminAdd(data){           // 以管理员身份添加用户，参数为一个User对象，JSON格式
+        service({
+            url: '/admin/addUser',
+            method: 'post',
+            data: data
+        }).then(result => {
+            return result
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function adminDel(list){           // 以管理员身份（批量）删除用户，参数为List<Integer> list
+        var len = list.length
+        var url = '/admin/'
+        if(len < 1) return
+        url += list[0]
+        for(var i=1; i<len; i++)
+            url += (',' + list[i])
+        service({
+            url: url,
+            method: 'delete'
+        }).then(result => {
+            return result
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function adminAlt(){                // 以管理员身份（根据id）修改用户，参数为一个User对象，JSON格式
+        service({
+            url: '/admin/addUser',
+            method: 'put',
+            data: data
+        }).then(result => {
+            return result
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function getAdmin(){               // 当前登录的管理员获取个人信息
+        service({
+            url: '/admin'              // 默认使用post方法
+        }).then(result => {
+            return result
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function altAdmin(data){           // 当前登录的管理员修改个人信息,参数为一个Admin对象，JSON格式
+        service({
+            url: '/admin',
+            method: 'post',
+            data: data
+        }).then(result => {
+            return result
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function getUser(){                // 当前登录的用户获取个人信息
+        service({
+            url: '/user/profile',      // 默认使用get方法
+        }).then(result => {
+            return result              // 返回一个user对象，其password属性为null
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function getUserById(id){          // 以用户身份根据id查找用户，参数为Intege id
+        service({
+            url: '/user/' + id         // 使用路径参数，默认使用get方法
+        }).then(result => {            // 返回一个user对象，其password属性为null
+            return result
+        }).catch(error => {
+            alert(error)
+        })
+    }
 </script>
 <script>
     const table = document.getElementsByClassName("table")[0];
