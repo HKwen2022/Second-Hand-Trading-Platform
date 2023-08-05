@@ -270,7 +270,7 @@
         btnDel.addEventListener('click', function() {
             var currentRow = this.parentNode.parentNode;
             if(!confirm("确认删除？")) return;
-            deleteCommodityRequest(1); //里面的数字替换为删除的商品id
+            deleteCommodityRequest(currentRow.cells[0].innerHTML); //里面的数字替换为删除的商品id
             currentRow.parentNode.removeChild(currentRow);
         });
 
