@@ -21,9 +21,14 @@ public class ShopCarController {
         this.shopCarService = shopCarService;
     }
     @PostMapping("/shop_car")
-    public Result put(@RequestBody ShopCar shopCar) {
+    public Result put(@RequestBody ShopCar shopCar, HttpServletRequest request) {
         try {
-            shopCarService.put(shopCar);
+            var token = JwtUtils.checkToken(request);
+            if(token[0]==1) return Result.error("请前往管理员网页查看用户信息！");
+            shopCar.setUid(token[1]);
+            if(!shopCarService.put(shopCar)){
+                return Result.error("已经添加到购物车了，不能重复添加！");
+            }
         } catch (DataAccessException e) {
             return Result.error("添加购物车失败！");
         }

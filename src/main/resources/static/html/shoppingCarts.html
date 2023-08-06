@@ -46,8 +46,8 @@
             <p>活动优惠：-￥0.00</p>
             <p>已选商品<span class="red t-number"> 0 </span>件 总价(不含运费、税费)：<span class="red t-price">￥0.00</span></p>
             <!-- <div><a href="#" class="btn pay">结算</a></div> -->
-            <a href="#"  onclick="moveToLastPosition()" class="btn pay fr">test</a>
-            <a href="#"  onclick="settlement()" class="btn pay fr">结算</a>
+<!--            <a href="#"  onclick="moveToLastPosition()" class="btn pay fr">test</a>-->
+            <a href="#" class="btn pay fr" id="settlement-btn">结算</a>
           </div>
         </div>
       </td>
@@ -56,7 +56,8 @@
 </div>
 
 <!-- 引入JS文件 -->
-<script >
+<script src="../js/axios.js"></script>
+<script type="module">
   /*
     功能列表
     1，全选功能
@@ -69,7 +70,7 @@
         移除当前行，重新计算总计价格
     5，删除被选中的商品
 */
-
+  document.getElementById("settlement-btn").onclick = settlement;
   //获取所有加减按钮(得到的是一个数组)
   var add = document.querySelectorAll(".Increase");
 
@@ -81,7 +82,7 @@
   // 获取所有全选按钮
   var choose_alls = document.querySelectorAll(".choose_all");
 
-
+  var total = Number(0);
    var table = document.querySelector('.cartTable');
    var elementToMove = document.querySelector('.count');
 
@@ -114,15 +115,13 @@
       // 查找被选中的行
       //var checkbox = rows123[i].querySelector(".choose");
       if(rows123[i].checked){
-        alert("第"+i+"行");
-
+        //alert("第"+i+"行");
         // 获取小计价格（得到的是字符串，不是数字，需要转化）
         var smallTr = rows123[i].parentNode.parentNode;
         var smallTotal = smallTr.querySelector(".u-price").innerHTML;
         //alert(smallTotal.toString());
         // 获取商品数量
         var num = smallTr.querySelector(".unum").value;
-        alert(num.toString());
         // 把小计价格转化为数字
         smallTotal = Number(smallTotal);
         total += smallTotal;
@@ -143,6 +142,7 @@
 
     for(var i=0; i<rows123.length; i++){
       var checkbox = rows123[i].querySelector(".choose");
+      if(checkbox !== null)
       if(!checkbox.checked){
         isCheckAll = false;
         break;
@@ -163,7 +163,7 @@
       elementToMove.parentNode.removeChild(elementToMove);
     }
 
-    addCommodity1()
+    //addCommodity1()
     // 添加到表格的最后边
     table.appendChild(elementToMove);
 
@@ -278,7 +278,7 @@
       var unit = tr.querySelector(".unit");
       var price = unit.innerHTML;
       // 重新计算小计价格
-      smallTotal = num*price;
+      var smallTotal = num*price;
       // 保留两位小数
       smallTotal = smallTotal.toFixed(2);
 
@@ -315,7 +315,7 @@
       var unit = tr.querySelector(".unit");
       var price = unit.innerHTML;
       // 重新计算小计价格
-      smallTotal = num*price;
+      var smallTotal = num*price;
       // 保留两位小数
       smallTotal = smallTotal.toFixed(2);
 
@@ -347,7 +347,7 @@
           var unit = tr.querySelector(".unit");
           var price = unit.innerHTML;
           // 重新计算小计价格
-          smallTotal = this.value*price;
+          var smallTotal = this.value*price;
           // 保留两位小数
           smallTotal = smallTotal.toFixed(2);
 
@@ -371,22 +371,21 @@
   //当打开页面时，连接数据库并显示所有商品信息
   //window.onload=allShoppingCarts;
 
-
+ //结算购物车
   function settlement()
   {
-
     // 获取表格中的数据
     var tableData = [];
     var tableRows = document.querySelectorAll(".choose");
     var ifHasChecked=0;
     //alert(tableRows.length);
-    for(var i=0; i<tableRows.length; i++)
+    for(let i=0; i<tableRows.length; i++)
     {
       if(tableRows[i].checked){
         ifHasChecked=1;
-        var rowData = {};
+        let rowData = {};
 
-        var smallTr = tableRows[i].parentNode.parentNode;
+        let smallTr = tableRows[i].parentNode.parentNode;
 
         rowData.id = smallTr.querySelector('.czhId').innerHTML;
         //alert(rowData.id);
@@ -410,7 +409,7 @@
         //alert(rowData.totalPrice);
 
         rowData.totalNumber = document.querySelector(".t-number").innerHTML;
-        alert(rowData.totalNumber);
+        //alert(rowData.totalNumber);
 
         tableData.push(rowData);
       }
@@ -422,28 +421,174 @@
       var url = '购买.html?data=' + encodeURIComponent(JSON.stringify(tableData));
       url += '&source=' + encodeURIComponent("B");
       document.location.href = url;
-      alert("ok");
+      //alert("ok");
     }
     else{
       alert("请选择正确的购买商品！");
     }
   }
+  function addShopCar(shopCar) {
+    let singlePrice = Number(shopCar.price).toFixed(2); //商品单价
+    let count = shopCar.number;
+// 创建新行
+    let newRow = document.createElement('tr');
+// 创建并添加单元格元素
+    let checkboxCell = document.createElement('td');
+    checkboxCell.innerHTML = '<input type="checkbox" name="" class="choose">';
+    newRow.appendChild(checkboxCell);
+    let shopCarIdCell = document.createElement('td');
+    shopCarIdCell.style.display = "none";
+    shopCarIdCell.innerHTML = '<input type="number" name="" class="shopCarId" placeholder="">';
+    shopCarIdCell.querySelector(".shopCarId").value = shopCar.id;
+    newRow.appendChild(shopCarIdCell);
+    let thumbCell = document.createElement('td');
+    thumbCell.className = 'tal';
+    thumbCell.innerHTML = '<a href="#" class="pic"><img src="../image/item.png" alt="" style="width: 200px" class="picture"></a>';
+    if(shopCar.image_url !== null) thumbCell.querySelector(".picture").src = shopCar.image_url;
+    newRow.appendChild(thumbCell);
+    let idCell = document.createElement('td');
+    idCell.className = 'tal';
+    idCell.innerHTML = '<a href="#" class="czhId">' + shopCar.cid + '</a>';
+    newRow.appendChild(idCell);
+    let productCell = document.createElement('td');
+    productCell.className = 'tal';
+    productCell.innerHTML = '<a href="#" class="czhName">' + shopCar.name + '</a>';
+    newRow.appendChild(productCell);
+    let priceCell = document.createElement('td');
+    priceCell.innerHTML = '<b class="unit">' + singlePrice + '</b>';
+    newRow.appendChild(priceCell);
+    let quantityCell = document.createElement('td');
+    quantityCell.innerHTML = '<div class="amount"><a href="#" class="Increase">+</a><input type="text" value="' + count + '" class="unum"><a href="#" class="Reduce">-</a></div>';
+    newRow.appendChild(quantityCell);
+    let subTotalCell = document.createElement('td');
+    subTotalCell.innerHTML = '<b class="u-price">' + (count * singlePrice).toFixed(2) + '</b>';
+    newRow.appendChild(subTotalCell);
+    let deleteCell = document.createElement('td');
+    deleteCell.innerHTML = '<a href="#" class="btn-del">删除</a>';
+    newRow.appendChild(deleteCell);
+    checkboxCell.addEventListener('click', function () {
+      setTotal();
+    });
+    deleteCell.addEventListener('click', function () {
+      let currentRow = deleteCell.parentNode;
+      deleteShopCarRequest(currentRow.querySelector(".shopCarId").value);
+      currentRow.parentNode.removeChild(currentRow);
+      setTotal();
+    });
+    let reduceButton = quantityCell.querySelector(".Reduce");
+    let addButton = quantityCell.querySelector(".Increase");
+    let inputButton = quantityCell.querySelector(".unum");
+    reduceButton.onclick = ()=> {
+      // 获取对应的父节点
+      let amount = reduceButton.parentNode;
+      // 获取文本框
+      let input = amount.querySelector(".unum");
+      // 获取文本框中的数量
+      let num = input.value;
+      if (num > 1) {
+        num--;
+      }
+      // 修改文本框的值
+      input.value = num;
+      // 计算小计
+      // 获取当前行
+      let tr = amount.parentNode.parentNode;
+      // 重新计算小计价格
+      let smallTotal = num * singlePrice;
+      // 保留两位小数
+      smallTotal = smallTotal.toFixed(2);
+      // 将计算好的小计价格设置给金额
+      let u_price = tr.querySelector(".u-price");
+      u_price.innerHTML = smallTotal;
+      // 使当前行被选中
+      let choose = tr.querySelector(".choose");
+      // 把它当成逻辑变量，赋true false也可以
+      choose.checked = "checked";
+      setTotal();
+    }
+    addButton.onclick = () => {
+      // 获取对应的父节点
+      let amount = addButton.parentNode;
+      // 获取文本框
+      let input = amount.querySelector(".unum");
+      // 获取文本框中的数量
+      let num = input.value;
+      num++;
+      // 修改文本框的值
+      input.value = num;
+      // 计算小计
+      // 获取当前行
+      let tr = amount.parentNode.parentNode;
+      // 重新计算小计价格
+      let smallTotal = num * singlePrice;
+      // 保留两位小数
+      smallTotal = smallTotal.toFixed(2);
+      // 将计算好的小计价格设置给金额
+      let u_price = tr.querySelector(".u-price");
+      u_price.innerHTML = smallTotal;
+      // 使当前行被选中
+      let choose = tr.querySelector(".choose");
+      // 把它当成逻辑变量，赋true false也可以
+      choose.checked = "checked";
+      // 计算总计
+      setTotal();
+    }
+    inputButton.onblur = function () {
+      // 防止出现负数
+      if (inputButton.value < 1) {
+        inputButton.value = 1;
+      }
+      // 防止输入小数或其它字符
+      inputButton.value = parseInt(this.value);
+      // 计算小计
+      // 获取当前行
+      let tr = inputButton.parentNode.parentNode.parentNode;
+      // 重新计算小计价格
+      let smallTotal = inputButton.value * singlePrice;
+      // 保留两位小数
+      smallTotal = smallTotal.toFixed(2);
+      // 将计算好的小计价格设置给金额
+      let u_price = tr.querySelector(".u-price");
+      u_price.innerHTML = smallTotal;
+      // 使当前行被选中
+      let choose = tr.querySelector(".choose");
+      // 把它当成逻辑变量，赋true false也可以
+      choose.checked = "checked";
+      setTotal();
+    }
+// 将新行添加到表格中
+    table.appendChild(newRow);
+    moveToLastPosition();
+  }
 
-</script>
-</body>
-<script src="../js/axios.js"></script>
-<script type="module">
   import {service} from '../js/axiosInterceptor.js'
+  function displayShopCar(data){ //显示购物车
+    for (let i = 0; i < data.length; i++) { //遍历一下json数据
+      addShopCar(data[i]); //定义一个方法,返回tr数据
+    }
+  }
   //得到当前用户所有购物车的请求方法 | 参数: 无 | 返回值: 购物车JSON列表
-  function allShopCarRequest(){
+  function allShopCarRequest() {
     service({
       url: '/shop_car',
       method: 'get',
-    }).then(result =>{
-      return result.data.data;
+    }).then(result => {
+      displayShopCar(result.data.data);
     }).catch(error => {
       alert(error)
     })
   }
+  function deleteShopCarRequest(id){
+    service({
+      url: '/shop_car/' + id,
+      method: 'delete',
+    }).then(result => {
+      if(result.data.code === 1) alert("删除成功！");
+    }).catch(error => {
+      alert(error)
+    })
+  }
+  allShopCarRequest(); //获得所有购物车
 </script>
+</body>
 </html>

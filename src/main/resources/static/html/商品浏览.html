@@ -192,7 +192,8 @@
       var productPrice = numCell.querySelector('b').innerHTML;
 
       // 拼接URL参数
-      var params = "?id=" + productId + "&name=" + encodeURIComponent(productName) + "&price=" + encodeURIComponent(productPrice);
+      //var params = "?id=" + productId + "&name=" + encodeURIComponent(productName) + "&price=" + encodeURIComponent(productPrice);
+      var params = "?id=" + productId;
 
       // 跳转到czh.html，并传递URL参数
       window.location.href = "商品详情(1).html" + params;
@@ -212,11 +213,51 @@
       url: '/commodity/all',
       method: 'get',
     }).then(result =>{
-      console.log(result.data);
-      return result.data.data;
+      displayCommodity(result.data.data);
     }).catch(error => {
       alert(error)
     })
+  }
+  function displayCommodity(data){
+    let tbody1 = document.getElementById('table1');
+    let tbody2 = document.getElementById('table2');
+    let tbody3 = document.getElementById('table3');
+    let tbody4 = document.getElementById('table4');
+    let tbody5 = document.getElementById('table5');
+    let tbody6 = document.getElementById('table6');
+    for(let i = 0;i < data.length; i++)//遍历一下json数据
+    {
+      if(data[i].type==='闲置书籍')
+      {
+        let trow1 = addValue1(data[i]); //定义一个方法,返回tr数据
+        tbody1.appendChild(trow1);
+      }
+      else if(data[i].type==='数码电子')
+      {
+        let trow2 = addValue1(data[i]); //定义一个方法,返回tr数据
+        tbody2.appendChild(trow2);
+      }
+      else if(data[i].type==='鞋服配饰')
+      {
+        let trow3 = addValue1(data[i]); //定义一个方法,返回tr数据
+        tbody3.appendChild(trow3);
+      }
+      else if(data[i].type==='水果粮食')
+      {
+        let trow4 = addValue1(data[i]); //定义一个方法,返回tr数据
+        tbody4.appendChild(trow4);
+      }
+      else if(data[i].type==='出行交通')
+      {
+        let trow5 = addValue1(data[i]); //定义一个方法,返回tr数据
+        tbody5.appendChild(trow5);
+      }
+      else
+      {
+        let trow6 = addValue1(data[i]); //定义一个方法,返回tr数据
+        tbody6.appendChild(trow6);
+      }
+    }
   }
   function allCommodity(){
     // var xhttp = new XMLHttpRequest();
@@ -290,7 +331,8 @@
       }
     }
   }
-  allCommodity(); //刷新数据
+  //allCommodity(); //刷新数据
+  allCommodityRequest();
 </script>
 </body>
 </html>
