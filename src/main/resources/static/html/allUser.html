@@ -430,13 +430,20 @@
     function alterUser(obj){
         formAlter.style.visibility="visible"
         document.querySelectorAll(".alter_form input")[0].value=obj.cells[0].textContent;
-        formAlterAllButton[0].onclick = ()=>{
+
             var AidV = document.getElementById("Aid");
             var AnameV=document.getElementById("Aname");
             var ApasswordV=document.getElementById("Apassword");
             var AphoneV = document.getElementById("Aphone");
             var AemailV=document.getElementById("Aemail");
 
+            AidV.value=obj.cells[0].innerHTML;
+            AnameV.value=obj.cells[1].innerHTML;;
+            ApasswordV.value=obj.cells[2].innerHTML;
+            AphoneV.value=obj.cells[3].innerHTML;
+            AemailV.value=obj.cells[4].innerHTML;
+
+        formAlterAllButton[0].onclick = ()=>{
             formAdd.style.visibility="hidden" //添加用户表单点击取消隐藏表单
 
             var idCell = obj.cells[0];
