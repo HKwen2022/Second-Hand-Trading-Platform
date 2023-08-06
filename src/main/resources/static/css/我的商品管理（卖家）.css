@@ -191,7 +191,7 @@ input{
     text-align: center;
 }
 
-.pName, .pPrice, .pCategory, .pStock, .pImage {
+.pName, .pPrice, .pCategory, .pStock, .pImage, .pDescription {
     font-size: 20px;
 }
 .modal-content h2 {

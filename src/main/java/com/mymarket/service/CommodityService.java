@@ -29,6 +29,9 @@ public class CommodityService {
     public List<Commodity> getAllCommodities(){
         return commodityMapper.getAllCommodities();
     }
+    public List<Commodity> getAllCommoditiesExpectId(Integer userId){
+        return commodityMapper.getAllCommoditiesExpectId(userId);
+    }
     public Commodity get(Integer id) {
         return commodityMapper.get(id);
     }
@@ -36,5 +39,9 @@ public class CommodityService {
         Commodity commodity = get(id);
         if(commodity == null) throw new Exception("商品不存在!");
         commodity.setStock(commodity.getStock()+delta);
+    }
+
+    public List<Commodity> getAllCommoditiesWithUserId(Integer userId) {
+        return commodityMapper.getAllCommoditiesWithUserId(userId);
     }
 }

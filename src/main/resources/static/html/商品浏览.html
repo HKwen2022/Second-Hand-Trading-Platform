@@ -10,9 +10,9 @@
 </head>
 <body>
 <ul id="ul1" style="width: 99%;padding: 0;margin: 5px">
-  <li id="li1"><a href="#home" style="font-size: 15px;margin-right: 80px;margin-top: 0;margin-left: 0;margin-bottom: 0"><h1>我的商城</h1></a></li>
-  <li id="li2"><a href="#news" style="margin-top: 40px;margin-right: 30px">首页</a></li>
-  <li id="li3"><a href="#contact" style="margin-top: 40px;margin-right: 30px">账户设置</a></li>
+  <li><a class="active" href="商品浏览.html" style="margin-right: 80px"><h1>我的商城</h1></a></li>
+  <li><a href="首页.html" style="margin-top: 40px;margin-right: 30px">首页</a></li>
+  <li><a href="个人中心(1).html" style="margin-top: 40px;margin-right: 30px">账户设置</a></li>
   <li id="li4"><a href="#about" style="margin-top: 40px;margin-right: 150px">关于</a></li>
   <input  id ="rcorners1" type="search" style="margin-top: 43px;margin-right: 10px;height: 35px">
   <i class="fa fa-search" style="font-size: 34px"></i>
@@ -174,7 +174,7 @@
     row.appendChild(idCell); //加入行  ，下面类似
 
     var nameCell = document.createElement('td');//创建第二列name
-    nameCell.innerHTML = '<a class="image_url"><img src="'+h.image_url+'" alt="" style="width: 200px"></a>';
+    nameCell.innerHTML = '<a class="image_url"><img src="'+ (h.image_url === null ? "../image/item.png" : h.image_url) + '" alt="" style="width: 200px"></a>';
     row.appendChild(nameCell);
 
     var jobCell = document.createElement('td');//创建第三列job
@@ -210,7 +210,7 @@
   //得到所有商品，返回商品的json列表
   function allCommodityRequest(){
     service({
-      url: '/commodity/all',
+      url: '/commodity/allExpectSelf',
       method: 'get',
     }).then(result =>{
       displayCommodity(result.data.data);

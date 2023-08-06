@@ -59,9 +59,38 @@ public class CommodityController {
         return Result.success(ret);
     }
     @GetMapping("/commodity/all")
-    public Result getAllCommodities(){
-        List<Commodity> ret = commodityService.getAllCommodities();
-        return Result.success(ret);
+    public Result getAllCommodities() {
+        try {
+            List<Commodity> ret = commodityService.getAllCommodities();
+            return Result.success(ret);
+        }
+        catch (Exception e){
+            return Result.error("查看商品失败！");
+        }
+    }
+    @GetMapping("commodity/allExpectSelf")
+    public Result getAllCommoditiesExpectSelf(HttpServletRequest request) {
+        var token = JwtUtils.checkToken(request);
+        if (token[0] == 1) return Result.error("请前往管理员网页查看用户信息！");
+        try {
+            List<Commodity> ret = commodityService.getAllCommoditiesExpectId(token[1]);
+            return Result.success(ret);
+        }
+        catch (Exception e){
+            return Result.error("查看商品失败！");
+        }
+    }
+    @GetMapping("commodity/allSelf")
+    public Result getAllCommoditiesSelf(HttpServletRequest request) {
+        var token = JwtUtils.checkToken(request);
+        if (token[0] == 1) return Result.error("请前往管理员网页查看用户信息！");
+        try {
+            List<Commodity> ret = commodityService.getAllCommoditiesWithUserId(token[1]);
+            return Result.success(ret);
+        }
+        catch (Exception e){
+            return Result.error("查看商品失败！");
+        }
     }
     @GetMapping("/commodity/{id}")
     public Result getDetail(@PathVariable Integer id){
