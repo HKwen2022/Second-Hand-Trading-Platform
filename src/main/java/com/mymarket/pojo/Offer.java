@@ -29,4 +29,6 @@ public class Offer {
     public LocalDate shippingDate;
     @JsonProperty("date3")
     public LocalDate deliverDate;
+    private String name; //商品名称
+    private String image_url; //商品图片地址
 }

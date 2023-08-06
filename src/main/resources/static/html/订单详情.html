@@ -193,7 +193,7 @@
     //return newRow;
   }
 
-  window.onload=addAllOrders;
+  //window.onload=addAllOrders;
 
 
   //详情页面的关闭
@@ -214,18 +214,93 @@
 <script src="../js/axios.js"></script>
 <script type="module">
   import {service} from '../js/axiosInterceptor.js'
+  var offerList = [];
   //获得当前用户所有历史订单的请求方法 | 参数: 无 | 返回值: 订单信息JSON格式列表
   function allOfferRequest(){
     service({
       url: '/offer',
       method: 'get',
     }).then(result =>{
-      console.log(result.data.data);
-      return result.data.data;
+      if(result.data.code === 1){
+        offerList = result.data.data;
+        offerList.forEach((offer)=>addOffer(offer));
+      }
     }).catch(error => {
       alert(error)
     })
   }
+  function addOffer(offer){
+    let price = offer.price;
+    let count = offer.number;
+// 创建新行
+    let newRow = document.createElement('tr');
+// 创建并添加单元格元素
+    let productCell = document.createElement('td');
+    productCell.className = 'tal';
+    productCell.innerHTML = '<a href="#">' + offer.name + '</a>';
+    newRow.appendChild(productCell);
+    let thumbCell = document.createElement('td');
+    thumbCell.className = 'tal';
+    thumbCell.innerHTML = '<a href="#" class="pic"><img src=' + (offer.image_url === null ? "../image/item.png" : offer.image_url) + ' alt="" style="width: 200px"></a>';
+    newRow.appendChild(thumbCell);
+    let priceCell = document.createElement('td');
+    priceCell.innerHTML = '<span class="tdl"><b class="unit">'+(price/count).toFixed(2)+'</b>';
+    newRow.appendChild(priceCell);
+    let quantityCell = document.createElement('td');
+    quantityCell.innerHTML = '<b class="u-price">'+count+'</b>';
+    newRow.appendChild(quantityCell);
+    let subTotalCell = document.createElement('td');
+    subTotalCell.innerHTML = '<b class="u-price">'+price.toFixed(2)+'</b>';
+    newRow.appendChild(subTotalCell);
+    let DetailCell = document.createElement('td');
+    DetailCell.innerHTML = '<a href="#" class="btn-del">查看详情</a>';
+    newRow.appendChild(DetailCell);
+    //订单编号(隐藏，仅供获取当前行对应订单id)
+    // let offerIdCell = document.createElement('td');
+    // offerIdCell.innerHTML = '<input type="number" class="offerId">1</input>';
+    // offerIdCell.style.display="none";
+    // offerIdCell.querySelector(".offerId").value = offer.id;
+    //newRow.appendChild(offerIdCell);
+    DetailCell.addEventListener('click', function() {
+      orderDetailModal.style.display = "block";
+      let data = {id:0,cid:0,type:"",price:0,number:1,orderDate:null,deliveryDate:null,shippingDate:null,deliveryAddress:null,shippingAddress:null};
+      data.id = offer.id;
+      data.cid = offer.cid;
+      data.price = offer.price;
+      data.number = offer.number;
+      data.orderDate = offer.date;
+      data.shippingDate = offer.date2;
+      data.deliveryDate = offer.date3;
+      data.deliveryAddress = offer.address;
+      data.shippingAddress = offer.address2;
+      displayDetail(data);
+    });
+// 将新行添加到表格中
+    table.appendChild(newRow);
+  }
+  function displayDetail(data){
+    let idV = document.getElementById("id");
+    let cidV = document.getElementById("cid");
+    let numberV = document.getElementById("number");
+    let priceV = document.getElementById("price");
+    let deliveringAddressV = document.getElementById("deliveringAddress");
+    let shippingAddressV = document.getElementById("shippingAddress");
+    let orderDateV = document.getElementById("orderDate");
+    let deliverDateV = document.getElementById("deliverDate");
+    let totalPriceV = document.getElementById("totalPrice");
+    let getDateV = document.getElementById("getDate");
+    idV.innerHTML="订单编号：" + data.id;
+    cidV.innerHTML="商品编号：" + data.cid;
+    numberV.innerHTML="商品数量：" + data.number;
+    priceV.innerHTML="商品单价：" + (data.price / data.number).toFixed(2);
+    deliveringAddressV.innerHTML="发货地址：" + data.deliveryAddress;
+    shippingAddressV.innerHTML="收货地址：" + data.shippingAddress;
+    orderDateV.innerHTML="下单日期：" + data.orderDate;
+    deliverDateV.innerHTML="发货日期：" + data.deliveryDate;
+    getDateV.innerHTML = "收货日期：" + data.shippingDate;
+    totalPriceV.innerHTML="总金额：" + data.price.toFixed(2);
+  }
+  allOfferRequest();
 </script>
 </html>
 

@@ -38,12 +38,28 @@ public class OfferService {
     }
 
     public List<Offer> getByUserId(Integer id) {
-        return offerMapper.getByUserId(id);
+        var list = offerMapper.getByUserId(id);
+        setCommodityData(list);
+        return list;
     }
     public List<Offer> getAll() {
-        return offerMapper.getAll();
+        var list = offerMapper.getAll();
+        setCommodityData(list);
+        return list;
     }
     public List<Offer> get(Integer userId, Commodity commodity) {
-        return offerMapper.get(userId,commodity);
+        var list = offerMapper.get(userId,commodity);
+        setCommodityData(list);
+        return list;
+    }
+    public void setCommodityData(List<Offer> list){
+        for(var o : list){ //购物车附加商品数据
+            var c = commodityService.get(o.getCid());
+            if(c != null){
+                o.setPrice(c.getPrice());
+                o.setName(c.getName());
+                o.setImage_url(c.getImageUrl1());
+            }
+        }
     }
 }
