@@ -323,7 +323,7 @@
         </ul>
         <ol>
             <!--        每个li是一个内容页，每个div是一件商品-->
-            <li style="background-color: #eee;height:300px" >
+            <li style="background-color: #eee;height:300px" class="active" >
                 <table style="position: static;background-color: white;margin-top: 10px">
                     <!--                <tr style="margin-left: -630px;position: absolute;margin-top: -150px">-->
                     <tr style="height: 200px">
@@ -644,19 +644,28 @@
         </ol>
     </div>
     <script>
-        var btns = document.querySelectorAll('ul > li');
-        var tabs = document.querySelectorAll('ol > li');
-        btns.forEach(function(item, index) {
-            item.onclick = function() {
-                btns.forEach(function(t, i) {
-                    t.classList.remove('active');
-                    tabs[i].classList.remove('active');
-                });
-                item.classList.add('active');
-                tabs[index].classList.add('active');
-            };
+        document.addEventListener('DOMContentLoaded', function() {
+            var btns = document.querySelectorAll('ul > li');
+            var tabs = document.querySelectorAll('ol > li');
+
+            // 设置默认显示第一个 <li>
+            btns[0].classList.add('active');
+            tabs[0].classList.add('active');
+
+            btns.forEach(function(item, index) {
+                item.onclick = function() {
+                    btns.forEach(function(t, i) {
+                        t.classList.remove('active');
+                        tabs[i].classList.remove('active');
+                    });
+                    item.classList.add('active');
+                    tabs[index].classList.add('active');
+                };
+            });
         });
     </script>
+
+
     <div class="footer">
 
         <div class="bottom-box" style="background-color: #eee">

@@ -20,20 +20,38 @@ public class ShopCarService {
         this.offerService = offerService;
         this.commodityService = commodityService;
     }
-    public void put(ShopCar shopCar){
+    public boolean put(ShopCar shopCar){
+        var ret = shopCarMapper.getByUserId(shopCar.getUid());
+        for(var s : ret){
+            if(s.getCid().equals(shopCar.getCid())) return false; //已经添加过的不能再添加
+        }
         shopCarMapper.put(shopCar);
+        return true;
     }
     public List<ShopCar> getByUserId(Integer userId){
-        return shopCarMapper.getByUserId(userId);
+        var list = shopCarMapper.getByUserId(userId);
+        setCommodityData(list);
+        return list;
     }
     public List<ShopCar> get(Integer userId, Commodity commodity){
-        return shopCarMapper.get(userId,commodity);
+        var list = shopCarMapper.get(userId,commodity);
+        setCommodityData(list);
+        return list;
     }
     public ShopCar get(Integer id){
-        return shopCarMapper.getById(id);
+        var s = shopCarMapper.getById(id);
+        var c = commodityService.get(s.getCid());
+        if(c != null) {
+            s.setPrice(c.getPrice());
+            s.setName(c.getName());
+            s.setImage_url(c.getImageUrl1());
+        }
+        return s;
     }
     public List<ShopCar> getAll(){
-        return shopCarMapper.getAll();
+        var list = shopCarMapper.getAll();
+        setCommodityData(list);
+        return list;
     }
     public void delete(Integer id){
         shopCarMapper.delete(id);
@@ -65,5 +83,15 @@ public class ShopCarService {
 
     public void deleteAll(Integer userId) {
         shopCarMapper.deleteAll(userId);
+    }
+    public void setCommodityData(List<ShopCar> list){
+        for(var s : list){ //购物车附加商品数据
+            var c = commodityService.get(s.getCid());
+            if(c != null){
+                s.setPrice(c.getPrice());
+                s.setName(c.getName());
+                s.setImage_url(c.getImageUrl1());
+            }
+        }
     }
 }

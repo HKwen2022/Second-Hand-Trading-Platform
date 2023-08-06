@@ -7,9 +7,9 @@
 </head>
 <body>
 <ul >
-    <li><a class="active" href="#home" style="margin-right: 80px"><h1>我的商城</h1></a></li>
-    <li><a href="#news" style="margin-top: 40px;margin-right: 30px">首页</a></li>
-    <li><a href="#contact" style="margin-top: 40px;margin-right: 30px">账户设置</a></li>
+    <li><a class="active" href="商品浏览.html" style="margin-right: 80px"><h1>我的商城</h1></a></li>
+    <li><a href="首页.html" style="margin-top: 40px;margin-right: 30px">首页</a></li>
+    <li><a href="个人中心(1).html" style="margin-top: 40px;margin-right: 30px">账户设置</a></li>
     <li><a href="#about" style="margin-top: 40px;margin-right: 150px">关于</a></li>
     <input  id ="rcorners1" type="search" style="margin-top: 43px;margin-right: 10px;height: 35px">
     <i class="fa fa-search" style="font-size: 34px"></i>
@@ -17,7 +17,7 @@
 <br>
 <br>
 
-<form class="order-container" id="form1">
+<form class="order-container" id="form1" action="">
 
 
     <div class="login-box" style="cursor: pointer;">
@@ -293,12 +293,12 @@
                 </div>
                 <div class="order-item-footer-right">
                     <div class="order-item-footer-price">
-                        共<span id="pro_count" class="pro-count">1</span>件商品，总商品金额:
-                        <span id="pro_price" class="pro-price">198</span>
+                        共<span id="pro_count" class="pro-count">0</span>件商品，总商品金额:
+                        <span id="pro_price" class="pro-price">0.00</span>
                     </div>
                     <div class="order-item-footer-pay">
-                        应付:<span class="pay-price" id="pay_price">198</span>
-                        <button class="pay-btn" onclick="setInformationDB()">提交订单</button>
+                        应付:<span class="pay-price" id="pay_price">0</span>
+                        <button class="pay-btn" type="button">提交订单</button>
                         <br>
                         <br>
                         <br>
@@ -313,7 +313,7 @@
     var urlParams = new URLSearchParams(window.location.search);
     var source = urlParams.get('source');
 
-    alert(source);
+    //alert(source);
      if (source === 'A') {
          // 从商品详情界面进入的操作
          var id = urlParams.get('id');
@@ -602,14 +602,14 @@
                  //id
                  //uid
 
-                 var http = new XMLHttpRequest();
+                 //var http = new XMLHttpRequest();
 
                  var obj1 = JSON.stringify({"cid":rowData.id,"price":rowData.price,"number":rowData.quantity,"deliveryAddress":province+city+district+detailedAddress,"deliverDate":deliveryDate,"shippingAddress":"厦门市厦门大学翔安校区"});
                  //var hhh1=JSON.parse(obj1);
-                 alert(obj1);
-                 http.open("POST", "../admin/register", true);
-                 http.setRequestHeader('Content-Type', 'application/json');
-                 http.send(obj1);
+                 //alert(obj1);
+                 // http.open("POST", "../admin/register", true);
+                 // http.setRequestHeader('Content-Type', 'application/json');
+                 // http.send(obj1);
                  //window.open("/html/register_success.html");
              }
          }
@@ -619,6 +619,49 @@
 <script src="../js/axios.js"></script>
 <script type="module">
     import {service} from '../js/axiosInterceptor.js'
+    document.querySelector(".pay-btn").onclick = commitOffer;
+    //提交订单方法
+    function commitOffer()
+    {
+        //从商品详情界面进入的操作
+        if(source==='A')
+        {
+            var idV = urlParams.get('id');
+            var priceV = urlParams.get('price');
+            //地址
+            var provinceV = document.getElementById('province-select').value;
+            var cityV = document.getElementById('city-select').value;
+            var districtV = document.getElementById('district-select').value;
+            var detailedAddressV = document.getElementById('detailAddress').value;
+            //发货日期
+            var deliveryDateV = document.getElementById('year').value + '-' + document.getElementById('month').value + '-' + document.getElementById('day').value;
+            // 获取商品数量
+            var numV = document.querySelector(".unum").value;
+            alert(idV+priceV+provinceV+cityV+districtV+detailedAddressV+deliveryDateV+numV);
+            var obj = JSON.stringify({"cid":idV,"price":priceV,"number":numV,"deliveryAddress":provinceV+cityV+districtV+detailedAddressV,"deliverDate":deliveryDateV,"shippingAddress":"厦门市厦门大学翔安校区"});
+        }
+        else if(source==='B')
+        {
+            // 从购物车界面进入的操作
+            let tableData = JSON.parse(decodeURIComponent(urlParams.get('data')));
+            let idList = [];
+            //地址
+            let province = document.getElementById('province-select').value;
+            let city = document.getElementById('city-select').value;
+            let district = document.getElementById('district-select').value;
+            let detailedAddress = document.getElementById('detailAddress').value;
+            let address = province + city + district + detailedAddress;
+            for (let i = 0; i < tableData.length; i++) {
+                let rowData = tableData[i];
+                //发货日期
+                //let deliveryDate = document.getElementById('year').value + '-' + document.getElementById('month').value + '-' + document.getElementById('day').value;
+                //console.log(rowData);
+                //let obj1 = JSON.stringify({"cid":rowData.id,"price":rowData.price,"number":rowData.quantity,"deliveryAddress":province+city+district+detailedAddress,"deliverDate":deliveryDate,"shippingAddress":"厦门市厦门大学翔安校区"});
+                idList.push(rowData.shopCarId);
+            }
+            shopCarSettlementRequest(idList,address);
+        }
+    }
     //购买商品请求方法 | 参数: 商品id,购买数量,收货地址 | 返回值: boolean(操作成功与否)
     function buyCommodityRequest(cid,number,address){
         service({
@@ -626,7 +669,24 @@
             method: 'post',
             data: {cid:cid,number:number,address:address}
         }).then(result =>{
-            return result.data.code;
+            if(result.data.code === 1) {
+                alert("购买成功！");
+                window.location = "商品浏览.html";
+            }
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function shopCarSettlementRequest(idList,address){
+        service({
+            url: '/shop_car/settlement',
+            method: 'post',
+            data: {list:idList,address:address}
+        }).then(result =>{
+            if(result.data.code === 1) {
+                alert("购物车结算成功！");
+                window.location = "shoppingCarts.html";
+            }
         }).catch(error => {
             alert(error)
         })

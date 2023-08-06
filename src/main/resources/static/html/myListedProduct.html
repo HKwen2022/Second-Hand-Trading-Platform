@@ -10,9 +10,9 @@
 
 <body>
 <ul >
-    <li><a class="active" href="#home" style="margin-right: 80px"><h1>我的商城</h1></a></li>
-    <li><a href="#news" style="margin-top: 40px;margin-right: 30px">首页</a></li>
-    <li><a href="#contact" style="margin-top: 40px;margin-right: 30px">账户设置</a></li>
+    <li><a class="active" href="商品浏览.html" style="margin-right: 80px"><h1>我的商城</h1></a></li>
+    <li><a href="首页.html" style="margin-top: 40px;margin-right: 30px">首页</a></li>
+    <li><a href="个人中心(1).html" style="margin-top: 40px;margin-right: 30px">账户设置</a></li>
     <li><a href="#about" style="margin-top: 40px;margin-right: 150px">关于</a></li>
     <input  id ="rcorners1" type="search" style="margin-top: 43px;margin-right: 10px;height: 35px">
     <i class="fa fa-search" style="font-size: 34px"></i>
@@ -73,6 +73,10 @@
                 <input type="text" id="productCategory">
             </div>
             <div class="form-field">
+                <label for="productDescription" class="pDescription">商品描述</label>
+                <input type="text" id="productDescription">
+            </div>
+            <div class="form-field">
                 <label for="productStock" class="pStock">商品库存</label>
                 <input type="number" id="productStock">
             </div>
@@ -85,7 +89,7 @@
             <div class="image-placeholder" id="productImaUrl3"></div>
             <div class="image-placeholder" id="productImaUrl4"></div>
         </div>
-        <button id="addProduct" class="addProduct" onclick="ensureRegister()">添加商品</button>
+        <button id="addProduct" class="addProduct">添加商品</button>
     </div>
 </div>
 
@@ -117,7 +121,7 @@
     }
 
     window.onclick = function(event) {
-        if (event.target == addProductModal) {
+        if (event.target === addProductModal) {
             addProductModal.style.display = "none";
         }
     }
@@ -362,8 +366,49 @@
     }
 
     //当打开页面时，连接数据库并显示所有已经发布的商品信息
-    window.onload=allShoppingCarts;
+    //window.onload=allShoppingCarts;
 
+</script>
+<script src="../js/axios.js"></script>
+<script type="module">
+    import {service} from '../js/axiosInterceptor.js'
+    document.querySelector(".addProduct").onclick = function() {
+        let commodity = {name:"",description:"",type:"",price:0,stock:1};
+        commodity.name = document.getElementById("productName").value;
+        commodity.type = document.getElementById("productCategory").value;
+        commodity.description = document.getElementById("productDescription").value;
+        commodity.price = document.getElementById("productPrice").value;
+        commodity.stock = document.getElementById("productStock").value;
+        addCommodityRequest(commodity);
+        addProductModal.style.display = "none";
+    }
+    //添加商品的请求方法 | 参数: 商品JSON
+    function addCommodityRequest(commodity){
+        service({
+            url: '/commodity',
+            method: 'post',
+            data: commodity
+        }).then(result=>{
+            if(result.data.code === 1) alert("发布商品成功！");
+        }).catch(error=>{
+            alert(error);
+        })
+    }
+    function allMyCommodityRequest(){
+        service({
+            url: '/commodity/allSelf',
+            method: 'get',
+        }).then(result =>{
+            let list = result.data.data; //商品列表
+            //显示商品代码...
+            for(let i = 0; i < list.length; i++){
+                addCommodity1(list[i]);
+            }
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    allMyCommodityRequest();
 </script>
 </body>
 

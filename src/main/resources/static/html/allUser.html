@@ -15,7 +15,7 @@
         <li><img src="../image/用户.png" alt=""><a href="allUser.html">用户信息管理</a></li>
         <li><img src="../image/用户.png" alt=""><a href="Commodity.html">商品信息管理</a></li>
         <li><img src="../image/用户.png" alt=""><a href="order_manage.html">订单信息管理</a></li>
-        <li><img src="../image/用户.png" alt=""><a href="manager_login.html">切换管理员</a></li>
+        <li class="switch_admin"><img src="../image/用户.png" alt=""><a href="manager_login.html">切换管理员</a></li>
         <li class="exit"><img src="../image/退出系统ico.png"  alt=""><a href="首页.html">退出系统</a></li>
     </ul>
 </div>
@@ -23,7 +23,6 @@
     <div class="super_box">
         <span>管理员:</span>
         <span id="adminName"></span>
-        <span>></span>
         <span>邮箱:</span>
         <span id="email"></span>
         <span>手机号码:</span>
@@ -89,7 +88,93 @@
 </script>
 <script type="module" src="../js/auth.js"></script>
 <script type="module">
-    import {service} from '../js/axiosInterceptor.js'
+    import {service} from "../js/axiosInterceptor.js"
+    function adminGet(params){         // 以管理员身份获取多个用户信息，表单参数：name、email、phone，均String类型，姓名支持模糊搜索
+        service({
+            url: '/admin/getUsers',    // 默认使用get方法
+            params: params
+        }).then(result => {            // 返回List<User>result
+            return result
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function adminAdd(data){           // 以管理员身份添加用户，参数为一个User对象，JSON格式
+        service({
+            url: '/admin/addUser',
+            method: 'post',
+            data: data
+        }).then(result => {
+            return result
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function adminDel(list){           // 以管理员身份（批量）删除用户，参数为List<Integer> list
+        var len = list.length
+        var url = '/admin/'
+        if(len < 1) return
+        url += list[0]
+        for(var i=1; i<len; i++)
+            url += (',' + list[i])
+        service({
+            url: url,
+            method: 'delete'
+        }).then(result => {
+            return result
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function adminAlt(){                // 以管理员身份（根据id）修改用户，参数为一个User对象，JSON格式
+        service({
+            url: '/admin/addUser',
+            method: 'put',
+            data: data
+        }).then(result => {
+            return result
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function getAdmin(){               // 当前登录的管理员获取个人信息
+        service({
+            url: '/admin'              // 默认使用post方法
+        }).then(result => {
+            return result
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function altAdmin(data){           // 当前登录的管理员修改个人信息,参数为一个Admin对象，JSON格式
+        service({
+            url: '/admin',
+            method: 'post',
+            data: data
+        }).then(result => {
+            return result
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function getUser(){                // 当前登录的用户获取个人信息
+        service({
+            url: '/user/profile',      // 默认使用get方法
+        }).then(result => {
+            return result              // 返回一个user对象，其password属性为null
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function getUserById(id){          // 以用户身份根据id查找用户，参数为Intege id
+        service({
+            url: '/user/' + id         // 使用路径参数，默认使用get方法
+        }).then(result => {            // 返回一个user对象，其password属性为null
+            return result
+        }).catch(error => {
+            alert(error)
+        })
+    }
     const table = document.getElementsByClassName("table")[0];
     const funtionsInput = document.querySelectorAll(".funtions-box input")[0];
     const funtionsButtonSearch = document.querySelectorAll(".funtions-box button")[0];
@@ -117,9 +202,13 @@
                 document.querySelector('#telephone').innerText = result.data.data.phone;
             }
         })
+    document.querySelector('.switch_admin').addEventListener('click', e => {
+        localStorage.clear()
+        location.href = 'manager_login.html'
+    })
     document.querySelector('.exit').addEventListener('click', e => {
         localStorage.clear()
-        location.href = '首页.html'
+        location.href = 'index.html'
     })
     document.querySelector('.allCommodity-btn').addEventListener('click', e => {
         allCommodity();
@@ -341,9 +430,7 @@
     function alterUser(obj){
         formAlter.style.visibility="visible"
         document.querySelectorAll(".alter_form input")[0].value=obj.cells[0].textContent;
-        formAlterAllButton[0].addEventListener('click',()=>{
-            var xhttp = new XMLHttpRequest();
-
+        formAlterAllButton[0].onclick = ()=>{
             var AidV = document.getElementById("Aid");
             var AnameV=document.getElementById("Aname");
             var ApasswordV=document.getElementById("Apassword");
@@ -367,9 +454,8 @@
 
             formAlter.style.visibility="hidden"
             alterCommodityRequest({id:AidV.value,name:AnameV.value,password:ApasswordV.value,phone:AphoneV.value,email:AemailV.value})
-            alert("修改成功！");
 
-        })
+        }
 
         formAlterAllButton[1].addEventListener('click',()=>{
             formAlter.style.visibility="hidden"

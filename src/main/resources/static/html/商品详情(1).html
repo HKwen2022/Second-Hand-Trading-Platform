@@ -13,9 +13,9 @@
 </head>
 <body style="background-color: #ADD8E6;overflow: hidden">
 <ul style="background-color: #07b4f9">
-    <li><a class="active" href="#home" style="margin-right: 80px"><h1>我的商城</h1></a></li>
-    <li><a href="#news" style="margin-top: 40px;margin-right: 30px">首页</a></li>
-    <li><a href="#contact" style="margin-top: 40px;margin-right: 30px">账户设置</a></li>
+    <li><a class="active" href="商品浏览.html" style="margin-right: 80px"><h1>我的商城</h1></a></li>
+    <li><a href="首页.html" style="margin-top: 40px;margin-right: 30px">首页</a></li>
+    <li><a href="个人中心(1).html" style="margin-top: 40px;margin-right: 30px">账户设置</a></li>
     <li><a href="#about" style="margin-top: 40px;margin-right: 150px">关于</a></li>
     <input  id ="rcorners1" type="search" style="margin-top: 43px;margin-right: 10px;height: 35px">
     <i class="fa fa-search" style="font-size: 34px"></i>
@@ -97,7 +97,7 @@
                         <span class="color" style="padding-left: 15px">售价</span>
                         <span class="prices" style="margin-right: 1px;margin-left: 1px">￥</span>
                         <span class="prices" id="price" style="margin-left: 1px">98</span>
-                        <span class="shic">市场价<span class="prices2">￥338</span></span>
+                        <span class="shic">市场价<span class="prices2" id="price2">￥338</span></span>
                         <span  class="yis" style="margin-right: 1px;margin-left: 50px">库存：</span>
                         <span  class="yis" id="stock" style="margin-left: 1px">123</span>
                     </div>
@@ -118,7 +118,7 @@
                         <p style="padding-left: 15px" id="description">真的很好吃……</p>
                     </div>
                     <div class="a25">
-                        <a href="#"><button style="margin-left: 60px" class="a25color1" onclick="ensureAddShoppingCarts()">加入购物车</button></a>
+                        <a href="#"><button style="margin-left: 60px" class="a25color1" id="addShopCar-btn">加入购物车</button></a>
                         <a href="#"><button style="margin-left: 50px" class="a25color2" onclick="ensureBuy()">立即购买</button></a>
                     </div>
                 </div>
@@ -128,20 +128,6 @@
     </div>
 </div>
 <script>
-    //window.onload=ensureAddShoppingCarts;
-    // 获取URL参数
-    var urlParams = new URLSearchParams(window.location.search);
-
-    // 获取参数中的信息
-    //获得ID，将ID发给后端得到全部信息
-    var productId = urlParams.get('id');
-
-    document.getElementById('id').innerHTML = productId;
-
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "../commodity?id=1&name=name", true);
-    //xhttp.setRequestHeader('Content-Type', 'application/json');
-    xhttp.send();
 
     var ima=document.getElementById('image');
     var ima1=document.getElementById('image1');
@@ -150,30 +136,27 @@
     var ima4=document.getElementById('image4');
     var nameV=document.getElementById('name');
     var priceV=document.getElementById('price');
+    var price2V=document.getElementById('price2');
     var descriptionV=document.getElementById('description');
     var publisherV=document.getElementById('publisher');
     var typeV=document.getElementById('type');
     var stockV=document.getElementById('stock');
 
-    xhttp.onreadystatechange = function()
+    function displayData(data)
     {
-        if (this.readyState == 4 && this.status == 200)
-        {
-            var myObj = JSON.parse(this.responseText);
-            var data = myObj.data;
-            ima.src=data.imageUrl1;
-            ima1.src=data.imageUrl1;
-            ima2.src=data.imageUrl2;
-            ima3.src=data.imageUrl3;
-            ima4.src=data.imageUrl4;
+        ima.src=data.image_url === null ? "../image/item.png" : data.image_url;
+        ima1.src=data.image_url === null ? "../image/item.png" : data.image_url;
+        ima2.src=data.image_url2 === null ? "../image/item.png" : data.image_url2;
+        ima3.src=data.image_url3 === null ? "../image/item.png" : data.image_url3;
+        ima4.src=data.image_url4 === null ? "../image/item.png" : data.image_url4;
 
-            nameV.innerHTML=data.name;
-            priceV.innerHTML=data.price;
-            descriptionV.innerHTML=data.description;
-            publisherV.innerHTML=data.publisher;
-            typeV.innerHTML=data.type;
-            stockV.innerHTML=data.stock;
-        }
+        nameV.innerHTML=data.name;
+        priceV.innerHTML=data.price;
+        descriptionV.innerHTML=data.description;
+        publisherV.innerHTML=data.publisher;
+        typeV.innerHTML=data.type;
+        stockV.innerHTML=data.stock;
+        price2V.innerHTML = (data.price * 1.1).toFixed(2);
     }
 
     function ensureBuy()
@@ -232,22 +215,48 @@
         xhttp.open("POST", "../admin/register", true);
         xhttp.setRequestHeader('Content-Type', 'application/json');
         xhttp.send(obj);
-        alert("添加购物车成功！");
+        //alert("添加购物车成功！");
     }
 </script>
 <script src="../js/axios.js"></script>
 <script type="module">
     import {service} from '../js/axiosInterceptor.js'
-    //添加到购物车请求方法 | 参数: 商品id,购买数量 | 返回值: boolean(操作成功与否)
+    document.getElementById('addShopCar-btn').onclick = addShoppingCarts;
+    //window.onload=ensureAddShoppingCarts;
+    // 获取URL参数
+    let urlParams = new URLSearchParams(window.location.search);
+    // 获取参数中的信息
+    //获得ID，将ID发给后端得到全部信息
+    let productId = urlParams.get('id');
+    document.getElementById('id').innerHTML = productId;
+    getCommodityRequest(productId);
+    function addShoppingCarts()
+    {
+        addShopCarRequest(productId,1);
+    }
+    //获取商品信息的请求方法 | 参数: 商品id
+    function getCommodityRequest(cid){
+        service({
+            url: '/commodity/' + cid,
+            method: 'get',
+        }).then(result =>{
+            let data = result.data.data;
+            //拿到数据之后执行的代码...
+            displayData(data);
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    //添加到购物车请求方法 | 参数: 商品id,购买数量
     function addShopCarRequest(cid,number){
         service({
             url: '/shop_car',
             method: 'post',
             data: {cid:cid,number:number}
-        }).then(result =>{
-            return result.data.code;
-        }).catch(error => {
-            alert(error)
+        }).then(result=>{
+            if(result.data.code === 1) alert("加入购物车成功！");
+        }).catch(error=>{
+            alert(error);
         })
     }
 </script>
