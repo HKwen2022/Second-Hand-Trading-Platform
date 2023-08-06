@@ -691,7 +691,7 @@
                 document.querySelector('.login-btn').remove()
                 document.querySelector('.dispalyName').innerText = result.data.data.name
                 document.querySelector('.displayImage').src =
-                    (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
+                    (result.data.data.imageUrl != null) ? '/static/profile_picture/' + result.data.data.imageUrl : '../image/用户头像.jpg'
                 document.querySelector('#a-login').addEventListener('click',e=>{
                     localStorage.clear()
                 });
@@ -709,7 +709,7 @@
                     document.querySelector('.login-btn').remove()
                     document.querySelector('.dispalyName').innerText = result.data.data.name
                     document.querySelector('.displayImage').src =
-                        (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
+                        (result.data.data.imageUrl != null) ? '/static/profile_picture/' + result.data.data.imageUrl : '../image/用户头像.jpg'
 
                     document.querySelector('#a-login').addEventListener('click',e=>{
                         localStorage.clear()

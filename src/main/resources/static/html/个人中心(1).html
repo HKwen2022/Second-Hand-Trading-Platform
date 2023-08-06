@@ -265,13 +265,13 @@
             emailElement.innerText = (result.data.data.email != null) ? result.data.data.email : '未设置'
             phoneElement.innerText = (result.data.data.phone != null) ? result.data.data.phone : '未设置'
             avatarElement1.src =
-                (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
+                (result.data.data.imageUrl != null) ? '/static/profile_picture/' + result.data.data.imageUrl : '../image/用户头像.jpg'
             //修改框
             username.value = result.data.data.name
             email.value = (result.data.data.name !== null) ? result.data.data.email : ''
             phone.value = (result.data.data.email != null) ? result.data.data.phone : ''
             avatarElement.src =
-                (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
+                (result.data.data.imageUrl != null) ? '/static/profile_picture/' + result.data.data.imageUrl : '../image/用户头像.jpg'
         }
         //token有效，非用户，即管理员
         else {
@@ -287,13 +287,13 @@
                 emailElement.innerText = (result.data.data.email != null) ? result.data.data.email : '未设置'
                 phoneElement.innerText = (result.data.data.phone != null) ? result.data.data.phone : '未设置'
                 avatarElement1.src =
-                    (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
+                    (result.data.data.imageUrl != null) ? '/static/profile_picture/' + result.data.data.imageUrl : '../image/用户头像.jpg'
                 //修改框
                 username.value = result.data.data.name
                 email.value = (result.data.data.name !== null) ? result.data.data.email : ''
                 phone.value = (result.data.data.email != null) ? result.data.data.phone : ''
                 avatarElement.src =
-                    (result.data.data.imageUrl != null) ? '/localImages/' + result.data.data.imageUrl : '../image/用户头像.jpg'
+                    (result.data.data.imageUrl != null) ? '/static/profile_picture/' + result.data.data.imageUrl : '../image/用户头像.jpg'
             }).catch(error => {
                 alert(error)
             })
@@ -348,7 +348,7 @@
             }).then(result =>{
                 imageNotNull = false
                 fd = new FormData()
-                avatarElement1.src = '/localImages/' + result.data.data
+                avatarElement1.src = '/static/profile_picture/' + result.data.data
                 avatarElement.src = avatarElement1.src
             }).catch(error => {
                 alert(error)

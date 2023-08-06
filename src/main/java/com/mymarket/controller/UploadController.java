@@ -26,7 +26,8 @@ public class UploadController {
     private final UserService userService;
     private final AdminService adminService;
     private final CommodityService commodityService;
-    private final String path = "D:\\images\\";
+    private static final String path = System.getProperty("user.dir")+"/static/commodity/";
+    private static final String profilePath = System.getProperty("user.dir")+"/static/profile_picture/";
     public UploadController(UserService userService, AdminService adminService, CommodityService commodityService) {
         this.userService = userService;
         this.adminService = adminService;
@@ -40,7 +41,12 @@ public class UploadController {
         Integer id = res[1];
         String filename = UUID.randomUUID() + image.getOriginalFilename().
                 substring(image.getOriginalFilename().lastIndexOf("."));
-        image.transferTo(new File(path + filename));
+        File dir = new File(profilePath); //头像目录路径
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+        String pre = profilePath + filename; //头像路径
+        image.transferTo(new File(pre));
         switch (type){
             case 0 ->{  //上传用户图片
                 User user = new User();
@@ -64,11 +70,22 @@ public class UploadController {
     @PostMapping("/upload/{id}")
     public Result uploadCommodityImages(HttpServletRequest request, @PathVariable Integer id, MultipartFile[] images) throws IOException {
         if(images == null) return Result.error("图片不能为空");
-        if(JwtUtils.check(id ,request)) return Result.error("用户id不匹配！");
+        var token = JwtUtils.checkToken(request);
+        var c = commodityService.get(id);
+        if(c != null) {
+            if (token[0] == 0) { //是用户
+                if (!c.getPublisher().equals(token[1])) return Result.error("不能修改不属于自己的商品");
+            }
+        }
+        else return Result.error("商品不存在！");
         Commodity commodity = new Commodity();
         commodity.setId(id);
         String[] filenames = new String[4];
         int length = images.length;
+        File dir = new File(path); //商品目录路径
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
         for(int i=0;i<length;i++){
             filenames[i] = UUID.randomUUID() + images[i].getOriginalFilename().
                     substring(images[i].getOriginalFilename().lastIndexOf("."));
