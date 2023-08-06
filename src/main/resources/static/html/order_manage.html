@@ -217,7 +217,7 @@
 
         var shippingDateCell = document.createElement('td');//创建第三列job
         //telCell.className="table-th";
-        shippingDateCell.innerHTML = h.date1;
+        shippingDateCell.innerHTML = h.date3;
         row.appendChild(shippingDateCell);
 
         var deliveryDateCell = document.createElement('td');//创建第三列job
@@ -292,53 +292,6 @@
         }).catch(error => {
             alert(error)
         })
-        // var xhttp = new XMLHttpRequest();
-        // xhttp.open("GET", "../commodity?id=1&name=name", true);
-        // //xhttp.setRequestHeader('Content-Type', 'application/json');
-        // xhttp.send();
-
-        // xhttp.onreadystatechange = function()
-        // {
-        //     if (this.readyState == 4 && this.status == 200)
-        //     {
-        //         var myObj = JSON.parse(this.responseText);
-        //         var data = myObj.data;
-        //         var tbody = document.getElementById('tableTh');
-        //         tbody.className="table";
-        //
-        //         //alert("45456");
-        //         for(var i = 0;i < data.length; i++){ //遍历一下json数据
-        //             var trow = addValue1(data[i]); //定义一个方法,返回tr数据
-        //             tbody.appendChild(trow);
-        //             //var Id=per[i].id;
-        //             //tbody.innerHTML += "<tr>   <td>"+Id+"</td>  <td>1</td>   <td>1</td>    <td>1</td>    <td>1</td>     <td>1</td> </tr>";
-        //         }
-        //     }
-        // }
-
-        // var tbody = document.getElementById('tableTh');
-        // tbody.className="table";
-        // var data= [
-        //     {id:1,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-        //     {id:11,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-        //     {id:10,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-        //     {id:101,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-        //     {id:125,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-        //     {id:41,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-        //     {id:251,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-        //     {id:871,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-        //     {id:761,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-        //     {id:691,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-        //     {id:761,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-        //     {id:771,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'},
-        //     {id:961,uid:'123',cid:'456',price:123,number:456,orderDate:2023,deliverDate:2023,shippingdate:2023,shippingAddress:'hangzhou',deliveryAddress:'guiyang'}]
-        // for(var i = 0;i < data.length; i++){ //遍历一下json数据
-        //     var trow = addValue1(data[i]); //定义一个方法,返回tr数据
-        //     tbody.appendChild(trow);
-        //     // var Id=per[i].id;
-        //     // tbody.innerHTML += "<tr>   <td>"+Id+"</td>  <td>1</td>   <td>1</td>    <td>1</td>    <td>1</td>     <td>1</td> </tr>";
-        // }
-
 
     }
 
@@ -392,7 +345,7 @@
 
 
             formAlter.style.visibility="hidden"
-            alterCommodityRequest({"id":idV.value,"cid":cidV.value,"uid":uidV.value,"price":priceV.value,"number":numberV.value,"date":orderDateV.value,"date2":deliveryDateV.value,"date3":shippingDateV.value,"address":deliveryAddressV.value,"address2":shippingAddressV.value}) //参数是json
+            alterCommodityRequest({id:idV.value,cid:cidV.value,uid:uidV.value,price:priceV.value,number:numberV.value,date:orderDateV.value,date2:deliveryDateV.value,date3:shippingDateV.value,address:deliveryAddressV.value,address2:shippingAddressV.value}) //参数是json
             alert("修改成功！");
 
         })
