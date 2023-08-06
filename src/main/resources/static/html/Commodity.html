@@ -62,7 +62,7 @@
     </form>
     <form class="add_form">
         <h1>添加账号</h1>
-        <input type="text" placeholder="商品ID" id="commodityID" name="commodityID" required>
+<!--        <input type="text" placeholder="商品ID" id="commodityID" name="commodityID" required>-->
         <input type="password" placeholder="发布者ID" id="userID" name="userID" required>
         <input type="password" placeholder="名称" id="name" name="name" required>
         <input type="email" placeholder="定价" id="price" name="price"   required>
@@ -200,27 +200,23 @@
 
     function ensureAddCommodity()
     {
-        var xhttp = new XMLHttpRequest();
-
-        var commodityIDV = document.getElementById("commodityID");
+       // var commodityIDV = document.getElementById("commodityID");
         var userIDV=document.getElementById("userID");
         var nameV=document.getElementById("name");
         var priceV = document.getElementById("price");
         var stockV=document.getElementById("stock");
         var typeV=document.getElementById("type");
 
-        var obj = JSON.stringify({"id":commodityIDV.value,"name":userIDV.value,"job":nameV.value,"publisher":stockV.value,"type":typeV.value,"price":priceV.value});
-        //var obj = JSON.stringify({"name":commodityIDV.value,"email":userIDV.value,"phone":nameV.value,"password":priceV.value,"imageUrl":"null"});
-        // xhttp.open("POST", "../admin/register", true);
-        // xhttp.setRequestHeader('Content-Type', 'application/json');
-        // xhttp.send(obj);
-        //window.open("/html/register_success.html");
+        addCommodityRequest({publisher:userIDV.value, name:nameV.value, stock:stockV.value, type:typeV.value, price:priceV.value})
+        //var obj = JSON.stringify({"id":commodityIDV.value,"publisher":userIDV.value,"name":nameV.value,"stock":stockV.value,"type":typeV.value,"price":priceV.value});
+
         formAdd.style.visibility="hidden" //添加用户表单点击取消隐藏表单
-        var tbody = document.getElementById('tableTh');
-        tbody.className="table";
-        var addCommodity=JSON.parse(obj);
-        var trow = addValue1(addCommodity); //定义一个方法,返回tr数据
-        tbody.appendChild(trow);
+
+        // var tbody = document.getElementById('tableTh');
+        // tbody.className="table";
+        // var addCommodity=JSON.parse(obj);
+        // var trow = addValue1(addCommodity); //定义一个方法,返回tr数据
+        // tbody.appendChild(trow);
         alert("添加成功！");
 
     }

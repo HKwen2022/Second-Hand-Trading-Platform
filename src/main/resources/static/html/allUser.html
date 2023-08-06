@@ -22,12 +22,11 @@
 <div class="container-box">
     <div class="super_box">
         <span>管理员:</span>
-        <span th:text="${session.loginUser}"></span>
-        <span>></span>
+        <span id="adminName"></span>
         <span>邮箱:</span>
-        <span th:text="${session.email}"></span>
+        <span id="email"></span>
         <span>手机号码:</span>
-        <span th:text="${session.tel}"></span>
+        <span id="telephone"></span>
     </div>
     <!--    <div class="reminder-box"><h3>&nbsp;&nbsp;操作面板&nbsp;&nbsp;</h3></div>-->
     <div class="title-box"><h1>用户信息管理界面</h1></div>
@@ -37,7 +36,7 @@
         <button>-</button>
         <button>修改</button>
         <button>+</button>
-        <button type="button" class="allUser-btn">查看全部用户</button>
+        <button type="button" class="allCommodity-btn">查看全部用户</button>
         <span th:text="${msg}"></span>
     </div>
     <table class="table-th" id="Commodity" data-name="Commodity" style="width: 1180px">
@@ -53,13 +52,7 @@
     </table>
     <div style="margin-top:35px;overflow: auto;max-height: 480px">
         <table class="table" id="tableTh">
-            <tr>
-                <td th:text="${alluser.id}"></td>
-                <td th:text="${alluser.name}"></td>
-                <td th:text="${alluser.password}"></td>
-                <td th:text="${alluser.email}"></td>
-                <td th:text="${alluser.phone}"></td>
-            </tr>
+
         </table>
     </div>
     <form class="delect_form"  method="post" th:action="@{/delectUser}">
@@ -71,7 +64,7 @@
         <input type="text" placeholder="用户昵称" id="name" name="name" required>
         <input type="text" placeholder="密码" id="password" name="password" required>
         <input type="text" placeholder="电话" id="phone" name="phone"   required>
-        <input type="email" placeholder="邮箱" id="email" name="email"  required>
+        <input type="email" placeholder="邮箱" id="email1" name="email"  required>
         <button type="button">添加商品</button>
         <button type="button">取消</button>
     </form>
@@ -82,86 +75,20 @@
         <input type="text" placeholder="密码" id="Apassword" name="name" required>
         <input type="text" placeholder="电话" id="Aphone" name="price"   required>
         <input type="email" placeholder="邮箱" id="Aemail" name="stock"  required>
-        <button type="submit">修改</button>
-        <button>取消</button>
+        <button type="button">修改</button>
+        <button type="button">取消</button>
     </form>
 </div>
 </body>
-
+<script src="../js/axios.js"></script>
 <script>
     function exit(){
         localStorage.clear()
     }
 </script>
-<script src="../js/axios.js"></script>
 <script type="module" src="../js/auth.js"></script>
 <script type="module">
     import {service} from "../js/axiosInterceptor.js"
-    var uidElement = document.querySelector('.uid')
-
-    document.querySelector('.allUser-btn').addEventListener('click', e=> {
-        // 实测不行，白写
-        var result = adminGet()
-        console.log(result)     // result === undefined
-        const userList = result.data.data
-        const htmlStr = userList.map(user => {
-            return '<tr>\n' +
-                '<td th:text="${user.id}">' + ((user.id != null) ? user.id : '') + '</td>\n' +
-                '<td th:text="${user.name}">' + ((user.name != null) ? user.name : '') + '</td>\n' +
-                '<td th:text="${user.password}">' + ((user.password != null) ? user.password : '') + '</td>\n' +
-                '<td th:text="${user.email}">' + ((user.email != null) ? user.email : '') + '</td>\n' +
-                '<td th:text="${user.phone}">' + ((user.phone != null) ? user.phone : '') + '</td>\n' +
-                '</tr>'
-        }).join('')
-        document.querySelector('.table').innerHTML = htmlStr
-    })
-    // service({
-    //     url: '/admin/getUsers',
-    //     method: 'get',
-    //     params: {
-    //         // name: 'tom'
-    //     }
-    // }).then(result =>{
-    //     const userList = result.data.data
-    //     const htmlStr = userList.map(user => {
-    //         return '<tr>\n' +
-    //             '<td th:text="${user.id}">' + ((user.id != null) ? user.id : '') + '</td>\n' +
-    //             '<td th:text="${user.name}">' + ((user.name != null) ? user.name : '') + '</td>\n' +
-    //             '<td th:text="${user.password}">' + ((user.password != null) ? user.password : '') + '</td>\n' +
-    //             '<td th:text="${user.email}">' + ((user.email != null) ? user.email : '') + '</td>\n' +
-    //             '<td th:text="${user.phone}">' + ((user.phone != null) ? user.phone : '') + '</td>\n' +
-    //             '</tr>'
-    //     }).join('')
-    //     document.querySelector('.table').innerHTML = htmlStr
-    // }).catch(error => {
-    //     alert(error)
-    // })
-    document.querySelector('.exit').addEventListener('click', e => {
-        localStorage.clear()
-        location.href = '首页.html'
-    })
-    document.querySelector('.btn').addEventListener('click', e => {
-        service({
-            url: '/user/' + uidElement.value,
-            method: 'get'
-        }).then(result =>{
-            if(result.data.code != 1) {
-                alert(result.data.msg)
-                return
-            }
-            var user = result.data.data
-            const htmlStr = '<tr>\n' +
-                '<td th:text="${user.id}">' + ((user.id != null) ? user.id : '') + '</td>\n' +
-                '<td th:text="${user.name}">' + ((user.name != null) ? user.name : '') + '</td>\n' +
-                '<td th:text="${user.password}">' + ((user.password != null) ? user.password : '') + '</td>\n' +
-                '<td th:text="${user.email}">' + ((user.email != null) ? user.email : '') + '</td>\n' +
-                '<td th:text="${user.phone}">' + ((user.phone != null) ? user.phone : '') + '</td>\n' +
-                '</tr>'
-            document.querySelector('.table').innerHTML = htmlStr
-        }).catch(error => {
-            alert(error)
-        })
-    })
     function adminGet(params){         // 以管理员身份获取多个用户信息，表单参数：name、email、phone，均String类型，姓名支持模糊搜索
         service({
             url: '/admin/getUsers',    // 默认使用get方法
@@ -248,8 +175,6 @@
             alert(error)
         })
     }
-</script>
-<script>
     const table = document.getElementsByClassName("table")[0];
     const funtionsInput = document.querySelectorAll(".funtions-box input")[0];
     const funtionsButtonSearch = document.querySelectorAll(".funtions-box button")[0];
@@ -266,19 +191,27 @@
     const nameTd = [];
     var highlightedRow = null; // 用于跟踪当前高亮显示的行
 
-    // service({
-    //     url: '/commodity/all',
-    //     method: 'get',
-    // }).then(result =>{
-    //     if(result.data.code != 1) {
-    //         alert(result.data.msg)
-    //         location.href = '/html/index.html'
-    //     }
-    // }).catch(error => {
-    //     alert(error)
-    // })
+    if(localStorage.token)
+        service({
+            url: '/admin',
+            method: 'get'
+        }).then(result => {
+            if (result.data.data !== null) {
+                document.querySelector('#adminName').innerText = result.data.data.name;
+                document.querySelector('#email').innerText = result.data.data.email;
+                document.querySelector('#telephone').innerText = result.data.data.phone;
+            }
+        })
+    document.querySelector('.exit').addEventListener('click', e => {
+        localStorage.clear()
+        location.href = 'index.html'
+    })
+    document.querySelector('.allCommodity-btn').addEventListener('click', e => {
+        allCommodity();
+    })
 
     addButtonSearch()
+    allCommodity()
     addValue()
     //alterUser()
 
@@ -350,7 +283,7 @@
 
     function ensureAddCommodity()
     {
-        var xhttp = new XMLHttpRequest();
+        // var xhttp = new XMLHttpRequest();
 
         var idV = document.getElementById("id");
         var nameV=document.getElementById("name");
@@ -358,18 +291,19 @@
         var phoneV = document.getElementById("phone");
         var emailV=document.getElementById("email");
 
-        var obj = JSON.stringify({"id":idV.value,"name":nameV.value,"password":passwordV.value,"phone":phoneV.value,"email":emailV.value});
+        // var obj = JSON.stringify({"id":idV.value,"name":nameV.value,"password":passwordV.value,"phone":phoneV.value,"email":emailV.value});
         //var obj = JSON.stringify({"name":commodityIDV.value,"email":userIDV.value,"phone":nameV.value,"password":priceV.value,"imageUrl":"null"});
         // xhttp.open("POST", "../admin/register", true);
         // xhttp.setRequestHeader('Content-Type', 'application/json');
         // xhttp.send(obj);
         //window.open("/html/register_scuess.html");
         formAdd.style.visibility="hidden" //添加用户表单点击取消隐藏表单
-        var tbody = document.getElementById('tableTh');
-        tbody.className="table";
-        var addCommodity=JSON.parse(obj);
-        var trow = addValue1(addCommodity); //定义一个方法,返回tr数据
-        tbody.appendChild(trow);
+        // var tbody = document.getElementById('tableTh');
+        // tbody.className="table";
+        // var addCommodity=JSON.parse(obj);
+        // var trow = addValue1(addCommodity); //定义一个方法,返回tr数据
+        // tbody.appendChild(trow);
+        addUserRequest({id:idV.value,name:nameV.value,password:passwordV.value,phone:phoneV.value,email:emailV.value})
         alert("添加成功！");
 
     }
@@ -418,6 +352,8 @@
 
         btnDel.addEventListener('click', function() {
             var currentRow = this.parentNode.parentNode;
+            if(!confirm("确认删除？")) return;
+            deleteCommodityRequest(currentRow.cells[0].innerHTML); //里面的数字替换为删除的商品id
             currentRow.parentNode.removeChild(currentRow);
         });
 
@@ -437,29 +373,55 @@
     }
 
     function allCommodity(){
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "../commodity?id=1&name=name", true);
-        //xhttp.setRequestHeader('Content-Type', 'application/json');
-        xhttp.send();
-
-        xhttp.onreadystatechange = function()
-        {
-            if (this.readyState == 4 && this.status == 200)
-            {
-                var myObj = JSON.parse(this.responseText);
-                var data = myObj.data;
-                var tbody = document.getElementById('tableTh');
-                tbody.className="table";
-
-                //alert("45456");
-                for(var i = 0;i < data.length; i++){ //遍历一下json数据
-                    var trow = addValue1(data[i]); //定义一个方法,返回tr数据
-                    tbody.appendChild(trow);
-                    //var Id=per[i].id;
-                    //tbody.innerHTML += "<tr>   <td>"+Id+"</td>  <td>1</td>   <td>1</td>    <td>1</td>    <td>1</td>     <td>1</td> </tr>";
-                }
+        service({
+            url: '/admin/getUsers',
+            method: 'get',
+        }).then(result =>{
+            console.log(result.data);
+            let data = result.data.data;
+            let tbody = document.getElementById('tableTh');
+            tbody.className="table";
+            tbody.innerHTML = "";
+            for(let i = 0;i < data.length; i++){ //遍历一下json数据
+                let trow = addValue1(data[i]); //定义一个方法,返回tr数据
+                tbody.appendChild(trow);
             }
-        }
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function deleteCommodityRequest(id){
+        service({
+            url: '/user/' + id,
+            method: 'delete',
+        }).then(result =>{
+            if(result.data.code === 1) alert("删除成功！");
+            else alert("删除失败！"); //实际上code = 0时会被拦截，不会有该弹窗
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function alterCommodityRequest(commodity){
+        service({
+            url: '/admin/alterUser',
+            method: 'put',
+            data : commodity
+        }).then(result =>{
+            alert("修改成功！");
+        }).catch(error => {
+            alert(error)
+        })
+    }
+    function addUserRequest(commodity){
+        service({
+            url: '/admin/addUser',
+            method: 'post',
+            data: commodity
+        }).then(result =>{
+            return result.data.code;
+        }).catch(error => {
+            alert(error)
+        })
     }
     function alterUser(obj){
         formAlter.style.visibility="visible"
@@ -489,6 +451,7 @@
             emailCell.innerHTML = AemailV.value;
 
             formAlter.style.visibility="hidden"
+            alterCommodityRequest({id:AidV.value,name:AnameV.value,password:ApasswordV.value,phone:AphoneV.value,email:AemailV.value})
             alert("修改成功！");
 
         })
