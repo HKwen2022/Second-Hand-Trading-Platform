@@ -511,6 +511,357 @@
    }
 }
 ```
+
+### 1.3 管理员相关接口
+#### 1.3.1 管理员登录
+
+1) 基本信息:
+   * 请求路径: /admin/login
+   * 请求方式: POST
+   * 接口描述: 用于登录管理员
+
+2) 请求参数:
+
+   参数样式: application/json
+
+   参数说明:
+
+   | 参数名      | 类型     | 是否必须 | 备注    |
+   |----------|--------|------|-------|
+   | name     | string | 必须   | 管理员名称 |
+   | password | string | 必须   | 管理员密码 |
+
+   请求数据样例:
+   ```json
+   {
+    "name": "Jack",
+    "password": "123456"
+   }
+   ```
+   
+3) 响应数据:
+
+   参数样式: application/json
+
+   参数说明:
+
+   | 参数名  | 类型     | 是否必须 | 备注              |
+   |------|--------|------|-----------------|
+   | code | number | 必须   | 响应码，1代表成功，0代表失败 |
+   | msg  | string | 非必须  | 提示信息            |
+   | data | object | 非必须  | 返回的数据           |
+
+响应数据样例:
+```json
+{
+   "code": 1,
+   "msg": "Success.",
+   "data": "eyJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6IjEyMzQ1NiIsIm5hbWUiOiJUb20iLCJpZCI6MSwiZXhwIjoxNjkwNDQzODg4fQ.DhX6zzhyPPpUsMxzt1o4-CBctus9339224sje5mQ6TM"
+}
+```
+
+#### 1.3.2 修改管理员
+
+1) 基本信息:
+   * 请求路径: /admin
+   * 请求方式: PUT
+   * 接口描述: 用于修改管理员信息
+
+2) 请求参数:
+
+   参数样式: application/json
+
+   参数说明:
+
+   | 参数名      | 类型     | 是否必须 | 备注      |
+   |----------|--------|------|---------|
+   | name     | string | 非必须  | 管理员名称   |
+   | password | string | 非必须  | 管理员密码   |
+   | phone    | string | 非必须  | 管理员电话   |
+   | email    | string | 非必须  | 管理员邮箱   |
+   | image    | string | 非必须  | 管理员图片路径 |
+
+   请求数据样例:
+   ```json
+   {
+    "name": "Jack",
+    "password": "123456",
+    "phone":"123",
+    "email": "123@qq.com",
+    "image":"32aw3fwg.jpg"
+   }
+   ```
+   
+3) 响应数据:
+
+   参数样式: application/json
+
+   参数说明:
+
+   | 参数名  | 类型     | 是否必须 | 备注              |
+   |------|--------|------|-----------------|
+   | code | number | 必须   | 响应码，1代表成功，0代表失败 |
+   | msg  | string | 非必须  | 提示信息            |
+   | data | object | 非必须  | 返回的数据           |
+
+响应数据样例:
+```json
+{
+   "code": 1,
+   "msg": "Success.",
+   "data": null
+}
+```
+
+#### 1.3.3 管理员注册
+
+1) 基本信息:
+   * 请求路径: /admin/register
+   * 请求方式: POST
+   * 接口描述: 用于注册管理员
+
+2) 请求参数:
+
+   参数样式: application/json
+
+   参数说明:
+
+   | 参数名      | 类型     | 是否必须 | 备注      |
+   |----------|--------|------|---------|
+   | name     | string | 必须   | 管理员名称   |
+   | password | string | 必须   | 管理员密码   |
+   | phone    | string | 非必须  | 管理员电话   |
+   | email    | string | 非必须  | 管理员邮箱   |
+   | image    | string | 非必须  | 管理员图片路径 |
+
+   请求数据样例:
+   ```json
+   {
+    "name": "Jack",
+    "password": "123456",
+    "phone":"123",
+    "email": "123@qq.com",
+    "image":"32aw3fwg.jpg"
+   }
+   ```
+   
+3) 响应数据:
+
+   参数样式: application/json
+
+   参数说明:
+
+   | 参数名  | 类型     | 是否必须 | 备注              |
+   |------|--------|------|-----------------|
+   | code | number | 必须   | 响应码，1代表成功，0代表失败 |
+   | msg  | string | 非必须  | 提示信息            |
+   | data | object | 非必须  | 返回的数据           |
+
+响应数据样例:
+```json
+{
+   "code": 1,
+   "msg": "Success.",
+   "data": null
+}
+```
+
+#### 1.3.4 管理员查询用户信息
+
+1) 基本信息:
+   * 请求路径: /admin/getUsers
+   * 请求方式: GET
+   * 接口描述: 用于获取指定编号的用户信息
+
+2) 请求参数:
+
+   参数样式: 路径参数
+
+   参数说明:
+
+   | 参数名 | 类型  | 是否必须 | 备注   |
+      |-----|-----|------|------|
+   | id  | int | 必须   | 用户id |
+
+   请求数据样例:
+   ```http request
+   /admin/1
+   ```
+3) 响应数据:
+
+   参数样式: application/json
+
+   参数说明:
+
+   | 参数名  | 类型     | 是否必须 | 备注              |
+   |------|--------|------|-----------------|
+   | code | number | 必须   | 响应码，1代表成功，0代表失败 |
+   | msg  | string | 非必须  | 提示信息            |
+   | data | object | 非必须  | 返回的数据           |
+
+响应数据样例:
+```json
+{
+   "code": 1,
+   "msg": "Success.",
+   "data": {
+      "name": "Tom",
+      "phone": "100001",
+      "email": "123@qq.com"
+   }
+}
+```
+
+#### 1.3.5 管理员添加用户
+
+1) 基本信息:
+   * 请求路径: /admin/addUser
+   * 请求方式: POST
+   * 接口描述: 用于管理员添加用户
+
+2) 请求参数:
+
+   参数样式: application/json
+
+   参数说明:
+
+   | 参数名      | 类型     | 是否必须 | 备注     |
+   |----------|--------|------|--------|
+   | name     | string | 必须   | 用户名称   |
+   | password | string | 必须   | 用户密码   |
+   | phone    | string | 非必须  | 用户电话   |
+   | email    | string | 非必须  | 用户邮箱   |
+   | image    | string | 非必须  | 用户图片路径 |
+
+   请求数据样例:
+   ```json
+   {
+    "name": "Tom",
+    "password": "123456",
+    "phone":"123",
+    "email": "123@qq.com",
+    "image":"12aw3fwg.jpg"
+   }
+   ```
+
+3) 响应数据:
+
+   参数样式: application/json
+
+   参数说明:
+
+   | 参数名  | 类型     | 是否必须 | 备注              |
+   |------|--------|------|-----------------|
+   | code | number | 必须   | 响应码，1代表成功，0代表失败 |
+   | msg  | string | 非必须  | 提示信息            |
+   | data | object | 非必须  | 返回的数据           |
+
+响应数据样例:
+```json
+{
+   "code": 1,
+   "msg": "Success.",
+   "data": null
+}
+```
+
+#### 1.3.6 管理员修改用户
+
+1) 基本信息:
+   * 请求路径: /admin/alterUser
+   * 请求方式: PUT
+   * 接口描述: 用于管理员修改用户
+
+2) 请求参数:
+
+   参数样式: application/json
+
+   参数说明:
+
+   | 参数名      | 类型     | 是否必须 | 备注     |
+   |----------|--------|------|--------|
+   | name     | string | 必须   | 用户名称   |
+   | password | string | 必须   | 用户密码   |
+   | phone    | string | 非必须  | 用户电话   |
+   | email    | string | 非必须  | 用户邮箱   |
+   | image    | string | 非必须  | 用户图片路径 |
+
+   请求数据样例:
+   ```json
+   {
+    "name": "Tom",
+    "password": "123456",
+    "phone":"123",
+    "email": "123@qq.com",
+    "image":"12aw3fwg.jpg"
+   }
+   ```
+
+3) 响应数据:
+
+   参数样式: application/json
+
+   参数说明:
+
+   | 参数名  | 类型     | 是否必须 | 备注              |
+   |------|--------|------|-----------------|
+   | code | number | 必须   | 响应码，1代表成功，0代表失败 |
+   | msg  | string | 非必须  | 提示信息            |
+   | data | object | 非必须  | 返回的数据           |
+
+响应数据样例:
+```json
+{
+   "code": 1,
+   "msg": "Success.",
+   "data": null
+}
+```
+
+#### 1.3.7 管理员删除用户
+
+1) 基本信息:
+   * 请求路径: /admin/{ids}
+   * 请求方式: DELETE
+   * 接口描述: 用于管理员删除指定编号的用户
+
+2) 请求参数:
+
+   参数样式: application/json
+
+   参数说明:
+
+   | 参数名 | 类型    | 是否必须 | 备注   |
+   |-----|-------|------|------|
+   | ids | int列表 | 必须   | 用户id |
+
+   请求数据样例:
+   请求数据样例:
+   ```http request
+   /admin/[1,2,3]
+   ```
+
+3) 响应数据:
+
+   参数样式: application/json
+
+   参数说明:
+
+   | 参数名  | 类型     | 是否必须 | 备注              |
+   |------|--------|------|-----------------|
+   | code | number | 必须   | 响应码，1代表成功，0代表失败 |
+   | msg  | string | 非必须  | 提示信息            |
+   | data | object | 非必须  | 返回的数据           |
+
+响应数据样例:
+```json
+{
+   "code": 1,
+   "msg": "Success.",
+   "data": null
+}
+```
+
 ### 1.4 购物车相关接口
 #### 1.4.1 加入购物车
 
@@ -1193,5 +1544,175 @@
    "code": 1,
    "msg": "Success.",
    "data": null
+}
+```
+#### 1.5.5 查询订单
+
+1) 基本信息:
+   * 请求路径: /offer/{id}
+   * 请求方式: GET
+   * 接口描述: 用于查看id为{id}的用户的订单
+
+2) 请求参数:
+
+   参数样式: 路径参数
+
+   参数说明:
+
+   | 参数名   | 类型  | 是否必须 | 备注   |
+   |-------|-----|------|------|
+   | id    | int | 必须   | 用户id |
+
+   请求数据样例:
+   ```http request
+   /offer/1
+   ```
+ 响应数据:
+
+   参数样式: application/json
+
+   参数说明:
+
+   | 参数名                | 类型        | 是否必须 | 备注               |
+   |--------------------|-----------|------|------------------|
+   | code               | number    | 必须   | 响应码，1代表成功，0代表失败  |
+   | msg                | string    | 非必须  | 提示信息             |
+   | data               | object    | 非必须  | 返回的数据(该用户的购物车列表) |
+   | {id}               | int       | 必须   | 购物车id            |
+   | {uid}              | int       | 必须   | 购物车所属用户id        |
+   | {cid}              | int       | 必须   | 购物车对应商品id        |
+   | {price}            | int       | 必须   | 购物车对应商品单价        |
+   | {number}           | int       | 必须   | 购买该商品数量          |
+   | {total_price}      | int       | 必须   | 购买该商品总价          |
+   | {order_date}       | localdate | 必须   | 发货日期             |
+   | {delivery_address} | string    | 必须   | 收货地址             |
+   | {shipping_address} | string    | 必须   | 发货地址             |
+   | {delivery_date}    | localdate | 必须   | 收货日期             |
+
+响应数据样例:
+
+```json
+{
+   "code": 1,
+   "msg": "Success.",
+   "data": [
+      {
+         "id": 1,
+         "uid": 1,
+         "cid": 1,
+         "price": 10,
+         "number": 1,
+         "total_price": 10,
+         "order_date": 921,
+         "delivery_address": "address1",
+         "shipping_address": "address2",
+         "delivery_date": 254
+         },
+      {
+         "id": 2,
+         "uid": 1,
+         "cid": 2,
+         "price": 15,
+         "number": 3,
+         "total_price": 15,
+         "order_date": 921,
+         "delivery_address": "address1",
+         "shipping_address": "address2",
+         "delivery_date": 312
+      }
+   ]
+}
+```
+
+### 1.6 上传文件相关接口
+#### 1.6.1 上传用户/管理员图片
+
+1) 基本信息:
+   * 请求路径: /upload
+   * 请求方式: POST
+   * 接口描述: 用于上传用户和管理员的头像图片
+
+2) 请求参数:
+
+   参数样式: application/json
+
+   参数说明:
+
+   | 参数名   | 类型     | 是否必须 | 备注         |
+   |-------|--------|------|------------|
+   | image | string | 必须   | 用户/管理员图片地址 |
+
+   请求数据样例:
+   ```json
+   {
+    "image":"12aw3fwg.jpg"
+   }
+   ```
+
+3) 响应数据:
+
+   参数样式: application/json
+
+   参数说明:
+
+   | 参数名  | 类型     | 是否必须 | 备注              |
+   |------|--------|------|-----------------|
+   | code | number | 必须   | 响应码，1代表成功，0代表失败 |
+   | msg  | string | 非必须  | 提示信息            |
+   | data | object | 非必须  | 返回的数据           |
+
+响应数据样例:
+```json
+{
+    "code": 1,
+    "msg": "Success.",
+    "data": null
+}
+```
+
+#### 1.6.2 上传商品图片
+
+1) 基本信息:
+   * 请求路径: /upload/{id}
+   * 请求方式: POST
+   * 接口描述: 用于上传指定id的商品详情图片
+
+2) 请求参数:
+
+   参数样式: application/json
+
+   参数说明:
+
+   | 参数名   | 类型     | 是否必须 | 备注     |
+   |-------|--------|------|--------|
+   | id    | int    | 必须   | 商品id   |
+   | image | string | 必须   | 商品图片地址 |
+
+   请求数据样例:
+   ```json
+   {
+    "id": 1,
+    "image":"D:\\images\\886c9031-2469-48f1-a8d9-322080d798f2.jpg"
+   }
+   ```
+
+3) 响应数据:
+
+   参数样式: application/json
+
+   参数说明:
+
+   | 参数名  | 类型     | 是否必须 | 备注              |
+   |------|--------|------|-----------------|
+   | code | number | 必须   | 响应码，1代表成功，0代表失败 |
+   | msg  | string | 非必须  | 提示信息            |
+   | data | object | 非必须  | 返回的数据           |
+
+响应数据样例:
+```json
+{
+    "code": 1,
+    "msg": "Success.",
+    "data": null
 }
 ```

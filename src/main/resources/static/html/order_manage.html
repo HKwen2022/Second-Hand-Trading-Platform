@@ -15,7 +15,7 @@
         <li><img src="../image/用户.png" alt=""><a href="allUser.html">用户信息管理</a></li>
         <li><img src="../image/用户.png" alt=""><a href="Commodity.html">商品信息管理</a></li>
         <li><img src="../image/用户.png" alt=""><a href="order_manage.html">订单信息管理</a></li>
-        <li><img src="../image/用户.png" alt=""><a href="manager_login.html">切换管理员</a></li>
+        <li class="switch_admin"><img src="../image/用户.png" alt=""><a href="manager_login.html">切换管理员</a></li>
         <li onclick="exit()" class="exit"><img src="../image/退出系统ico.png"  alt=""><a href="首页.html">退出系统</a></li>
     </ul>
 </div>
@@ -23,7 +23,6 @@
     <div class="super_box">
         <span>管理员:</span>
         <span id="adminName"></span>
-        <span>></span>
         <span>邮箱:</span>
         <span id="email"></span>
         <span>手机号码:</span>
@@ -117,6 +116,10 @@
                 document.querySelector('#telephone').innerText = result.data.data.phone;
             }
         })
+    document.querySelector('.switch_admin').addEventListener('click', e => {
+        localStorage.clear()
+        location.href = 'manager_login.html'
+    })
     document.querySelector('.exit').addEventListener('click', e => {
         localStorage.clear()
         location.href = '首页.html'
@@ -217,12 +220,12 @@
 
         var shippingDateCell = document.createElement('td');//创建第三列job
         //telCell.className="table-th";
-        shippingDateCell.innerHTML = h.date3;
+        shippingDateCell.innerHTML = h.date2;
         row.appendChild(shippingDateCell);
 
         var deliveryDateCell = document.createElement('td');//创建第三列job
         //telCell.className="table-th";
-        deliveryDateCell.innerHTML = h.date2;
+        deliveryDateCell.innerHTML = h.date3;
         row.appendChild(deliveryDateCell);
 
         var shippingAddressCell = document.createElement('td');//创建第三列job

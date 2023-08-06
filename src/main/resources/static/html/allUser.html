@@ -15,7 +15,7 @@
         <li><img src="../image/用户.png" alt=""><a href="allUser.html">用户信息管理</a></li>
         <li><img src="../image/用户.png" alt=""><a href="Commodity.html">商品信息管理</a></li>
         <li><img src="../image/用户.png" alt=""><a href="order_manage.html">订单信息管理</a></li>
-        <li><img src="../image/用户.png" alt=""><a href="manager_login.html">切换管理员</a></li>
+        <li class="switch_admin"><img src="../image/用户.png" alt=""><a href="manager_login.html">切换管理员</a></li>
         <li class="exit"><img src="../image/退出系统ico.png"  alt=""><a href="首页.html">退出系统</a></li>
     </ul>
 </div>
@@ -202,6 +202,10 @@
                 document.querySelector('#telephone').innerText = result.data.data.phone;
             }
         })
+    document.querySelector('.switch_admin').addEventListener('click', e => {
+        localStorage.clear()
+        location.href = 'manager_login.html'
+    })
     document.querySelector('.exit').addEventListener('click', e => {
         localStorage.clear()
         location.href = 'index.html'
@@ -426,9 +430,7 @@
     function alterUser(obj){
         formAlter.style.visibility="visible"
         document.querySelectorAll(".alter_form input")[0].value=obj.cells[0].textContent;
-        formAlterAllButton[0].addEventListener('click',()=>{
-            var xhttp = new XMLHttpRequest();
-
+        formAlterAllButton[0].onclick = ()=>{
             var AidV = document.getElementById("Aid");
             var AnameV=document.getElementById("Aname");
             var ApasswordV=document.getElementById("Apassword");
@@ -452,9 +454,8 @@
 
             formAlter.style.visibility="hidden"
             alterCommodityRequest({id:AidV.value,name:AnameV.value,password:ApasswordV.value,phone:AphoneV.value,email:AemailV.value})
-            alert("修改成功！");
 
-        })
+        }
 
         formAlterAllButton[1].addEventListener('click',()=>{
             formAlter.style.visibility="hidden"
